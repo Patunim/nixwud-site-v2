@@ -1,0 +1,99 @@
+---
+import "../styles/global.css";
+
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import SEO from "../components/SEO.astro";
+import OrganizationSchema from "../components/schema/OrganizationSchema.astro";
+
+import { client, urlFor } from "../lib/sanity";
+
+const {
+  title,
+  description,
+  image,
+  url,
+  type,
+  publishedTime
+} = Astro.props;
+
+const siteSettings = await client.fetch(`
+  *[_type == "siteSettings"][0]{
+
+    organizationName,
+    siteUrl,
+
+    logo{
+      asset->
+    },
+
+    linkedin,
+    twitter,
+    facebook,
+    instagram
+
+  }
+`);
+---
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width"
+    />
+
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      url={url}
+      type={type}
+      publishedTime={publishedTime}
+    />
+
+    {
+      siteSettings && (
+
+        <OrganizationSchema
+
+          name={siteSettings.organizationName}
+          url={siteSettings.siteUrl}
+
+          logo={
+            siteSettings.logo
+              ? urlFor(siteSettings.logo).url()
+              : undefined
+          }
+
+          sameAs={[
+            siteSettings.linkedin,
+            siteSettings.twitter,
+            siteSettings.facebook,
+            siteSettings.instagram
+          ].filter(Boolean)}
+
+        />
+
+      )
+    }
+
+  </head>
+
+  <body class="bg-black text-white">
+
+    <Navbar />
+
+    <main>
+      <slot />
+    </main>
+
+    <Footer />
+
+  </body>
+
+</html>

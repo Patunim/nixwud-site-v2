@@ -1,0 +1,144 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FAQ from "../components/FAQ.astro";
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+
+  "@type": "Organization",
+
+  name: "Nixwud",
+
+  url: "https://nixwud.com",
+
+  logo: "https://nixwud.com/logo.png",
+
+  description:
+    "Nixwud builds modern digital infrastructure, scalable content platforms, and performance-focused web systems.",
+
+  knowsAbout: [
+    "Web Performance",
+    "Astro",
+    "Sanity CMS",
+    "SEO",
+    "AEO",
+    "GEO",
+    "Content Platforms",
+    "Digital Infrastructure",
+    "Technical SEO"
+  ]
+};
+---
+
+<Layout
+  title="About — Nixwud"
+  description="Modern digital infrastructure and scalable web systems."
+  url="https://nixwud.com/about"
+>
+
+  <section class="py-32">
+
+    <div class="container-custom max-w-4xl">
+
+      <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
+        ABOUT
+      </p>
+
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-10">
+        Building modern digital infrastructure.
+      </h1>
+
+      <p class="text-xl text-gray-400 leading-relaxed mb-8">
+        Nixwud focuses on scalable content platforms,
+        performance-focused systems, modern SEO architecture,
+        AEO/GEO optimization, and semantic web infrastructure.
+      </p>
+
+      <p class="text-xl text-gray-400 leading-relaxed">
+        The platform combines modern frontend architecture,
+        structured content systems, and AI-oriented discoverability
+        strategies to create high-performance digital experiences.
+      </p>
+
+    </div>
+
+  </section>
+
+  <section class="py-24 border-t border-white/10">
+
+    <div class="container-custom">
+
+      <div class="max-w-4xl">
+
+        <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
+          EXPERTISE
+        </p>
+
+        <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-12">
+          Core knowledge domains
+        </h2>
+
+        <div class="flex flex-wrap gap-4">
+
+          {[
+            "Astro",
+            "Technical SEO",
+            "AEO",
+            "GEO",
+            "Web Performance",
+            "Content Platforms",
+            "Sanity CMS",
+            "Digital Infrastructure",
+            "Modern Frontend Systems"
+          ].map((item) => (
+
+            <div class="border border-white/10 rounded-full px-6 py-3 text-gray-300">
+
+              {item}
+
+            </div>
+
+          ))}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <FAQ
+    items={[
+      {
+        question:
+          "What is Nixwud?",
+
+        answer:
+          "Nixwud is a modern digital platform focused on scalable web experiences, performance-focused infrastructure, and editorial content systems."
+      },
+
+      {
+        question:
+          "What technologies does Nixwud use?",
+
+        answer:
+          "Nixwud uses modern technologies including Astro, Sanity CMS, Tailwind CSS, and global CDN infrastructure."
+      },
+
+      {
+        question:
+          "Why does modern web performance matter?",
+
+        answer:
+          "Modern web performance improves user experience, SEO visibility, accessibility, conversion rates, and AI discoverability."
+      }
+    ]}
+  />
+
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(organizationSchema)}
+  ></script>
+
+</Layout>

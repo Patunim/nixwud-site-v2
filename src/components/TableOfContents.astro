@@ -1,0 +1,30 @@
+---
+const { headings = [] } = Astro.props;
+---
+
+<aside class="sticky top-32">
+
+  <p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-6">
+    Contents
+  </p>
+
+  <ul class="space-y-4">
+
+    {headings.map((heading) => (
+
+      <li>
+
+        <a
+          href={`#${heading.slug}`}
+          class="text-sm text-gray-400 hover:text-white transition"
+        >
+          {heading.text}
+        </a>
+
+      </li>
+
+    ))}
+
+  </ul>
+
+</aside>

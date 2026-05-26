@@ -1,0 +1,59 @@
+---
+const { items = [] } = Astro.props;
+
+const schema = {
+
+  "@context": "https://schema.org",
+
+  "@type": "BreadcrumbList",
+
+  itemListElement: items.map((item, index) => ({
+
+    "@type": "ListItem",
+
+    position: index + 1,
+
+    name: item.name,
+
+    item: item.url
+
+  }))
+};
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class="mb-12"
+>
+
+  <ol class="flex flex-wrap items-center gap-3 text-sm text-gray-500">
+
+    {items.map((item, index) => (
+
+      <li class="flex items-center gap-3">
+
+        <a
+          href={item.url}
+          class="hover:text-white transition"
+        >
+          {item.name}
+        </a>
+
+        {
+          index < items.length - 1 && (
+            <span>/</span>
+          )
+        }
+
+      </li>
+
+    ))}
+
+  </ol>
+
+</nav>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(schema)}
+></script>

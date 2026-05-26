@@ -1,0 +1,24 @@
+---
+const {
+  name,
+  url,
+  logo,
+  sameAs = []
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+
+  name,
+  url,
+  logo,
+
+  sameAs
+};
+---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(schema)}
+/>

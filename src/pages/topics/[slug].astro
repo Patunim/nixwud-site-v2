@@ -1,0 +1,239 @@
+---
+import { SITE_URL } from "../../lib/siteConfig";
+import Layout from "../../layouts/Layout.astro";
+import { client, urlFor } from "../../lib/sanity";
+import { PortableText } from "astro-portabletext";
+import KnowledgeGraph from "../../components/KnowledgeGraph.astro";
+
+export async function getStaticPaths() {
+
+  const categories = await client.fetch(`
+    *[_type == "category"]{
+      slug
+    }
+  `);
+
+  return categories.map((category) => ({
+    params: {
+      slug: category.slug.current
+    }
+  }));
+}
+
+const { slug } = Astro.params;
+
+const category = await client.fetch(
+  `
+    *[_type == "category" && slug.current == $slug][0]{
+
+      title,
+      slug,
+      description,
+      intro,
+
+      seoTitle,
+      seoDescription,
+      featured,
+
+      relatedTopics[]->{
+        title,
+        slug
+      }
+
+    }
+  `,
+  { slug }
+);
+
+const posts = await client.fetch(
+  `
+    *[
+      _type == "post" &&
+      $slug in categories[]->slug.current
+    ]
+    | order(publishedAt desc){
+
+      title,
+      slug,
+      excerpt,
+      publishedAt,
+
+      mainImage{
+        asset->,
+        alt
+      }
+
+    }
+  `,
+  { slug }
+);
+---
+
+<Layout
+  title={category.seoTitle || `${category.title} — Nixwud`}
+  description={category.seoDescription || category.description}
+  url={`${SITE_URL}/topics/${slug}`}
+>
+
+  <section class="py-32">
+
+    <div class="container-custom">
+
+      <div class="max-w-4xl mb-24">
+
+        <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
+          TOPIC
+        </p>
+
+        <section class="mb-20">
+
+          <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-5">
+            Topic Hub
+          </p>
+
+          <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8">
+            {category.title}
+          </h1>
+
+          {
+            category.description && (
+
+              <p class="text-xl text-gray-400 leading-relaxed max-w-3xl mb-8">
+                {category.description}
+              </p>
+
+            )
+          }
+
+          {
+            category.intro && (
+
+              <div class="prose prose-invert prose-lg max-w-3xl text-gray-300">
+
+                <PortableText value={category.intro} />
+
+              </div>
+
+            )
+          }
+
+        </section>
+
+        {
+          category.relatedTopics?.length > 0 && (
+
+            <section class="mb-20">
+
+              <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
+                Related Topics
+              </p>
+
+              <div class="flex flex-wrap gap-4">
+
+                {category.relatedTopics.map((topic) => (
+
+                  <a
+                    href={`/topics/${topic.slug.current}`}
+                    class="border border-white/10 px-5 py-3 rounded-full text-sm text-gray-300 hover:text-white hover:border-white/20 transition"
+                  >
+                    {topic.title}
+                  </a>
+
+                ))}
+
+              </div>
+
+            </section>
+
+          )
+        }
+
+        <p class="text-xl text-gray-400 leading-relaxed">
+          Explore articles and insights related to {category.title}.
+        </p>
+
+      </div>
+
+      <div class="grid gap-10">
+
+        {posts.map((post) => (
+
+          <article class="border border-white/10 rounded-3xl overflow-hidden hover:border-white/20 transition">
+
+            {
+              post.mainImage && (
+
+                <img
+                  src={urlFor(post.mainImage)
+                    .width(1200)
+                    .format("webp")
+                    .url()}
+                  alt={post.mainImage.alt || post.title}
+                  class="w-full aspect-[16/9] object-cover"
+                  loading="lazy"
+                />
+
+              )
+            }
+
+            <div class="p-10">
+
+              <p class="text-sm text-gray-500 mb-5">
+                {new Date(post.publishedAt).toDateString()}
+              </p>
+
+              <h2 class="text-3xl font-semibold mb-5">
+                {post.title}
+              </h2>
+
+              <p class="text-gray-400 leading-relaxed mb-8">
+                {post.excerpt}
+              </p>
+
+              <a
+                href={`/blog/${post.slug.current}`}
+                class="text-white"
+              >
+                Read Article →
+              </a>
+
+            </div>
+
+          </article>
+
+        ))}
+
+      </div>
+
+    </div>
+
+  </section>
+
+  
+
+   <KnowledgeGraph
+
+  prerequisiteTopics={
+    category.prerequisiteTopics?.map((topic) => ({
+      title: topic.title,
+      url: `/topics/${topic.slug.current}`
+    })) || []
+  }
+
+  relatedTopics={
+    category.relatedTopics?.map((topic) => ({
+      title: topic.title,
+      url: `/topics/${topic.slug.current}`
+    })) || []
+  }
+
+  advancedTopics={
+    category.advancedTopics?.map((topic) => ({
+      title: topic.title,
+      url: `/topics/${topic.slug.current}`
+    })) || []
+  }
+
+/>
+
+</Layout>

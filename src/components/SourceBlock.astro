@@ -1,0 +1,58 @@
+---
+const {
+  sources = []
+} = Astro.props;
+---
+
+{
+  sources.length > 0 && (
+
+    <section class="mt-24 border-t border-white/10 pt-12">
+
+      <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-8">
+        Sources & References
+      </p>
+
+      <div class="space-y-5">
+
+        {sources.map((source) => (
+
+          <a
+            href={source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block border border-white/10 rounded-2xl p-6 hover:border-white/20 transition"
+          >
+
+            <p class="text-lg font-medium text-white mb-2">
+              {source.title}
+            </p>
+
+            <div class="flex flex-wrap gap-3 text-sm text-gray-500">
+
+              {
+                source.publisher && (
+                  <span>{source.publisher}</span>
+                )
+              }
+
+              {
+                source.publishedAt && (
+                  <span>
+                    {new Date(source.publishedAt).toDateString()}
+                  </span>
+                )
+              }
+
+            </div>
+
+          </a>
+
+        ))}
+
+      </div>
+
+    </section>
+
+  )
+}

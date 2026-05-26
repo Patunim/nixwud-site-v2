@@ -1,0 +1,96 @@
+---
+const {
+  editorialStatus,
+  reviewedAt,
+  factCheckedAt,
+  reviewedBy,
+  updatedAt
+} = Astro.props;
+---
+
+<section class="border border-white/10 rounded-3xl p-8 mt-16 mb-16">
+
+  <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-8">
+    Editorial Transparency
+  </p>
+
+  <div class="grid gap-5 text-sm text-gray-300">
+
+    {
+      editorialStatus && (
+
+        <div>
+          <span class="text-gray-500">
+            Status:
+          </span>
+          {" "}
+          {editorialStatus}
+        </div>
+
+      )
+    }
+
+    {
+      reviewedBy?.name && (
+
+        <div>
+          <span class="text-gray-500">
+            Reviewed By:
+          </span>
+          {" "}
+          <a
+            href={`/authors/${reviewedBy.slug.current}`}
+            class="text-white hover:text-gray-300 transition"
+          >
+            {reviewedBy.name}
+          </a>
+        </div>
+
+      )
+    }
+
+    {
+      reviewedAt && (
+
+        <div>
+          <span class="text-gray-500">
+            Reviewed:
+          </span>
+          {" "}
+          {new Date(reviewedAt).toDateString()}
+        </div>
+
+      )
+    }
+
+    {
+      factCheckedAt && (
+
+        <div>
+          <span class="text-gray-500">
+            Fact Checked:
+          </span>
+          {" "}
+          {new Date(factCheckedAt).toDateString()}
+        </div>
+
+      )
+    }
+
+    {
+      updatedAt && (
+
+        <div>
+          <span class="text-gray-500">
+            Last Updated:
+          </span>
+          {" "}
+          {new Date(updatedAt).toDateString()}
+        </div>
+
+      )
+    }
+
+  </div>
+
+</section>

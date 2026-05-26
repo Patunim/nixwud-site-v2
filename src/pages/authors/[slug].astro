@@ -1,0 +1,124 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { client, urlFor } from "../../lib/sanity";
+
+export async function getStaticPaths() {
+
+  const authors = await client.fetch(`
+    *[_type == "author"]{
+      slug
+    }
+  `);
+
+  return authors.map((author) => ({
+    params: {
+      slug: author.slug.current
+    }
+  }));
+}
+
+const { slug } = Astro.params;
+
+const author = await client.fetch(
+  `
+    *[_type == "author" && slug.current == $slug][0]{
+
+      name,
+      bio,
+      image,
+      role,
+      expertise,
+      organization,
+      linkedin,
+      twitter
+
+    }
+  `,
+  { slug }
+);
+
+const posts = await client.fetch(
+  `
+    *[_type == "post" && author->slug.current == $slug]
+    | order(publishedAt desc){
+
+      title,
+      slug,
+      excerpt,
+      publishedAt
+
+    }
+  `,
+  { slug }
+);
+---
+
+<Layout
+  title={`${author.name} — Nixwud`}
+  description={author.bio}
+  url={`https://nixwud.com/authors/${slug}`}
+>
+
+  <section class="py-32">
+
+    <div class="container-custom max-w-4xl">
+
+      {
+        author.image && (
+
+          <img
+            src={urlFor(author.image)
+              .width(400)
+              .format("webp")
+              .url()}
+            alt={author.name}
+            class="w-32 h-32 rounded-full object-cover mb-10"
+          />
+
+        )
+      }
+
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8">
+        {author.name}
+      </h1>
+
+      <p class="text-xl text-gray-400 leading-relaxed mb-20">
+        {author.bio}
+      </p>
+
+      <div class="grid gap-8">
+
+        {posts.map((post) => (
+
+          <article class="border border-white/10 rounded-3xl p-8">
+
+            <p class="text-sm text-gray-500 mb-4">
+              {new Date(post.publishedAt).toDateString()}
+            </p>
+
+            <h2 class="text-3xl font-semibold mb-4">
+              {post.title}
+            </h2>
+
+            <p class="text-gray-400 mb-6">
+              {post.excerpt}
+            </p>
+
+            <a
+              href={`/blog/${post.slug.current}`}
+              class="text-white"
+            >
+              Read Article →
+            </a>
+
+          </article>
+
+        ))}
+
+      </div>
+
+    </div>
+
+  </section>
+
+</Layout>

@@ -1,0 +1,26 @@
+<div
+  id="reading-progress"
+  class="fixed top-0 left-0 h-[3px] bg-white z-[9999] w-0"
+></div>
+
+<script>
+
+  const progressBar = document.getElementById("reading-progress");
+
+  function updateProgress() {
+
+    const scrollTop = window.scrollY;
+
+    const documentHeight =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    const progress =
+      (scrollTop / documentHeight) * 100;
+
+    progressBar.style.width = `${progress}%`;
+  }
+
+  window.addEventListener("scroll", updateProgress);
+
+</script>

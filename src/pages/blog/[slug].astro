@@ -1,0 +1,477 @@
+---
+import { SITE_URL } from "../../lib/siteConfig";
+import Layout from "../../layouts/Layout.astro";
+import { client, urlFor } from "../../lib/sanity";
+import { PortableText } from "astro-portabletext";
+import { extractHeadings } from "../../lib/extractHeadings";
+import { components } from "../../components/portabletext/components";
+
+import ReadingProgress from "../../components/ReadingProgress.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ArticleSummary from "../../components/ArticleSummary.astro";
+import InsightBlock from "../../components/InsightBlock.astro";
+import SourceBlock from "../../components/SourceBlock.astro";
+import EditorialTrustBlock from "../../components/EditorialTrustBlock.astro";
+import ArticleSchema from "../../components/schema/ArticleSchema.astro";
+
+export async function getStaticPaths() {
+
+  const posts = await client.fetch(`
+    *[_type == "post"]{
+      slug
+    }
+  `);
+
+  return posts.map((post) => ({
+    params: {
+      slug: post.slug.current
+    }
+  }));
+}
+
+const { slug } = Astro.params;
+
+const post = await client.fetch(
+  `
+    *[_type == "post" && slug.current == $slug][0]{
+
+      _id,
+title,
+body,
+publishedAt,
+updatedAt,
+
+excerpt,
+summary,
+keyInsight,
+
+editorialStatus,
+reviewedAt,
+factCheckedAt,
+sources,
+
+reviewedBy->{
+  name,
+  slug
+},
+  author->{
+  name,
+  slug,
+  bio,
+  image,
+  role,
+  expertise,
+  organization,
+  linkedin,
+  twitter
+},
+
+   categories[]->{
+  _id,
+  title,
+  slug
+},
+      mainImage{
+        asset->,
+        alt
+      }
+
+    }
+  `,
+  { slug }
+);
+
+
+const siteSettings = await client.fetch(`
+  *[_type == "siteSettings"][0]{
+
+    organizationName,
+
+    logo{
+      asset->
+    }
+
+  }
+`);
+
+const headings = extractHeadings(post.body);
+
+const relatedPosts = await client.fetch(
+  `
+    *[
+      _type == "post" &&
+      _id != $currentPostId &&
+      count(
+        (categories[]->_id)[@ in $categoryIds]
+      ) > 0
+    ]
+    | order(publishedAt desc)[0...3]{
+
+      title,
+      slug,
+      excerpt,
+
+      mainImage{
+        asset->,
+        alt
+      }
+
+    }
+  `,
+  {
+    currentPostId: post._id,
+    categoryIds: post.categories?.map(category => category._id) || []
+  }
+);
+---
+
+<Layout
+  title={post.title}
+  description={post.excerpt}
+  url={`${SITE_URL}/blog/${slug}`}
+  type="article"
+  publishedTime={post.publishedAt}
+  updatedTime={post.updatedAt}
+>
+
+  <ReadingProgress />
+
+<ArticleSchema
+
+  headline={post.title}
+
+  description={
+    post.summary ||
+    post.excerpt
+  }
+
+  image={
+    post.mainImage
+      ? urlFor(post.mainImage)
+          .width(1600)
+          .url()
+      : undefined
+  }
+
+  url={`${SITE_URL}/blog/${slug}`}
+
+  publishedTime={post.publishedAt}
+  updatedTime={post.updatedAt}
+
+  authorName={post.author?.name}
+
+  organizationName={
+    siteSettings?.organizationName
+  }
+
+  organizationLogo={
+    siteSettings?.logo
+      ? urlFor(siteSettings.logo).url()
+      : undefined
+  }
+
+/>
+
+  <article class="py-32">
+
+    <div class="container-custom">
+
+      <div class="grid lg:grid-cols-[1fr_300px] gap-20">
+
+        <!-- Main Content -->
+
+        <div class="max-w-4xl">
+
+         <Breadcrumbs
+  items={[
+    {
+      name: "Home",
+      url: SITE_URL
+    },
+
+    {
+      name: "Blog",
+      url: `${SITE_URL}/blog`
+    },
+
+    {
+      name: post.title,
+      url: `${SITE_URL}/blog/${slug}`
+    }
+  ]}
+/>
+
+          <div class="flex items-center gap-4 mb-10">
+
+            {
+              post.author?.image && (
+
+                <img
+                  src={urlFor(post.author.image)
+                    .width(120)
+                    .format("webp")
+                    .url()}
+                  alt={post.author.name}
+                  class="w-12 h-12 rounded-full object-cover"
+                />
+
+              )
+            }
+
+            <div>
+
+              <a
+                href={`/authors/${post.author.slug.current}`}
+                class="text-white hover:text-gray-300 transition"
+              >
+                {post.author.name}
+              </a>
+
+              <p class="text-sm text-gray-500">
+                {new Date(post.publishedAt).toDateString()}
+              </p>
+
+              {
+                post.updatedAt && (
+
+                  <p class="text-sm text-gray-500 mt-1">
+
+                    Updated:
+                    {" "}
+                    {new Date(post.updatedAt).toDateString()}
+
+                  </p>
+
+                )
+              }
+
+            </div>
+
+          </div>
+
+          <div class="flex flex-wrap gap-3 mb-8">
+
+            {post.categories?.map((category) => (
+
+  <a
+    href={`/topics/${category.slug.current}`}
+    class="border border-white/10 px-4 py-2 rounded-full text-sm text-gray-400 hover:text-white hover:border-white/20 transition"
+  >
+    {category.title}
+  </a>
+
+))}
+
+          </div>
+
+          <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-12">
+            {post.title}
+          </h1>
+
+          <ArticleSummary
+  summary={post.summary || post.excerpt}
+/>
+
+          {
+            (post.keyInsight || post.excerpt) && (
+              <InsightBlock
+                text={post.keyInsight || post.excerpt}
+              />
+            )
+          }
+
+          {
+            post.mainImage && (
+
+              <img
+                src={urlFor(post.mainImage)
+                  .width(1800)
+                  .format("webp")
+                  .url()}
+                alt={post.mainImage.alt || post.title}
+                class="w-full rounded-3xl mb-16"
+                loading="eager"
+              />
+
+            )
+          }
+
+          <div class="prose prose-invert prose-lg max-w-none">
+
+            <PortableText
+              value={post.body}
+              components={components}
+            />
+            <EditorialTrustBlock
+  editorialStatus={post.editorialStatus}
+  reviewedAt={post.reviewedAt}
+  factCheckedAt={post.factCheckedAt}
+  reviewedBy={post.reviewedBy}
+  updatedAt={post.updatedAt}
+/>
+            <SourceBlock
+  sources={post.sources || []}
+/>
+
+          </div>
+
+        </div>
+
+        <!-- TOC Sidebar -->
+
+        <aside class="hidden lg:block">
+
+          <div class="sticky top-32">
+
+            <p class="text-sm uppercase tracking-[0.3em] text-gray-500 mb-6">
+              On This Page
+            </p>
+
+            <nav class="space-y-4">
+
+              {headings.map((heading) => (
+
+                <a
+                  href={`#${heading.slug}`}
+                  data-toc-link
+                  class={`block text-sm text-gray-400 hover:text-white transition ${
+                    heading.level === "h3"
+                      ? "ml-4"
+                      : ""
+                  }`}
+                >
+                  {heading.text}
+                </a>
+
+              ))}
+
+            </nav>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+    </div>
+
+    <!-- Related Articles -->
+
+    <section class="pt-32 border-t border-white/10">
+
+      <div class="container-custom">
+
+        <div class="flex items-end justify-between mb-16">
+
+          <div>
+
+            <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-4">
+              KEEP READING
+            </p>
+
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight">
+              Related Articles
+            </h2>
+
+          </div>
+
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+
+          {relatedPosts.map((relatedPost) => (
+
+            <article class="border border-white/10 rounded-3xl overflow-hidden hover:border-white/20 transition">
+
+              {
+                relatedPost.mainImage && (
+
+                  <img
+                    src={urlFor(relatedPost.mainImage)
+                      .width(1000)
+                      .format("webp")
+                      .url()}
+                    alt={relatedPost.mainImage.alt || relatedPost.title}
+                    class="w-full aspect-[16/10] object-cover"
+                    loading="lazy"
+                  />
+
+                )
+              }
+
+              <div class="p-8">
+
+                <h3 class="text-2xl font-semibold mb-4">
+                  {relatedPost.title}
+                </h3>
+
+                <p class="text-gray-400 leading-relaxed mb-6">
+                  {relatedPost.excerpt}
+                </p>
+
+                <a
+                  href={`/blog/${relatedPost.slug.current}`}
+                  class="text-white"
+                >
+                  Read Article →
+                </a>
+
+              </div>
+
+            </article>
+
+          ))}
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </article>
+
+  <script>
+
+    const headings = document.querySelectorAll("[data-heading]");
+    const tocLinks = document.querySelectorAll("[data-toc-link]");
+
+    function updateActiveHeading() {
+
+      let current = "";
+
+      headings.forEach((heading) => {
+
+        const top = heading.offsetTop;
+
+        if (window.scrollY >= top - 140) {
+          current = heading.id;
+        }
+      });
+
+      tocLinks.forEach((link) => {
+
+        link.classList.remove("text-white");
+
+        link.classList.add("text-gray-400");
+
+        if (
+          link.getAttribute("href") === `#${current}`
+        ) {
+
+          link.classList.remove("text-gray-400");
+
+          link.classList.add("text-white");
+        }
+      });
+    }
+
+    window.addEventListener(
+      "scroll",
+      updateActiveHeading
+    );
+
+    updateActiveHeading();
+
+  </script>
+
+</Layout>

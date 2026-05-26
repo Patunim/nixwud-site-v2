@@ -1,0 +1,47 @@
+---
+const {
+  headline,
+  description,
+  image,
+  url,
+  publishedTime,
+  updatedTime,
+  authorName,
+  organizationName,
+  organizationLogo
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+
+  headline,
+  description,
+  image,
+  url,
+
+  datePublished: publishedTime,
+  dateModified: updatedTime || publishedTime,
+
+  author: {
+    "@type": "Person",
+    name: authorName
+  },
+
+  publisher: {
+    "@type": "Organization",
+
+    name: organizationName,
+
+    logo: {
+      "@type": "ImageObject",
+      url: organizationLogo
+    }
+  }
+};
+---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(schema)}
+/>

@@ -1,0 +1,22 @@
+---
+const {
+  title,
+  answer
+} = Astro.props;
+---
+
+<section class="border border-white/10 rounded-3xl p-10 my-16 bg-white/[0.02]">
+
+  <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
+    QUICK ANSWER
+  </p>
+
+  <h2 class="text-3xl font-bold tracking-tight mb-6">
+    {title}
+  </h2>
+
+  <p class="text-xl leading-relaxed text-gray-300">
+    {answer}
+  </p>
+
+</section>

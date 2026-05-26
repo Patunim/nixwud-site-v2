@@ -1,0 +1,18 @@
+---
+const {
+  label = "KEY INSIGHT",
+  text
+} = Astro.props;
+---
+
+<section class="border-l-4 border-white/20 pl-8 py-4 my-16">
+
+  <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-5">
+    {label}
+  </p>
+
+  <blockquote class="text-3xl leading-relaxed font-medium text-gray-200">
+    {text}
+  </blockquote>
+
+</section>

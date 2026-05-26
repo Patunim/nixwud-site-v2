@@ -1,0 +1,102 @@
+---
+---
+
+<header class="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl">
+
+  <nav class="container-custom flex items-center justify-between py-5">
+
+    <a href="/" class="text-2xl font-bold tracking-tight">
+      Nixwud
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 text-sm text-gray-300">
+
+      <a href="/" class="hover:text-white transition">
+        Home
+      </a>
+
+      <a href="/about" class="hover:text-white transition">
+        About
+      </a>
+
+      <a href="/services" class="hover:text-white transition">
+        Services
+      </a>
+
+      <a href="/blog" class="hover:text-white transition">
+        Blog
+      </a>
+
+      <a href="/contact" class="hover:text-white transition">
+        Contact
+      </a>
+
+    </div>
+
+    <a
+      href="/contact"
+      class="hidden md:inline-flex bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition"
+    >
+      Get Started
+    </a>
+
+    <!-- Mobile Menu Button -->
+
+    <button
+      id="menu-button"
+      class="md:hidden text-white text-2xl cursor-pointer"
+    >
+      ☰
+    </button>
+
+  </nav>
+
+  <!-- Mobile Menu -->
+
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-white/10"
+  >
+
+    <div class="container-custom py-6 flex flex-col gap-5 text-gray-300">
+
+      <a href="/" class="hover:text-white transition">
+        Home
+      </a>
+
+      <a href="/about" class="hover:text-white transition">
+        About
+      </a>
+
+      <a href="/services" class="hover:text-white transition">
+        Services
+      </a>
+
+      <a href="/blog" class="hover:text-white transition">
+        Blog
+      </a>
+
+      <a href="/contact" class="hover:text-white transition">
+        Contact
+      </a>
+
+       <a href="/Freeresources" class="hover:text-white transition">
+        Free resources
+      </a>
+
+    </div>
+
+  </div>
+
+</header>
+
+<script>
+
+  const button = document.getElementById('menu-button');
+  const menu = document.getElementById('mobile-menu');
+
+  button?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+
+</script>

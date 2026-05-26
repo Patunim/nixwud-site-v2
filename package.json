@@ -1,0 +1,35 @@
+{
+  "name": "nixwud-site",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^5.0.5",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@portabletext/to-html": "^5.0.2",
+    "@portabletext/types": "^4.0.2",
+    "@sanity/client": "^7.22.0",
+    "@sanity/image-url": "^2.1.1",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^6.3.7",
+    "astro-icon": "^1.1.5",
+    "astro-portabletext": "^0.13.0",
+    "groq": "^5.26.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "rehype-slug": "^6.0.0",
+    "slugify": "^1.6.9",
+    "tailwindcss": "^4.3.0"
+  }
+}
