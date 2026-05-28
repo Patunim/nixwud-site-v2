@@ -34,6 +34,10 @@ const siteSettings = await client.fetch(`
 
   }
 `);
+
+// ✅ FIX: enforce base URL + fallback
+const baseUrl = siteSettings?.siteUrl || "https://nixwud.com";
+const currentUrl = url || baseUrl;
 ---
 
 <html lang="en">
@@ -42,16 +46,21 @@ const siteSettings = await client.fetch(`
 
     <meta charset="UTF-8" />
 
+    <!-- ✅ FIXED viewport -->
     <meta
       name="viewport"
-      content="width=device-width"
+      content="width=device-width, initial-scale=1.0"
     />
 
+    <!-- ✅ Optional but recommended -->
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- ✅ FIXED URL handling -->
     <SEO
       title={title}
       description={description}
       image={image}
-      url={url}
+      url={currentUrl}
       type={type}
       publishedTime={publishedTime}
     />
@@ -62,7 +71,7 @@ const siteSettings = await client.fetch(`
         <OrganizationSchema
 
           name={siteSettings.organizationName}
-          url={siteSettings.siteUrl}
+          url={baseUrl}
 
           logo={
             siteSettings.logo
