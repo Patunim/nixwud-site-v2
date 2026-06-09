@@ -7,7 +7,7 @@ import SEO from "../components/SEO.astro";
 import OrganizationSchema from "../components/schema/OrganizationSchema.astro";
 
 import { client, urlFor } from "../lib/sanity";
-<layout>
+
 const {
   title,
   description,
@@ -19,52 +19,36 @@ const {
 
 const siteSettings = await client.fetch(`
   *[_type == "siteSettings"][0]{
-
     organizationName,
     siteUrl,
-
-    logo{
-      asset->
-    },
-
+    logo{ asset-> },
     linkedin,
     twitter,
     facebook,
     instagram
-
   }
 `);
 
-// ✅ FIX: enforce base URL + fallback
 const baseUrl = siteSettings?.siteUrl || "https://nixwud.com";
 const currentUrl = url || baseUrl;
 ---
 
 <html lang="en">
-
   <head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7RY15GCJ1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7RY15GCJ1Z');
-</script>
     <meta charset="UTF-8" />
 
-    <!-- ✅ FIXED viewport -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-
-    <!-- ✅ Optional but recommended -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" />
 
-    <!-- ✅ FIXED URL handling -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7RY15GCJ1Z"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7RY15GCJ1Z');
+    </script>
+
     <SEO
       title={title}
       description={description}
@@ -76,43 +60,30 @@ const currentUrl = url || baseUrl;
 
     {
       siteSettings && (
-
         <OrganizationSchema
-
           name={siteSettings.organizationName}
           url={baseUrl}
-
           logo={
             siteSettings.logo
               ? urlFor(siteSettings.logo).url()
               : undefined
           }
-
           sameAs={[
             siteSettings.linkedin,
             siteSettings.twitter,
             siteSettings.facebook,
             siteSettings.instagram
           ].filter(Boolean)}
-
         />
-
       )
     }
-
   </head>
 
   <body class="bg-black text-white">
-
     <Navbar />
-
     <main>
       <slot />
     </main>
-
     <Footer />
-
   </body>
-
 </html>
-</layout
