@@ -31,9 +31,6 @@ const siteSettings = await client.fetch(`
 
 const baseUrl = siteSettings?.siteUrl || "https://nixwud.com";
 const currentUrl = url || baseUrl;
-
-// MAINTENANCE MODE SWITCH
-const MAINTENANCE_MODE = true;
 ---
 
 <html lang="en">
@@ -42,9 +39,6 @@ const MAINTENANCE_MODE = true;
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" />
-
-    <!-- TEMP: prevent indexing while under maintenance -->
-    <meta name="robots" content="noindex, nofollow" />
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7RY15GCJ1Z"></script>
@@ -86,43 +80,10 @@ const MAINTENANCE_MODE = true;
   </head>
 
   <body class="bg-black text-white">
-
-    {
-      MAINTENANCE_MODE ? (
-
-        <div class="flex items-center justify-center min-h-screen text-center px-6">
-
-          <div class="max-w-xl">
-
-            <h1 class="text-5xl font-bold mb-6">
-              Nixwud
-            </h1>
-
-            <p class="text-xl text-gray-400 mb-4">
-              We're currently redesigning the experience.
-            </p>
-
-
-            <div class="text-sm text-gray-600">
-              © {new Date().getFullYear()} Nixwud
-            </div>
-
-          </div>
-
-        </div>
-
-      ) : (
-
-        <>
-          <Navbar />
-          <main>
-            <slot />
-          </main>
-          <Footer />
-        </>
-
-      )
-    }
-
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
