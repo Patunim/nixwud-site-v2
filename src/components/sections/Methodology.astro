@@ -1,0 +1,32 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+const steps = [
+  { number: "01", title: "Understand", text: "Clarify the business context, constraints, stakeholders and evidence." },
+  { number: "02", title: "Frame", text: "Define the actual problem and the criteria a useful solution must satisfy." },
+  { number: "03", title: "Decide", text: "Compare options, trade-offs and expected value before committing resources." },
+  { number: "04", title: "Deliver", text: "Implement in measurable stages, learn from evidence and improve deliberately." }
+];
+---
+
+<section class="section section--paper">
+  <div class="container--wide">
+    <SectionHeading eyebrow="How we work" title="Think before building." description="Our method is designed to reduce uncertainty before it becomes expensive complexity." />
+    <ol class="method grid grid--4">
+      {steps.map((step) => (
+        <li>
+          <span>{step.number}</span>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .method { list-style: none; padding: 0; margin: 0; }
+  .method li { padding-top: 1.2rem; border-top: 1px solid var(--line-dark); }
+  .method span { color: #3554d8; font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
+  .method h3 { margin: 2.5rem 0 .8rem; }
+  .method p { margin-bottom: 0; }
+</style>

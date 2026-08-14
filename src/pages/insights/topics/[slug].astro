@@ -1,0 +1,17 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import InsightCard from "../../../components/cards/InsightCard.astro";
+import { safeFetch } from "../../../lib/sanity.js";
+
+export async function getStaticPaths() {
+  const categories = await safeFetch(`*[_type == "category" && defined(slug.current)]{title, description, "slug": slug.current}`, {}, []) as Array<Record<string, any>>;
+  return categories.map((category) => ({ params: { slug: category.slug }, props: { category } }));
+}
+const { category } = Astro.props as { category: Record<string, any> };
+const insights = await safeFetch(`*[_type == "post" && references(*[_type == "category" && slug.current == $slug]._id) && defined(slug.current) && editorialStatus == "published"] | order(publishedAt desc){title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title}`, { slug: category.slug }, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
+---
+
+<Layout title={`${category.title} Insights`} description={category.description || `Insights about ${category.title} from Nixwud Consultancy.`}>
+  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Insight topic</p><h1>{category.title}</h1><p class="lede">{category.description || `Practical thinking and guidance about ${category.title}.`}</p></div></header>
+  <section class="section"><div class="container--wide">{insights.length ? <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div> : <div class="empty-state"><h3>No published Insights in this topic yet.</h3><p>Relevant work will appear here when it is published.</p></div>}</div></section>
+</Layout>

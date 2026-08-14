@@ -1,0 +1,40 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ResourceCard from "../../components/cards/ResourceCard.astro";
+import CTA from "../../components/sections/CTA.astro";
+import { safeFetch } from "../../lib/sanity.js";
+
+const builtInResources = [
+  { type: "PDF audit", title: "Business & Technology Alignment Audit", description: "A structured five-part audit to identify where strategy, systems and execution are falling out of alignment.", href: "/resources/business-technology-alignment-audit.pdf", action: "Download the audit", featured: true },
+  { type: "Interactive tool", title: "Technology Decision Readiness Scorecard", description: "Answer ten focused questions and receive an immediate readiness result with practical next steps.", href: "/resources/decision-readiness-scorecard", action: "Use the scorecard", featured: true }
+];
+
+type ResourceItem = { type: string; title: string; description: string; href: string; action: string; featured?: boolean };
+
+const cmsResources = await safeFetch(`*[_type == "resource" && published == true] | order(featured desc, publishedAt desc){
+  type, title, description, "slug": slug.current, externalUrl, "fileUrl": file.asset->url, featured
+}`, {}, []) as Array<Record<string, any>>;
+const resources: ResourceItem[] = [...builtInResources, ...cmsResources.map((item) => ({
+  type: String(item.type || "Resource"),
+  title: String(item.title || "Nixwud resource"),
+  description: String(item.description || "A practical resource from Nixwud Consultancy."),
+  href: item.externalUrl || item.fileUrl || `/resources/${item.slug}`,
+  action: item.type === "tool" ? "Open the tool" : "Download resource",
+  featured: Boolean(item.featured)
+}))];
+---
+
+<Layout title="Free Resources" description="Free audits, scorecards, guides and tools from Nixwud Consultancy.">
+  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Free resources</p><h1>Practical tools for clearer business and technology decisions.</h1><p class="lede">Use these audits, scorecards and guides to identify the real issue, structure a conversation and make a stronger next decision.</p></div></header>
+
+  <section class="section"><div class="container--wide"><div class="grid grid--2">{resources.map((resource) => <ResourceCard resource={resource} />)}</div></div></section>
+
+  <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Built to be used</p><h2>No filler. No inflated templates.</h2></div><div><p class="lede">Every resource should help someone understand a situation, ask better questions or take a more informed next step.</p><ul class="list-clean principles"><li>Practical enough to use immediately</li><li>Clear enough to share with a team</li><li>Structured around decisions and evidence</li><li>Updated when the thinking improves</li></ul></div></div></section>
+  <CTA title="The resource surfaced a bigger question?" description="Share the context and we will help you identify the next useful step." />
+</Layout>
+
+<style>
+  .paper-eyebrow { color: #3554d8; }
+  .principles li { padding: .8rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); }
+  .principles li:last-child { border-bottom: 1px solid var(--line-dark); }
+</style>

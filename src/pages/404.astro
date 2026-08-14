@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/ui/Button.astro";
+---
+
+<Layout title="Page not found" description="The requested page could not be found." noindex={true}>
+  <section class="not-found"><div class="container--narrow"><p class="eyebrow">404 — Page not found</p><h1>This path does not lead anywhere useful.</h1><p class="lede">The address may have changed or the page may no longer exist. Return to the main site or search the Insights library.</p><div class="button-row"><Button href="/" variant="primary">Return home</Button><Button href="/search" variant="secondary">Search the site</Button></div></div></section>
+</Layout>
+
+<style>.not-found { min-height: 72vh; display: grid; align-items: center; padding-block: 5rem; }</style>

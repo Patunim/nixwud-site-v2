@@ -2,7 +2,7 @@ import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'post',
-  title: 'Post',
+  title: 'Insight',
   type: 'document',
 
   fields: [
@@ -150,6 +150,14 @@ export default defineType({
       },
 
       initialValue: 'draft',
+    }),
+
+    defineField({
+      name: 'featured',
+      title: 'Feature on the website',
+      description: 'Show this Insight in featured website sections.',
+      type: 'boolean',
+      initialValue: false,
     }),
 
     defineField({

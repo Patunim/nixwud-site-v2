@@ -4,11 +4,5 @@
     ".astro/types.d.ts",
     "**/*"
   ],
-  "exclude": [
-    "dist"
-  ],
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
-  }
+  "exclude": ["dist", "nixwud-cms"]
 }

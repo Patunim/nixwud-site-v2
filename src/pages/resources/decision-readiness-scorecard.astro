@@ -1,0 +1,102 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CTA from "../../components/sections/CTA.astro";
+
+const questions = [
+  "We can describe the business problem without naming a technology solution.",
+  "The people affected by the decision have been identified and heard.",
+  "We have agreed what a successful outcome would look like.",
+  "We understand the current process, system or customer journey.",
+  "The most important constraints and risks are documented.",
+  "We have evidence for the scale or urgency of the problem.",
+  "Decision ownership and delivery ownership are clear.",
+  "We have compared realistic options, including doing less or nothing.",
+  "The organization has the time, skills and capacity to support the change.",
+  "We know how progress and value will be measured after implementation."
+];
+---
+
+<Layout title="Technology Decision Readiness Scorecard" description="Assess whether a business and technology decision is ready to move forward.">
+  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Interactive scorecard</p><h1>Is this technology decision ready to move forward?</h1><p class="lede">Rate ten statements honestly. Your score is calculated only in your browser and is not submitted or stored.</p></div></header>
+
+  <section class="section"><div class="container--narrow">
+    <form id="readiness-form">
+      <ol class="questions list-clean">
+        {questions.map((question, index) => (
+          <li>
+            <fieldset>
+              <legend><span>{String(index + 1).padStart(2, "0")}</span>{question}</legend>
+              <div class="choices">
+                {[1,2,3,4,5].map((value) => <label><input type="radio" name={`q${index + 1}`} value={value} required /><span>{value}</span><small>{value === 1 ? "Not true" : value === 5 ? "Completely true" : ""}</small></label>)}
+              </div>
+            </fieldset>
+          </li>
+        ))}
+      </ol>
+      <button class="button button--accent" type="submit">Calculate my readiness</button>
+    </form>
+
+    <section id="result" class="result" hidden aria-live="polite" tabindex="-1">
+      <p class="kicker">Your readiness score</p>
+      <p class="result__score"><strong data-score>0</strong><span>/ 50</span></p>
+      <h2 data-title></h2>
+      <p class="lede" data-message></p>
+      <ul class="list-clean check-list" data-actions></ul>
+      <button class="button button--secondary" type="button" data-reset>Retake the scorecard</button>
+    </section>
+  </div></section>
+  <CTA title="Want an outside view of the decision?" />
+</Layout>
+
+<script>
+  const form = document.querySelector("#readiness-form");
+  const result = document.querySelector("#result");
+  const bands = [
+    { max: 24, title: "Pause and clarify", message: "The decision is carrying material uncertainty. Moving directly to implementation is likely to create avoidable rework.", actions: ["Restate the business problem without naming a tool", "Identify missing stakeholders and evidence", "Define success and decision ownership"] },
+    { max: 38, title: "Promising, but not fully aligned", message: "The foundations are forming, but several gaps could weaken delivery or measurement.", actions: ["Resolve the lowest-scoring statements first", "Compare options and trade-offs explicitly", "Confirm capacity, ownership and measures"] },
+    { max: 50, title: "Ready for structured action", message: "The decision has strong foundations. Preserve that clarity as the work moves into delivery.", actions: ["Document the agreed decision criteria", "Deliver in measurable stages", "Review evidence and assumptions regularly"] }
+  ];
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
+    const data = new FormData(form);
+    const score = Array.from({ length: 10 }, (_, index) => Number(data.get(`q${index + 1}`) || 0)).reduce((sum, value) => sum + value, 0);
+    const band = bands.find((item) => score <= item.max) || bands[2];
+    const scoreNode = result.querySelector("[data-score]");
+    const titleNode = result.querySelector("[data-title]");
+    const messageNode = result.querySelector("[data-message]");
+    const actionsNode = result.querySelector("[data-actions]");
+    if (scoreNode) scoreNode.textContent = String(score);
+    if (titleNode) titleNode.textContent = band.title;
+    if (messageNode) messageNode.textContent = band.message;
+    if (actionsNode) actionsNode.innerHTML = band.actions.map((action) => `<li>${action}</li>`).join("");
+    result.hidden = false;
+    result.focus();
+  });
+  result?.querySelector("[data-reset]")?.addEventListener("click", () => {
+    if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
+    form.reset(); result.hidden = true; form.scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+
+<style>
+  .questions { counter-reset: question; margin-bottom: 2rem; }
+  .questions > li { padding: 2rem 0; border-top: 1px solid var(--line); }
+  .questions > li:last-child { border-bottom: 1px solid var(--line); }
+  fieldset { margin: 0; padding: 0; border: 0; }
+  legend { display: grid; grid-template-columns: 2.5rem 1fr; width: 100%; margin-bottom: 1.2rem; color: var(--text); font-size: 1.1rem; font-weight: 650; }
+  legend span { color: var(--accent-soft); font-size: .78rem; }
+  .choices { display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; margin-left: 2.5rem; }
+  .choices label { display: grid; place-items: center; min-height: 4.6rem; padding: .5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; }
+  .choices label:has(input:checked) { border-color: var(--accent); background: rgba(97,125,255,.16); }
+  .choices input { position: absolute; opacity: 0; pointer-events: none; }
+  .choices span { font-weight: 800; }
+  .choices small { min-height: 1rem; color: var(--text-muted); font-size: .66rem; }
+  .result { margin-top: 4rem; padding: clamp(1.5rem, 5vw, 3rem); border: 1px solid rgba(97,125,255,.6); border-radius: var(--radius-lg); background: var(--ink-soft); }
+  .result__score { display: flex; align-items: baseline; gap: .5rem; margin: 1rem 0; }
+  .result__score strong { color: var(--text); font-size: 4rem; line-height: 1; }
+  .result h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+  .result .button { margin-top: 1.5rem; }
+  @media (max-width: 600px) { .choices { margin-left: 0; } .choices small { display: none; } legend { grid-template-columns: 2rem 1fr; } }
+</style>

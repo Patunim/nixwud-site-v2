@@ -1,144 +1,53 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import FAQ from "../components/FAQ.astro";
-
-const organizationSchema = {
-  "@context": "https://schema.org",
-
-  "@type": "Organization",
-
-  name: "Nixwud",
-
-  url: "https://nixwud.com",
-
-  logo: "https://nixwud.com/logo.png",
-
-  description:
-    "Nixwud builds modern digital infrastructure, scalable content platforms, and performance-focused web systems.",
-
-  knowsAbout: [
-    "Web Performance",
-    "Astro",
-    "Sanity CMS",
-    "SEO",
-    "AEO",
-    "GEO",
-    "Content Platforms",
-    "Digital Infrastructure",
-    "Technical SEO"
-  ]
-};
+import CTA from "../components/sections/CTA.astro";
 ---
 
-<Layout
-  title="About — Nixwud"
-  description="Modern digital infrastructure and scalable web systems."
-  url="https://nixwud.com/about"
->
-
-  <section class="py-32">
-
-    <div class="container-custom max-w-4xl">
-
-      <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
-        ABOUT
-      </p>
-
-      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-10">
-        Building modern digital infrastructure.
-      </h1>
-
-      <p class="text-xl text-gray-400 leading-relaxed mb-8">
-        Nixwud focuses on scalable content platforms,
-        performance-focused systems, modern SEO architecture,
-        AEO/GEO optimization, and semantic web infrastructure.
-      </p>
-
-      <p class="text-xl text-gray-400 leading-relaxed">
-        The platform combines modern frontend architecture,
-        structured content systems, and AI-oriented discoverability
-        strategies to create high-performance digital experiences.
-      </p>
-
+<Layout title="About Nixwud Consultancy" description="Nixwud Consultancy combines strategic thinking, business understanding and modern technology to support better decisions.">
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">About Nixwud Consultancy</p>
+      <h1>We help organizations think clearly before they build.</h1>
+      <p class="lede">Nixwud Consultancy exists to connect business understanding with technology judgement—so leaders can make stronger decisions and build for the long term.</p>
     </div>
+  </header>
 
-  </section>
-
-  <section class="py-24 border-t border-white/10">
-
-    <div class="container-custom">
-
-      <div class="max-w-4xl">
-
-        <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
-          EXPERTISE
-        </p>
-
-        <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-12">
-          Core knowledge domains
-        </h2>
-
-        <div class="flex flex-wrap gap-4">
-
-          {[
-            "Astro",
-            "Technical SEO",
-            "AEO",
-            "GEO",
-            "Web Performance",
-            "Content Platforms",
-            "Sanity CMS",
-            "Digital Infrastructure",
-            "Modern Frontend Systems"
-          ].map((item) => (
-
-            <div class="border border-white/10 rounded-full px-6 py-3 text-gray-300">
-
-              {item}
-
-            </div>
-
-          ))}
-
-        </div>
-
+  <section class="section">
+    <div class="container split">
+      <div><p class="eyebrow">Our point of view</p><h2>Technology is the vehicle. Business outcomes are the product.</h2></div>
+      <div>
+        <p class="lede">A new platform, campaign or automation is only useful when it improves how an organization works, serves customers or grows.</p>
+        <p>That is why our work begins with questions: What is changing? Where is the friction? What evidence matters? What must the organization be able to do next?</p>
       </div>
-
     </div>
-
   </section>
 
-  <FAQ
-    items={[
-      {
-        question:
-          "What is Nixwud?",
+  <section class="section section--paper">
+    <div class="container--wide">
+      <p class="eyebrow paper-eyebrow">Operating principles</p>
+      <div class="principle-grid grid grid--3">
+        <article><span>01</span><h3>Business before technology</h3><p>Begin with context, people and outcomes—not tools.</p></article>
+        <article><span>02</span><h3>Clarity over complexity</h3><p>Make the important idea easier to see and act on.</p></article>
+        <article><span>03</span><h3>Teach before selling</h3><p>Useful thinking earns trust before a commercial conversation.</p></article>
+        <article><span>04</span><h3>Measure what matters</h3><p>Connect delivery to evidence the organization values.</p></article>
+        <article><span>05</span><h3>Think before building</h3><p>Reduce uncertainty before it turns into expensive rework.</p></article>
+        <article><span>06</span><h3>Build for the long term</h3><p>Create systems teams can understand, operate and improve.</p></article>
+      </div>
+    </div>
+  </section>
 
-        answer:
-          "Nixwud is a modern digital platform focused on scalable web experiences, performance-focused infrastructure, and editorial content systems."
-      },
-
-      {
-        question:
-          "What technologies does Nixwud use?",
-
-        answer:
-          "Nixwud uses modern technologies including Astro, Sanity CMS, Tailwind CSS, and global CDN infrastructure."
-      },
-
-      {
-        question:
-          "Why does modern web performance matter?",
-
-        answer:
-          "Modern web performance improves user experience, SEO visibility, accessibility, conversion rates, and AI discoverability."
-      }
-    ]}
-  />
-
-  <script
-    type="application/ld+json"
-    set:html={JSON.stringify(organizationSchema)}
-  ></script>
-
+  <section class="section border-bottom">
+    <div class="container split">
+      <div><p class="eyebrow">Mission</p><h2>Stronger digital foundations. Sustainable growth.</h2></div>
+      <div><p class="lede">Our mission is to combine strategic thinking, business understanding and modern technology to help organizations build stronger digital foundations and achieve sustainable growth.</p><p>Our long-term ambition is simple: become the company businesses learn from first and hire second.</p></div>
+    </div>
+  </section>
+  <CTA />
 </Layout>
+
+<style>
+  .paper-eyebrow { color: #3554d8; }
+  .principle-grid article { min-height: 15rem; padding: 1.5rem 0; border-top: 1px solid var(--line-dark); }
+  .principle-grid span { color: #3554d8; font-size: .78rem; font-weight: 800; }
+  .principle-grid h3 { margin: 2.5rem 0 .8rem; }
+</style>

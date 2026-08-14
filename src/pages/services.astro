@@ -1,66 +1,41 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import FAQ from "../components/FAQ.astro";
+import ServiceCard from "../components/cards/ServiceCard.astro";
+import CTA from "../components/sections/CTA.astro";
+import { services } from "../lib/siteConfig.js";
 ---
 
-<Layout>
-
-  <section class="py-32 border-b border-white/10">
-
-    <div class="container-custom">
-
-      <div class="max-w-4xl">
-
-        <p class="uppercase tracking-[0.35em] text-xs text-gray-500 mb-6">
-          SERVICES
-        </p>
-
-        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8">
-          Modern digital systems built for performance.
-        </h1>
-
-        <p class="text-xl text-gray-400 leading-relaxed">
-          We help businesses build scalable websites, SEO systems, and high-performance digital infrastructure.
-        </p>
-
-      </div>
-
+<Layout title="Consulting Services" description="Strategy, digital platforms, AI and automation, and discoverability services from Nixwud Consultancy.">
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">Consulting services</p>
+      <h1>Capabilities connected by one principle: business value first.</h1>
+      <p class="lede">We combine strategy, analysis and modern technology to help organizations understand the problem, choose an appropriate response and deliver lasting value.</p>
     </div>
+  </header>
 
+  <section class="section">
+    <div class="container--wide grid grid--2">{services.map((service) => <ServiceCard service={service} />)}</div>
   </section>
 
-  <section class="py-32">
-
-    <div class="container-custom grid md:grid-cols-2 gap-10">
-
-      <div class="border border-white/10 rounded-3xl p-10">
-
-        <h2 class="text-3xl font-semibold mb-6">
-          Web Development
-        </h2>
-
-        <p class="text-gray-400 leading-relaxed">
-          Modern frontend architecture, responsive systems, and scalable digital platforms built for speed and usability.
-        </p>
-
-      </div>
-
-      <div class="border border-white/10 rounded-3xl p-10">
-
-        <h2 class="text-3xl font-semibold mb-6">
-          SEO Strategy
-        </h2>
-
-        <p class="text-gray-400 leading-relaxed">
-          Technical SEO optimization, structured content systems, metadata architecture, and search-focused performance.
-        </p>
-
-      </div>
-
+  <section class="section section--paper">
+    <div class="container split">
+      <div><p class="eyebrow paper-eyebrow">Engagement model</p><h2>Start with the decision, then shape the work.</h2></div>
+      <ol class="engagement list-clean">
+        <li><span>01</span><div><strong>Focused discovery</strong><p>Understand context, evidence, stakeholders and constraints.</p></div></li>
+        <li><span>02</span><div><strong>Decision framing</strong><p>Clarify options, trade-offs, priorities and measures of success.</p></div></li>
+        <li><span>03</span><div><strong>Measured delivery</strong><p>Implement in useful stages and learn from real outcomes.</p></div></li>
+      </ol>
     </div>
-
   </section>
-
-  <FAQ />
-
+  <CTA title="Not sure which service fits? Start with the business problem." />
 </Layout>
+
+<style>
+  .paper-eyebrow { color: #3554d8; }
+  .engagement li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 1.25rem 0; border-top: 1px solid var(--line-dark); }
+  .engagement li:last-child { border-bottom: 1px solid var(--line-dark); }
+  .engagement span { color: #3554d8; font-size: .8rem; font-weight: 800; }
+  .engagement strong { color: var(--ink); font-size: 1.1rem; }
+  .engagement p { margin: .35rem 0 0; }
+</style>

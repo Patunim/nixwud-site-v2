@@ -1,0 +1,25 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import InsightCard from "../../components/cards/InsightCard.astro";
+import CTA from "../../components/sections/CTA.astro";
+import { safeFetch } from "../../lib/sanity.js";
+
+const insights = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published"] | order(publishedAt desc){
+  title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title
+}`, {}, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
+---
+
+<Layout title="Insights" description="Practical business and technology insights, frameworks and guides from Nixwud Consultancy.">
+  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Insights</p><h1>Useful thinking for better business and technology decisions.</h1><p class="lede">Clear, practical perspectives designed to improve understanding—not inflate complexity.</p></div></header>
+  <section class="section"><div class="container--wide">
+    {insights.length ? <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div> : <div class="empty-state"><h3>No published Insights yet.</h3><p>Set an Insight's editorial status to Published in Sanity, then publish the document. It will appear here automatically.</p></div>}
+  </div></section>
+  <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Editorial standard</p><h2>Knowledge first, not academic theatre.</h2></div><div><p class="lede">Nixwud Insights should be practical, evidence-aware, easy to understand and useful enough to act on.</p><ul class="list-clean standards"><li>Clear answer before background</li><li>Evidence separated from opinion</li><li>Useful frameworks and next steps</li><li>Sources where verification matters</li></ul></div></div></section>
+  <CTA title="Have a decision that deserves clearer thinking?" />
+</Layout>
+
+<style>
+  .paper-eyebrow { color: #3554d8; }
+  .standards li { padding: .8rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); }
+  .standards li:last-child { border-bottom: 1px solid var(--line-dark); }
+</style>

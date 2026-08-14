@@ -1,43 +1,43 @@
-# Astro Starter Kit: Minimal
+# Nixwud Consultancy website
 
-```sh
-npm create astro@latest -- --template minimal
+Astro website and Sanity Studio for Nixwud Consultancy, a business and technology consultancy.
+
+## Requirements
+
+- Node.js 22.12 or newer (Node 24 LTS recommended)
+- npm
+- A Sanity project using project ID `jd42zs3r` and dataset `production`
+
+## Website setup
+
+```bash
+cp .env.example .env
+npm ci
+npm run check
+npm run build
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp`.
 
-## 🚀 Project Structure
+## Sanity Studio
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+cd nixwud-cms
+npm ci
+npm run dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The Studio presents existing `post` documents as Insights and adds Services, Industries, Case Studies, Testimonials and Resources.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Only Insights whose **Editorial Status** is explicitly set to **Published** appear on the website. This prevents unfinished legacy or test documents from being exposed after migration.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Important launch checks
 
-## 🧞 Commands
+- Replace the draft Privacy Policy and Terms with legally reviewed documents.
+- Confirm `hello@nixwud.com` exists or update the fallback address.
+- Confirm the final brand palette, wordmark, favicon and social image.
+- Publish only genuine case studies and testimonials with permission.
+- Configure the email-gated resource workflow only after the privacy policy and Brevo integration are ready.
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+See `MIGRATION.md` for branch installation and deployment guidance.

@@ -1,49 +1,12 @@
 import rss from "@astrojs/rss";
-
-import { client } from "../lib/sanity";
+import { safeFetch } from "../lib/sanity.js";
 
 export async function GET(context) {
-
-  const posts = await client.fetch(`
-    *[_type == "post"] | order(publishedAt desc){
-
-      title,
-      slug,
-      excerpt,
-      publishedAt
-
-    }
-  `);
-
-  const validPosts = posts.filter((post) =>
-    post.title &&
-    post.slug?.current
-  );
-
+  const posts = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published"] | order(publishedAt desc){title, excerpt, publishedAt, "slug": slug.current}`, {}, []);
   return rss({
-
-    title: "Nixwud",
-
-    description:
-      "Modern digital infrastructure and strategic insights.",
-
+    title: "Nixwud Consultancy Insights",
+    description: "Practical thinking for better business and technology decisions.",
     site: context.site,
-
-    items: validPosts.map((post) => ({
-
-      title: post.title,
-
-      description:
-        post.excerpt ||
-        "Read this article on Nixwud.",
-
-      pubDate: post.publishedAt
-        ? new Date(post.publishedAt)
-        : new Date(),
-
-      link: `/blog/${post.slug.current}`
-
-    }))
-
+    items: posts.map((post) => ({ title: post.title, description: post.excerpt || "", pubDate: new Date(post.publishedAt || Date.now()), link: `/insights/${post.slug}/` }))
   });
 }

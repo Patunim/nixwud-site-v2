@@ -1,0 +1,53 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CTA from "../../components/sections/CTA.astro";
+import { serviceDetails, services } from "../../lib/siteConfig.js";
+
+export function getStaticPaths() {
+  const details = serviceDetails as Record<string, Record<string, any>>;
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service, detail: details[service.slug] } }));
+}
+
+const { service, detail } = Astro.props as { service: Record<string, any>; detail: Record<string, any> };
+---
+
+<Layout title={service.title} description={detail.description}>
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">{detail.eyebrow}</p>
+      <h1>{detail.title}</h1>
+      <p class="lede">{detail.description}</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container split">
+      <div><p class="eyebrow">When this helps</p><h2>Recognize the decision behind the request.</h2></div>
+      <ul class="list-clean list-lines">{(detail.challenges as string[]).map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container split">
+      <div><p class="eyebrow paper-eyebrow">Typical outputs</p><h2>Practical work your team can use.</h2></div>
+      <ul class="list-clean deliverables">{(detail.deliverables as string[]).map((item, index) => <li><span>0{index + 1}</span>{item}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section border-bottom">
+    <div class="container--narrow">
+      <p class="eyebrow">Our principle</p>
+      <h2>No predetermined solution.</h2>
+      <p class="lede">The right engagement may be a short diagnostic, a roadmap, a focused implementation or a longer transformation. Scope follows evidence.</p>
+    </div>
+  </section>
+  <CTA />
+</Layout>
+
+<style>
+  .list-lines { margin-top: .5rem; }
+  .paper-eyebrow { color: #3554d8; }
+  .deliverables li { display: grid; grid-template-columns: 3rem 1fr; padding: 1.2rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 650; }
+  .deliverables li:last-child { border-bottom: 1px solid var(--line-dark); }
+  .deliverables span { color: #3554d8; font-size: .8rem; }
+</style>

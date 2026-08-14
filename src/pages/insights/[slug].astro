@@ -1,0 +1,63 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ArticleBody from "../../components/ArticleBody.astro";
+import CTA from "../../components/sections/CTA.astro";
+import { safeFetch, urlFor } from "../../lib/sanity.js";
+
+export async function getStaticPaths() {
+  const posts = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published"]{
+    title, keyInsight, excerpt, summary, body, publishedAt, updatedAt, mainImage,
+    "slug": slug.current,
+    "categories": categories[]->title,
+    author->{name, "slug": slug.current, bio, image},
+    sources[]{title, url, publisher, publishedAt}
+  }`, {}, []) as Array<Record<string, any>>;
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Record<string, any> };
+const heroImage = post.mainImage ? urlFor(post.mainImage).width(1600).height(900).fit("crop").url() : undefined;
+const published = post.publishedAt ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(new Date(post.publishedAt)) : null;
+const sources = (post.sources || []) as Array<{ title: string; url: string; publisher?: string }>;
+---
+
+<Layout title={post.title} description={post.excerpt || post.summary} image={heroImage} type="article" publishedTime={post.publishedAt}>
+  <header class="article-hero">
+    <div class="container--narrow">
+      <p class="eyebrow">{post.categories?.[0] || "Insight"}</p>
+      <h1>{post.title}</h1>
+      {post.excerpt && <p class="lede">{post.excerpt}</p>}
+      <div class="article-meta">
+        {post.author?.name && <a href={`/authors/${post.author.slug}`}>{post.author.name}</a>}
+        {published && <time datetime={post.publishedAt}>{published}</time>}
+      </div>
+    </div>
+  </header>
+
+  {heroImage && <div class="container--wide"><img class="hero-image" src={heroImage} alt={post.mainImage?.alt || ""} width="1600" height="900" /></div>}
+
+  <section class="section--compact">
+    {post.keyInsight && <aside class="article insight-box"><p class="kicker">Key insight</p><p>{post.keyInsight}</p></aside>}
+    {post.summary && <aside class="article summary-box"><p class="kicker">In brief</p><p>{post.summary}</p></aside>}
+    <ArticleBody value={post.body} />
+  </section>
+
+  {sources.length > 0 && (
+    <section class="section--compact border-top"><div class="article"><h2>Sources</h2><ol class="sources">{sources.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>{source.publisher && <span> — {source.publisher}</span>}</li>)}</ol></div></section>
+  )}
+  <CTA title="Turn the insight into a clearer next step." />
+</Layout>
+
+<style>
+  .article-hero { padding-block: clamp(6rem, 12vw, 10rem) 4rem; }
+  .article-hero h1 { font-size: clamp(2.8rem, 7vw, 5.8rem); margin-bottom: 1.4rem; }
+  .article-meta { display: flex; flex-wrap: wrap; gap: 1rem 2rem; color: var(--text-muted); font-size: .9rem; }
+  .article-meta a { color: var(--accent-soft); }
+  .hero-image { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-lg); }
+  .insight-box, .summary-box { margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--ink-soft); }
+  .insight-box { border-color: rgba(97,125,255,.55); }
+  .insight-box p:last-child, .summary-box p:last-child { margin: .6rem 0 0; color: var(--text); font-size: 1.15rem; }
+  .sources { padding-left: 1.3rem; }
+  .sources li { margin-bottom: .8rem; color: var(--text-muted); }
+  .sources a { color: var(--accent-soft); text-decoration: underline; }
+</style>

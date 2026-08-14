@@ -1,0 +1,21 @@
+---
+interface Props {
+  resource: { type: string; title: string; description: string; href: string; action: string; featured?: boolean };
+}
+const { resource } = Astro.props;
+---
+
+<article class:list={["card resource-card", { "resource-card--featured": resource.featured }]}>
+  <span class="kicker">{resource.type}</span>
+  <h3>{resource.title}</h3>
+  <p>{resource.description}</p>
+  <a class="card__link" href={resource.href}>{resource.action}</a>
+</article>
+
+<style>
+  .resource-card { display: flex; flex-direction: column; min-height: 20rem; }
+  .resource-card--featured { border-color: rgba(97,125,255,.65); }
+  .resource-card .kicker { color: var(--accent-soft); }
+  .resource-card h3 { margin: 2rem 0 1rem; }
+  .resource-card .card__link { margin-top: auto; }
+</style>

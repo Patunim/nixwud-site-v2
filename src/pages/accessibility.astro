@@ -1,0 +1,16 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { CONTACT_EMAIL } from "../lib/siteConfig.js";
+---
+
+<Layout title="Accessibility" description="Nixwud Consultancy accessibility statement.">
+  <header class="page-hero"><div class="container--narrow"><p class="eyebrow">Accessibility</p><h1>A clearer website should be usable by more people.</h1><p class="lede">Nixwud Consultancy aims to make this website perceivable, operable, understandable and robust across modern devices and assistive technologies.</p></div></header>
+  <section class="section"><div class="container--narrow legal">
+    <h2>Our approach</h2><p>We use semantic structure, visible keyboard focus, sufficient contrast, responsive layouts, descriptive links and reduced-motion support. We test the site as it develops and treat accessibility as ongoing work.</p>
+    <h2>Known limitations</h2><p>Third-party content and documents may not always meet the same standard. The final brand palette and downloadable resources will be retested when they change.</p>
+    <h2>Tell us about a problem</h2><p>If you encounter an accessibility barrier, email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Include the page address, what you were trying to do and any assistive technology used if you are comfortable sharing it.</p>
+    <p class="notice">This statement should be reviewed and dated before the production launch.</p>
+  </div></section>
+</Layout>
+
+<style>.legal a { color: var(--accent-soft); text-decoration: underline; }</style>

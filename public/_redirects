@@ -1,0 +1,5 @@
+/free-resources  /resources  301
+/downloads       /resources  301
+/blog             /insights  301
+/blog/*           /insights/:splat  301
+/topics/*         /insights/topics/:splat  301

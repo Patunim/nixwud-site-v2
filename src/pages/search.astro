@@ -1,0 +1,59 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Search" description="Search Nixwud Consultancy services, Insights and resources." noindex={true}>
+  <header class="page-hero"><div class="container--narrow"><p class="eyebrow">Search</p><h1>Find an idea, service or resource.</h1><p class="lede">Search across Nixwud Consultancy's published website content.</p></div></header>
+  <section class="section"><div class="container--narrow">
+    <form class="search-form" role="search"><label for="site-search">Search terms</label><div><input id="site-search" name="q" type="search" autocomplete="off" placeholder="e.g. AI readiness" /><button class="button button--accent" type="submit">Search</button></div></form>
+    <p class="search-status" data-status aria-live="polite">Enter a search term to begin.</p>
+    <div class="search-results" data-results></div>
+  </div></section>
+</Layout>
+
+<script>
+  type SearchItem = { title: string; description: string; type: string; url: string };
+  const form = document.querySelector(".search-form");
+  const input = document.querySelector("#site-search");
+  const results = document.querySelector("[data-results]");
+  const status = document.querySelector("[data-status]");
+  let index: SearchItem[] = [];
+  fetch("/search.json").then((response) => response.json()).then((data) => { index = data; const q = new URLSearchParams(location.search).get("q"); if (q && input instanceof HTMLInputElement) { input.value = q; runSearch(q); } });
+  function runSearch(query: string) {
+    const normalized = query.trim().toLowerCase();
+    const matches = normalized ? index.filter((item) => `${item.title} ${item.description} ${item.type}`.toLowerCase().includes(normalized)).slice(0, 20) : [];
+    if (status) status.textContent = normalized ? `${matches.length} result${matches.length === 1 ? "" : "s"} for “${query}”.` : "Enter a search term to begin.";
+    if (results) {
+      const cards = matches.map((item) => {
+        const article = document.createElement("article");
+        const type = document.createElement("p");
+        const heading = document.createElement("h2");
+        const link = document.createElement("a");
+        const description = document.createElement("span");
+        const target = new URL(item.url, location.origin);
+        type.textContent = item.type;
+        link.textContent = item.title;
+        link.href = ["http:", "https:"].includes(target.protocol) ? target.href : "/search";
+        description.textContent = item.description;
+        heading.append(link);
+        article.append(type, heading, description);
+        return article;
+      });
+      results.replaceChildren(...cards);
+    }
+  }
+  form?.addEventListener("submit", (event) => { event.preventDefault(); if (!(input instanceof HTMLInputElement)) return; const query = input.value; history.replaceState({}, "", query ? `?q=${encodeURIComponent(query)}` : location.pathname); runSearch(query); });
+</script>
+
+<style>
+  .search-form label { display: block; margin-bottom: .7rem; font-weight: 700; }
+  .search-form > div { display: grid; grid-template-columns: 1fr auto; gap: .7rem; }
+  .search-form input { width: 100%; min-height: 3.25rem; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--ink-soft); color: var(--text); }
+  .search-status { margin: 2rem 0; }
+  .search-results article { padding: 1.5rem 0; border-top: 1px solid var(--line); }
+  .search-results article:last-child { border-bottom: 1px solid var(--line); }
+  .search-results article p { margin: 0 0 .4rem; color: var(--accent-soft); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+  .search-results h2 { margin: 0 0 .5rem; font-size: 1.6rem; }
+  .search-results span { color: var(--text-muted); }
+  @media (max-width: 540px) { .search-form > div { grid-template-columns: 1fr; } }
+</style>

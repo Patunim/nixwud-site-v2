@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { CONTACT_EMAIL } from "../lib/siteConfig.js";
+---
+
+<Layout title="Terms" description="Website terms for Nixwud Consultancy." noindex={true}>
+  <header class="page-hero"><div class="container--narrow"><p class="eyebrow">Website terms</p><h1>Terms of Use</h1><p class="lede">Terms governing the use of the Nixwud Consultancy website and resources.</p></div></header>
+  <section class="section"><div class="container--narrow legal">
+    <p class="notice"><strong>Draft for review:</strong> These terms are not a substitute for legal advice. Confirm the business entity, jurisdiction and final service terms before launch.</p>
+    <h2>Informational purpose</h2><p>Website content and free resources are provided for general information. They do not constitute legal, financial or professional advice for a specific situation.</p>
+    <h2>Intellectual property</h2><p>Unless otherwise stated, the website's original content and resources belong to Nixwud Consultancy. Resources may be used internally but should not be resold, misrepresented or republished without permission.</p>
+    <h2>No client relationship</h2><p>Using this website, downloading a resource or sending an enquiry does not create a consulting or contractual relationship.</p>
+    <h2>External links</h2><p>Links to external websites are provided for context. Nixwud Consultancy is not responsible for third-party content or availability.</p>
+    <h2>Contact</h2><p>Questions about these terms can be sent to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+  </div></section>
+</Layout>
+
+<style>.legal a { color: var(--accent-soft); text-decoration: underline; }</style>

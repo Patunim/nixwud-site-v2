@@ -1,0 +1,76 @@
+---
+import Brand from "./Brand.astro";
+import { navigation } from "../../lib/siteConfig.js";
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<header class="site-header" data-header>
+  <nav class="nav container--wide" aria-label="Primary navigation">
+    <a class="nav__brand" href="/" aria-label="Nixwud Consultancy home"><Brand /></a>
+
+    <div class="nav__desktop">
+      {navigation.map((item) => (
+        <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
+      ))}
+    </div>
+
+    <a class="button button--primary nav__cta" href="/contact">Start a conversation</a>
+
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Open navigation" data-menu-toggle>
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div id="mobile-navigation" class="mobile-nav" hidden data-mobile-menu>
+    <div class="container--wide mobile-nav__inner">
+      {navigation.map((item) => (
+        <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
+      ))}
+      <a class="button button--accent" href="/contact">Start a conversation</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const menu = document.querySelector("[data-mobile-menu]");
+  const closeMenu = () => {
+    if (!(toggle instanceof HTMLButtonElement) || !(menu instanceof HTMLElement)) return;
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open navigation");
+    menu.hidden = true;
+    document.body.classList.remove("menu-open");
+  };
+  toggle?.addEventListener("click", () => {
+    if (!(toggle instanceof HTMLButtonElement) || !(menu instanceof HTMLElement)) return;
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    toggle.setAttribute("aria-label", open ? "Open navigation" : "Close navigation");
+    menu.hidden = open;
+    document.body.classList.toggle("menu-open", !open);
+  });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeMenu(); });
+  window.addEventListener("resize", () => { if (window.innerWidth >= 960) closeMenu(); });
+</script>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: rgba(9,11,15,.92); backdrop-filter: blur(18px); }
+  .nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; min-height: 4.8rem; gap: 2rem; }
+  .nav__desktop { display: flex; justify-content: center; gap: clamp(1rem, 2.3vw, 2rem); }
+  .nav__desktop a { color: var(--text-muted); font-size: .88rem; font-weight: 650; }
+  .nav__desktop a:hover, .nav__desktop a[aria-current="page"] { color: var(--text); }
+  .nav__toggle { display: none; width: 2.8rem; height: 2.8rem; padding: .7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: transparent; }
+  .nav__toggle span { display: block; height: 1px; background: currentColor; }
+  .nav__toggle span + span { margin-top: .5rem; }
+  .mobile-nav { position: fixed; inset: 4.8rem 0 0; background: var(--ink); }
+  .mobile-nav__inner { display: grid; gap: 0; padding-block: 1rem 2rem; }
+  .mobile-nav__inner > a:not(.button) { padding: 1rem 0; border-bottom: 1px solid var(--line); font-size: 1.2rem; }
+  .mobile-nav__inner .button { margin-top: 1.5rem; }
+  @media (max-width: 960px) {
+    .nav { grid-template-columns: auto 1fr auto; }
+    .nav__desktop, .nav__cta { display: none; }
+    .nav__toggle { display: block; grid-column: 3; }
+  }
+</style>

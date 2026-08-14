@@ -1,43 +1,9 @@
-import { SITE_URL } from "../lib/siteConfig";
+import type { APIRoute } from "astro";
 
-export async function GET() {
-
-  const robots = `
-User-agent: *
-Allow: /
-
-Sitemap: ${SITE_URL}/sitemap-index.xml
-
-# AI + crawler controls
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: Bytespider
-Disallow: /
-
-User-agent: Applebot-Extended
-Disallow: /
-
-User-agent: Amazonbot
-Disallow: /
-
-User-agent: meta-externalagent
-Disallow: /
-`;
-
-  return new Response(robots.trim(), {
-    headers: {
-      "Content-Type": "text/plain",
-    },
-  });
-}
+export const GET: APIRoute = ({ site }) => {
+  const maintenance = import.meta.env.PUBLIC_MAINTENANCE_MODE === "true";
+  const body = maintenance
+    ? "User-agent: *\nDisallow: /\n"
+    : `User-agent: *\nAllow: /\n\nSitemap: ${new URL("sitemap-index.xml", site)}\n`;
+  return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+};

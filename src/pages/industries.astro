@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CTA from "../components/sections/CTA.astro";
+import { safeFetch } from "../lib/sanity.js";
+
+const industries = await safeFetch(`*[_type == "industry" && active != false] | order(order asc){title, summary, "slug": slug.current, challenges}`, {}, []) as Array<Record<string, any>>;
+---
+
+<Layout title="Industries" description="Industry-aware business and technology consulting from Nixwud Consultancy.">
+  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Industries</p><h1>Context changes the quality of every technology decision.</h1><p class="lede">We bring a structured method to each engagement, then adapt it to the realities of the organization, market and operating environment.</p></div></header>
+
+  <section class="section">
+    <div class="container--wide">
+      {industries.length ? (
+        <div class="grid grid--3">
+          {industries.map((industry, index) => (
+            <article class="card"><span class="card__number">0{index + 1}</span><h3>{industry.title}</h3><p>{industry.summary}</p>{industry.challenges?.length && <ul class="tag-list">{(industry.challenges as string[]).slice(0,3).map((item) => <li class="tag">{item}</li>)}</ul>}</article>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state"><h3>Industry profiles will be evidence-led.</h3><p>Profiles will be published when Nixwud has useful, specific expertise to share. Until then, we will not pretend generic sector copy is insight.</p></div>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Across sectors</p><h2>The questions remain practical.</h2></div><ul class="list-clean sector-list"><li>Where does value get created or lost?</li><li>Which constraints are structural?</li><li>What must customers and teams be able to do?</li><li>How will progress be measured?</li></ul></div></section>
+  <CTA />
+</Layout>
+
+<style>
+  .card h3 { margin: 3rem 0 1rem; }
+  .paper-eyebrow { color: #3554d8; }
+  .sector-list li { padding: 1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 650; }
+  .sector-list li:last-child { border-bottom: 1px solid var(--line-dark); }
+</style>

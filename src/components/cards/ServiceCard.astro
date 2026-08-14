@@ -1,0 +1,20 @@
+---
+interface Props { service: { slug: string; number: string; title: string; summary: string; outcomes?: string[] }; paper?: boolean; }
+const { service, paper = false } = Astro.props;
+---
+
+<article class:list={["card service-card", { "card--paper": paper }]}>
+  <span class="card__number">{service.number}</span>
+  <h3>{service.title}</h3>
+  <p>{service.summary}</p>
+  {service.outcomes && <ul class="tag-list">{service.outcomes.map((outcome) => <li class="tag">{outcome}</li>)}</ul>}
+  <a class="card__link" href={`/services/${service.slug}`}>Explore the service</a>
+</article>
+
+<style>
+  .service-card { display: flex; flex-direction: column; min-height: 24rem; }
+  .service-card h3 { margin: 3rem 0 1rem; }
+  .service-card .card__link { margin-top: auto; padding-top: 1.5rem; }
+  .card--paper .card__link, .card--paper .card__number { color: #3554d8; }
+  .card--paper .tag { color: #505866; border-color: var(--line-dark); }
+</style>

@@ -1,0 +1,8 @@
+---
+import { toHTML } from "@portabletext/to-html";
+interface Props { value?: unknown[]; }
+const { value = [] } = Astro.props;
+const html = value.length ? toHTML(value as any) : "<p>This insight does not have published body content yet.</p>";
+---
+
+<div class="article" set:html={html}></div>

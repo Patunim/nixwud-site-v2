@@ -3,7 +3,11 @@ import category from './category'
 import post from './post'
 import author from './author'
 import siteSettings from './siteSettings'
-import blockContent from './blockContent'
+import service from './service'
+import industry from './industry'
+import caseStudy from './caseStudy'
+import testimonial from './testimonial'
+import resource from './resource'
 
 export const schemaTypes = [
   post,
@@ -11,4 +15,9 @@ export const schemaTypes = [
   category,
   blockContent,
   siteSettings,
+  service,
+  industry,
+  caseStudy,
+  testimonial,
+  resource,
 ]

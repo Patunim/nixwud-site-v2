@@ -1,0 +1,41 @@
+---
+import Button from "../ui/Button.astro";
+---
+
+<section class="hero">
+  <div class="container--wide hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow">Business & Technology Consultancy</p>
+      <h1>Better technology decisions begin with understanding your business.</h1>
+      <p class="lede">Nixwud Consultancy helps organizations connect strategy, systems and execution so technology creates measurable business value.</p>
+      <div class="button-row">
+        <Button href="/contact" variant="primary">Discuss your priorities</Button>
+        <Button href="/insights" variant="secondary">Explore our thinking</Button>
+      </div>
+    </div>
+
+    <aside class="hero__framework" aria-label="Nixwud decision framework">
+      <p class="kicker">A clearer decision path</p>
+      <ol>
+        <li><span>01</span><strong>Understand</strong><small>Context before assumptions</small></li>
+        <li><span>02</span><strong>Align</strong><small>Priorities before projects</small></li>
+        <li><span>03</span><strong>Decide</strong><small>Evidence before investment</small></li>
+        <li><span>04</span><strong>Deliver</strong><small>Outcomes before output</small></li>
+      </ol>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .hero { min-height: calc(100vh - 4.8rem); display: grid; align-items: center; padding-block: clamp(5rem, 10vw, 9rem); border-bottom: 1px solid var(--line); }
+  .hero__inner { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(19rem, .65fr); gap: clamp(3rem, 8vw, 8rem); align-items: end; }
+  .hero__copy h1 { max-width: 70rem; margin-bottom: 1.6rem; }
+  .hero__framework { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--ink-soft); }
+  .hero__framework .kicker { color: var(--accent-soft); }
+  .hero__framework ol { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+  .hero__framework li { display: grid; grid-template-columns: 2rem 1fr; padding: .9rem 0; border-top: 1px solid var(--line); }
+  .hero__framework span { grid-row: span 2; color: var(--accent-soft); font-size: .73rem; }
+  .hero__framework strong { font-size: .95rem; }
+  .hero__framework small { color: var(--text-muted); }
+  @media (max-width: 900px) { .hero { min-height: auto; } .hero__inner { grid-template-columns: 1fr; } }
+</style>

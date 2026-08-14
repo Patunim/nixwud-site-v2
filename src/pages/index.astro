@@ -1,17 +1,85 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Hero from "../components/sections/Hero.astro";
+import Methodology from "../components/sections/Methodology.astro";
+import CTA from "../components/sections/CTA.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import ServiceCard from "../components/cards/ServiceCard.astro";
+import InsightCard from "../components/cards/InsightCard.astro";
+import { services } from "../lib/siteConfig.js";
+import { safeFetch } from "../lib/sanity.js";
 
-import Hero from "../components/hero.astro";
-import ServicesPreview from "../components/ServicesPreview.astro";
-import CTASection from "../components/CTASection.astro";
+const insights = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published" && (featured == true || featureOnWebsite == true)] | order(publishedAt desc)[0...3]{
+  title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title
+}`, {}, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
 ---
 
 <Layout>
-
   <Hero />
 
-  <ServicesPreview />
+  <section class="section border-bottom">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">The challenge</p>
+        <h2>Technology creates complexity when the business question is unclear.</h2>
+      </div>
+      <div>
+        <p class="lede">Many organizations begin with a platform, tool or trend. We begin by understanding the decision the business actually needs to make.</p>
+        <ul class="list-clean list-lines">
+          <li>Business priorities are disconnected from delivery.</li>
+          <li>Teams invest before defining measurable value.</li>
+          <li>Systems grow faster than the operating model around them.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <CTASection />
+  <Methodology />
 
+  <section class="section border-bottom">
+    <div class="container--wide">
+      <SectionHeading eyebrow="Capabilities" title="Four connected ways to move from uncertainty to progress." description="Each engagement is shaped around the business outcome, not a predetermined technology product." />
+      <div class="grid grid--2">{services.map((service) => <ServiceCard service={service} />)}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container--wide">
+      <SectionHeading eyebrow="Our thinking" title="Useful ideas before a sales conversation." description="Practical insights, frameworks and guides designed to make complex decisions easier to understand." />
+      {insights.length > 0 ? (
+        <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div>
+      ) : (
+        <div class="empty-state">
+          <h3>New thinking is being prepared.</h3>
+          <p>Published Insights will appear here when they are ready. We do not use invented articles to fill space.</p>
+        </div>
+      )}
+      <p class="section-link"><a class="card__link" href="/insights">Explore all Insights</a></p>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container split">
+      <div>
+        <p class="eyebrow paper-eyebrow">What we value</p>
+        <h2>Business before technology.</h2>
+      </div>
+      <div class="principles">
+        <p>Clarity over complexity.</p>
+        <p>Evidence before assumption.</p>
+        <p>Outcomes before output.</p>
+        <p>Long-term value before short-term novelty.</p>
+      </div>
+    </div>
+  </section>
+
+  <CTA />
 </Layout>
+
+<style>
+  .list-lines { margin-top: 2.5rem; }
+  .section-link { margin: 2rem 0 0; }
+  .paper-eyebrow { color: #3554d8; }
+  .principles p { margin: 0; padding: 1.1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-size: 1.15rem; font-weight: 650; }
+  .principles p:last-child { border-bottom: 1px solid var(--line-dark); }
+</style>
