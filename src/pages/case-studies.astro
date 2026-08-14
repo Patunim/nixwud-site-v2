@@ -1,15 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CTA from "../components/sections/CTA.astro";
-import { safeFetch } from "../lib/sanity.js";
-
-const studies = await safeFetch(`*[_type == "caseStudy" && published == true] | order(publishedAt desc){title, client, challenge, outcome, "slug": slug.current, services}`, {}, []) as Array<Record<string, any>>;
+import { caseStudies } from "../lib/siteConfig.js";
 ---
 
 <Layout title="Case Studies" description="Evidence-led case studies from Nixwud Consultancy.">
   <header class="page-hero"><div class="container--wide"><p class="eyebrow">Case studies</p><h1>Evidence deserves more care than marketing claims.</h1><p class="lede">We publish case studies only when the work is real, the outcome is supportable and the client has granted appropriate permission.</p></div></header>
   <section class="section"><div class="container--wide">
-    {studies.length ? <div class="grid grid--2">{studies.map((study, index) => <article class="card study"><span class="card__number">0{index + 1}</span><p class="kicker">{study.client || "Client engagement"}</p><h3>{study.title}</h3><p>{study.challenge}</p>{study.outcome && <p class="outcome"><strong>Outcome:</strong> {study.outcome}</p>}</article>)}</div> : <div class="empty-state"><h3>No public case studies yet.</h3><p>We are preparing evidence responsibly. Anonymous or approved client work will appear here when it can be presented accurately.</p></div>}
+    {caseStudies.length ? <div class="grid grid--2">{caseStudies.map((study, index) => <article class="card study"><span class="card__number">0{index + 1}</span><p class="kicker">{study.client || "Client engagement"}</p><h3>{study.title}</h3><p>{study.challenge}</p>{study.outcome && <p class="outcome"><strong>Outcome:</strong> {study.outcome}</p>}</article>)}</div> : <div class="empty-state"><h3>No public case studies yet.</h3><p>We are preparing evidence responsibly. Anonymous or approved client work will appear here when it can be presented accurately.</p></div>}
   </div></section>
   <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Evidence standard</p><h2>What a Nixwud case study should show.</h2></div><ul class="list-clean standard"><li>The original business context</li><li>The decision and trade-offs</li><li>What changed in practice</li><li>The evidence behind the outcome</li></ul></div></section>
   <CTA />

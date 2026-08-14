@@ -2,8 +2,7 @@
 import "../styles/global.css";
 import Navigation from "../components/layout/Navigation.astro";
 import Footer from "../components/layout/Footer.astro";
-import { safeFetch, urlFor } from "../lib/sanity.js";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "../lib/siteConfig.js";
+import { CONTACT_EMAIL, SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "../lib/siteConfig.js";
 
 interface Props {
   title?: string;
@@ -25,19 +24,14 @@ const {
   noindex = false
 } = Astro.props;
 
-const settings = await safeFetch(`*[_type == "siteSettings"][0]{
-  organizationName, siteUrl, contactEmail, logo, linkedin, twitter, facebook, instagram
-}`, {}, null);
-
-const siteName = settings?.organizationName || SITE_NAME;
-const baseUrl = settings?.siteUrl || SITE_URL;
+const siteName = SITE_NAME;
+const baseUrl = SITE_URL;
 const pageTitle = title ? `${title} | ${siteName}` : `${siteName} — Business & Technology Consultancy`;
 const canonicalUrl = canonical || new URL(Astro.url.pathname, baseUrl).toString();
 const imageUrl = image.startsWith("http") ? image : new URL(image, baseUrl).toString();
 const maintenanceMode = import.meta.env.PUBLIC_MAINTENANCE_MODE === "true";
 const analyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID;
-const socialLinks = [settings?.linkedin, settings?.twitter, settings?.facebook, settings?.instagram].filter(Boolean);
-const logoUrl = settings?.logo ? urlFor(settings.logo).width(512).url() : new URL("/favicon.svg", baseUrl).toString();
+const logoUrl = new URL("/favicon.svg", baseUrl).toString();
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -46,8 +40,8 @@ const organizationSchema = {
   url: baseUrl,
   logo: logoUrl,
   description: SITE_DESCRIPTION,
-  email: settings?.contactEmail || "hello@nixwud.com",
-  sameAs: socialLinks,
+  email: CONTACT_EMAIL,
+  sameAs: SOCIAL_LINKS,
   knowsAbout: ["Business strategy", "Business analysis", "Technology consulting", "Digital platforms", "AI readiness", "Automation", "SEO", "Generative engine optimization"]
 };
 ---

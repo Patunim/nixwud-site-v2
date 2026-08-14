@@ -2,26 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import ResourceCard from "../../components/cards/ResourceCard.astro";
 import CTA from "../../components/sections/CTA.astro";
-import { safeFetch } from "../../lib/sanity.js";
-
-const builtInResources = [
-  { type: "PDF audit", title: "Business & Technology Alignment Audit", description: "A structured five-part audit to identify where strategy, systems and execution are falling out of alignment.", href: "/resources/business-technology-alignment-audit.pdf", action: "Download the audit", featured: true },
-  { type: "Interactive tool", title: "Technology Decision Readiness Scorecard", description: "Answer ten focused questions and receive an immediate readiness result with practical next steps.", href: "/resources/decision-readiness-scorecard", action: "Use the scorecard", featured: true }
-];
-
-type ResourceItem = { type: string; title: string; description: string; href: string; action: string; featured?: boolean };
-
-const cmsResources = await safeFetch(`*[_type == "resource" && published == true] | order(featured desc, publishedAt desc){
-  type, title, description, "slug": slug.current, externalUrl, "fileUrl": file.asset->url, featured
-}`, {}, []) as Array<Record<string, any>>;
-const resources: ResourceItem[] = [...builtInResources, ...cmsResources.map((item) => ({
-  type: String(item.type || "Resource"),
-  title: String(item.title || "Nixwud resource"),
-  description: String(item.description || "A practical resource from Nixwud Consultancy."),
-  href: item.externalUrl || item.fileUrl || `/resources/${item.slug}`,
-  action: item.type === "tool" ? "Open the tool" : "Download resource",
-  featured: Boolean(item.featured)
-}))];
+import { resources } from "../../lib/siteConfig.js";
 ---
 
 <Layout title="Free Resources" description="Free audits, scorecards, guides and tools from Nixwud Consultancy.">

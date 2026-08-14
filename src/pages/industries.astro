@@ -1,9 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CTA from "../components/sections/CTA.astro";
-import { safeFetch } from "../lib/sanity.js";
-
-const industries = await safeFetch(`*[_type == "industry" && active != false] | order(order asc){title, summary, "slug": slug.current, challenges}`, {}, []) as Array<Record<string, any>>;
+import { industries } from "../lib/siteConfig.js";
 ---
 
 <Layout title="Industries" description="Industry-aware business and technology consulting from Nixwud Consultancy.">
@@ -14,7 +12,7 @@ const industries = await safeFetch(`*[_type == "industry" && active != false] | 
       {industries.length ? (
         <div class="grid grid--3">
           {industries.map((industry, index) => (
-            <article class="card"><span class="card__number">0{index + 1}</span><h3>{industry.title}</h3><p>{industry.summary}</p>{industry.challenges?.length && <ul class="tag-list">{(industry.challenges as string[]).slice(0,3).map((item) => <li class="tag">{item}</li>)}</ul>}</article>
+            <article class="card"><span class="card__number">0{index + 1}</span><h3>{industry.title}</h3><p>{industry.summary}</p>{industry.challenges?.length && <ul class="tag-list">{industry.challenges.slice(0,3).map((item) => <li class="tag">{item}</li>)}</ul>}</article>
           ))}
         </div>
       ) : (

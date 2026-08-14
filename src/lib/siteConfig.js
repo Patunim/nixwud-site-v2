@@ -4,6 +4,7 @@ export const SITE_SHORT_NAME = "Nixwud";
 export const SITE_DESCRIPTION =
   "Nixwud Consultancy helps organizations align business priorities, technology decisions and operational execution.";
 export const CONTACT_EMAIL = "hello@nixwud.com";
+export const SOCIAL_LINKS = [];
 
 export const navigation = [
   { label: "Thinking", href: "/insights" },
@@ -42,6 +43,38 @@ export const services = [
     title: "Growth & Discoverability",
     summary: "Connect content, search, marketing and measurement to sustainable demand.",
     outcomes: ["Improved visibility", "Useful content systems", "Measurable growth"]
+  }
+];
+
+/**
+ * Fixed website content is kept in source control instead of Sanity.
+ * Add approved industry profiles here when they are ready to publish.
+ * @type {Array<{title: string; summary: string; challenges: string[]}>}
+ */
+export const industries = [];
+
+/**
+ * Add approved case studies here. Do not publish client details without permission.
+ * @type {Array<{title: string; client?: string; challenge: string; outcome?: string}>}
+ */
+export const caseStudies = [];
+
+export const resources = [
+  {
+    type: "PDF audit",
+    title: "Business & Technology Alignment Audit",
+    description: "A structured five-part audit to identify where strategy, systems and execution are falling out of alignment.",
+    href: "/resources/business-technology-alignment-audit.pdf",
+    action: "Download the audit",
+    featured: true
+  },
+  {
+    type: "Interactive tool",
+    title: "Technology Decision Readiness Scorecard",
+    description: "Answer ten focused questions and receive an immediate readiness result with practical next steps.",
+    href: "/resources/decision-readiness-scorecard",
+    action: "Use the scorecard",
+    featured: true
   }
 ];
 

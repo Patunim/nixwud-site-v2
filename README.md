@@ -28,14 +28,14 @@ npm ci
 npm run dev
 ```
 
-The Studio presents existing `post` documents as Insights and adds Services, Industries, Case Studies, Testimonials and Resources.
+The Studio is intentionally limited to editorial content: Insights, Authors and Categories. Homepage copy, services, industries, case studies, resources, navigation and company settings are edited in the website source through VS Code.
 
 Only Insights whose **Editorial Status** is explicitly set to **Published** appear on the website. This prevents unfinished legacy or test documents from being exposed after migration.
 
 ## Important launch checks
 
 - Replace the draft Privacy Policy and Terms with legally reviewed documents.
-- Confirm `hello@nixwud.com` exists or update the fallback address.
+- Confirm `hello@nixwud.com` exists or update `CONTACT_EMAIL` in `src/lib/siteConfig.js`.
 - Confirm the final brand palette, wordmark, favicon and social image.
 - Publish only genuine case studies and testimonials with permission.
 - Configure the email-gated resource workflow only after the privacy policy and Brevo integration are ready.

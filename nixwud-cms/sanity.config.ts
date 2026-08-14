@@ -17,15 +17,8 @@ export default defineConfig({
           .title('Nixwud content')
           .items([
             S.documentTypeListItem('post').title('Insights'),
-            S.documentTypeListItem('service').title('Services'),
-            S.documentTypeListItem('industry').title('Industries'),
-            S.documentTypeListItem('caseStudy').title('Case Studies'),
-            S.documentTypeListItem('testimonial').title('Testimonials'),
-            S.documentTypeListItem('resource').title('Resources'),
-            S.divider(),
             S.documentTypeListItem('author').title('Authors'),
             S.documentTypeListItem('category').title('Categories'),
-            S.documentTypeListItem('siteSettings').title('Site Settings'),
           ]),
     }),
     visionTool(),
