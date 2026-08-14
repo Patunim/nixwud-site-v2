@@ -13,7 +13,7 @@ const staticPages = [
 ];
 
 export const GET: APIRoute = async () => {
-  const insights = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published"]{title, "description": coalesce(excerpt, summary, keyInsight), "url": "/insights/" + slug.current}`, {}, []) as Array<Record<string, any>>;
+  const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && defined(title) && defined(slug.current)]{title, "description": coalesce(excerpt, summary, keyInsight, ""), "url": "/insights/" + slug.current}`, {}, []) as Array<Record<string, any>>;
   const index = [...staticPages, ...insights.map((item) => ({ ...item, type: "Insight" }))];
   return new Response(JSON.stringify(index), { headers: { "Content-Type": "application/json; charset=utf-8" } });
 };

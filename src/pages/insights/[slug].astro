@@ -2,10 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import ArticleBody from "../../components/ArticleBody.astro";
 import CTA from "../../components/sections/CTA.astro";
-import { safeFetch, urlFor } from "../../lib/sanity.js";
+import { safeFetch, safeImageUrl, toValidDate } from "../../lib/sanity.js";
 
 export async function getStaticPaths() {
-  const posts = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published"]{
+  const posts = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && defined(title) && defined(slug.current)]{
     title, keyInsight, excerpt, summary, body, publishedAt, updatedAt, mainImage,
     "slug": slug.current,
     "categories": categories[]->title,
@@ -16,9 +16,15 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props as { post: Record<string, any> };
-const heroImage = post.mainImage ? urlFor(post.mainImage).width(1600).height(900).fit("crop").url() : undefined;
-const published = post.publishedAt ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(new Date(post.publishedAt)) : null;
-const sources = (post.sources || []) as Array<{ title: string; url: string; publisher?: string }>;
+const heroImage = safeImageUrl(post.mainImage, (image) => image.width(1600).height(900).fit("crop"));
+const publishedDate = toValidDate(post.publishedAt);
+const published = publishedDate
+  ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(publishedDate)
+  : null;
+const sources = (Array.isArray(post.sources) ? post.sources : []).filter(
+  (source): source is { title: string; url: string; publisher?: string } =>
+    typeof source?.title === "string" && typeof source?.url === "string" && /^https?:\/\//i.test(source.url)
+);
 ---
 
 <Layout title={post.title} description={post.excerpt || post.summary} image={heroImage} type="article" publishedTime={post.publishedAt}>
@@ -28,7 +34,9 @@ const sources = (post.sources || []) as Array<{ title: string; url: string; publ
       <h1>{post.title}</h1>
       {post.excerpt && <p class="lede">{post.excerpt}</p>}
       <div class="article-meta">
-        {post.author?.name && <a href={`/authors/${post.author.slug}`}>{post.author.name}</a>}
+        {post.author?.name && post.author?.slug
+          ? <a href={`/authors/${post.author.slug}`}>{post.author.name}</a>
+          : post.author?.name && <span>{post.author.name}</span>}
         {published && <time datetime={post.publishedAt}>{published}</time>}
       </div>
     </div>

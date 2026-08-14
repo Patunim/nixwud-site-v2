@@ -1,8 +1,29 @@
 ---
-import { toHTML } from "@portabletext/to-html";
-interface Props { value?: unknown[]; }
-const { value = [] } = Astro.props;
-const html = value.length ? toHTML(value as any) : "<p>This insight does not have published body content yet.</p>";
+import { escapeHTML, toHTML } from "@portabletext/to-html";
+import { safeImageUrl } from "../lib/sanity.js";
+
+interface Props { value?: unknown; }
+const { value } = Astro.props;
+const blocks = Array.isArray(value) ? value : [];
+const html = blocks.length
+  ? toHTML(blocks as any, {
+      components: {
+        block: {
+          // An Insight page already has its primary H1. Treat legacy body H1
+          // blocks as H2 so editors cannot create an invalid heading outline.
+          h1: ({ children }) => `<h2>${children}</h2>`
+        },
+        types: {
+          image: ({ value: image }) => {
+            const src = safeImageUrl(image, (builder) => builder.width(1400).fit("max").auto("format"));
+            if (!src) return "";
+            const alt = typeof image.alt === "string" ? image.alt : "";
+            return `<figure><img src="${escapeHTML(src)}" alt="${escapeHTML(alt)}" loading="lazy" decoding="async" /></figure>`;
+          }
+        }
+      }
+    })
+  : "<p>This insight does not have published body content yet.</p>";
 ---
 
 <div class="article" set:html={html}></div>

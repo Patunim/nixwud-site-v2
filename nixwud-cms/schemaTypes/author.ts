@@ -11,6 +11,9 @@ export default defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
+
+      validation: (Rule) =>
+        Rule.required(),
     }),
 
     defineField({
@@ -22,6 +25,9 @@ export default defineType({
         source: 'name',
         maxLength: 96,
       },
+
+      validation: (Rule) =>
+        Rule.required(),
     }),
 
     defineField({
@@ -32,6 +38,11 @@ export default defineType({
       options: {
         hotspot: true,
       },
+
+      validation: (Rule) =>
+        Rule.custom((image: {asset?: {_ref?: string; _id?: string}} | undefined) =>
+          !image || image.asset?._ref || image.asset?._id ? true : 'Upload or select an image, or remove this empty image field.'
+        ),
     }),
 
     defineField({

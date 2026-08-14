@@ -1,9 +1,14 @@
 ---
+import { toValidDate } from "../../lib/sanity.js";
+
 interface Props {
   insight: { title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] };
 }
 const { insight } = Astro.props;
-const date = insight.publishedAt ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(new Date(insight.publishedAt)) : "Insight";
+const publishedDate = toValidDate(insight.publishedAt);
+const date = publishedDate
+  ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(publishedDate)
+  : "Insight";
 ---
 
 <article class="card insight-card">

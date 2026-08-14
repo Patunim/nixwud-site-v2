@@ -76,11 +76,17 @@ export default defineType({
         hotspot: true,
       },
 
+      validation: (Rule) =>
+        Rule.custom((image: {asset?: {_ref?: string; _id?: string}} | undefined) =>
+          !image || image.asset?._ref || image.asset?._id ? true : 'Upload or select an image, or remove this empty image field.'
+        ),
+
       fields: [
         {
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
+          validation: (Rule) => Rule.required(),
         },
       ],
     }),
@@ -111,45 +117,6 @@ export default defineType({
       name: 'updatedAt',
       title: 'Updated At',
       type: 'datetime',
-    }),
-
-    defineField({
-      name: 'editorialStatus',
-      title: 'Editorial Status',
-      type: 'string',
-
-      options: {
-        list: [
-
-          {
-            title: 'Draft',
-            value: 'draft',
-          },
-
-          {
-            title: 'Reviewed',
-            value: 'reviewed',
-          },
-
-          {
-            title: 'Fact Checked',
-            value: 'factChecked',
-          },
-
-          {
-            title: 'Published',
-            value: 'published',
-          },
-
-          {
-            title: 'Archived',
-            value: 'archived',
-          },
-
-        ],
-      },
-
-      initialValue: 'draft',
     }),
 
     defineField({
@@ -200,12 +167,18 @@ export default defineType({
           name: 'title',
           title: 'Source Title',
           type: 'string',
+
+          validation: (Rule) =>
+            Rule.required(),
         }),
 
         defineField({
           name: 'url',
           title: 'Source URL',
           type: 'url',
+
+          validation: (Rule) =>
+            Rule.required().uri({scheme: ['http', 'https']}),
         }),
 
         defineField({
@@ -239,19 +212,16 @@ export default defineType({
       title: 'title',
       author: 'author.name',
       media: 'mainImage',
-      status: 'editorialStatus',
     },
 
     prepare(selection) {
 
-      const {author, status} = selection
+      const {author} = selection
 
       return {
         ...selection,
 
-        subtitle: author
-          ? `by ${author} • ${status || 'draft'}`
-          : status || 'draft',
+        subtitle: author ? `by ${author}` : 'Nixwud Insight',
       }
     },
   },

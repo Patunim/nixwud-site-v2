@@ -18,7 +18,22 @@ import Layout from "../layouts/Layout.astro";
   const results = document.querySelector("[data-results]");
   const status = document.querySelector("[data-status]");
   let index: SearchItem[] = [];
-  fetch("/search.json").then((response) => response.json()).then((data) => { index = data; const q = new URLSearchParams(location.search).get("q"); if (q && input instanceof HTMLInputElement) { input.value = q; runSearch(q); } });
+  fetch("/search.json")
+    .then((response) => {
+      if (!response.ok) throw new Error("Search index unavailable");
+      return response.json();
+    })
+    .then((data) => {
+      index = Array.isArray(data) ? data : [];
+      const q = new URLSearchParams(location.search).get("q") || (input instanceof HTMLInputElement ? input.value : "");
+      if (q && input instanceof HTMLInputElement) {
+        input.value = q;
+        runSearch(q);
+      }
+    })
+    .catch(() => {
+      if (status) status.textContent = "Search is temporarily unavailable. Please try again shortly.";
+    });
   function runSearch(query: string) {
     const normalized = query.trim().toLowerCase();
     const matches = normalized ? index.filter((item) => `${item.title} ${item.description} ${item.type}`.toLowerCase().includes(normalized)).slice(0, 20) : [];
@@ -33,8 +48,8 @@ import Layout from "../layouts/Layout.astro";
         const target = new URL(item.url, location.origin);
         type.textContent = item.type;
         link.textContent = item.title;
-        link.href = ["http:", "https:"].includes(target.protocol) ? target.href : "/search";
-        description.textContent = item.description;
+        link.href = target.origin === location.origin && ["http:", "https:"].includes(target.protocol) ? target.href : "/search";
+        description.textContent = item.description || "";
         heading.append(link);
         article.append(type, heading, description);
         return article;

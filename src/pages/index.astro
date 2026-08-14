@@ -9,7 +9,7 @@ import InsightCard from "../components/cards/InsightCard.astro";
 import { services } from "../lib/siteConfig.js";
 import { safeFetch } from "../lib/sanity.js";
 
-const insights = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published" && (featured == true || featureOnWebsite == true)] | order(publishedAt desc)[0...3]{
+const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && defined(title) && defined(slug.current) && (featured == true || featureOnWebsite == true)] | order(publishedAt desc)[0...3]{
   title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title
 }`, {}, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
 ---

@@ -1,7 +1,7 @@
 ---
 import { safeFetch } from "../../lib/sanity.js";
 export async function getStaticPaths() {
-  const slugs = await safeFetch(`*[_type == "post" && defined(slug.current) && editorialStatus == "published"]{"slug": slug.current}`, {}, []) as Array<{ slug: string }>;
+  const slugs = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && defined(title) && defined(slug.current)]{"slug": slug.current}`, {}, []) as Array<{ slug: string }>;
   return [{ params: { slug: "1" } }, ...slugs.map((item) => ({ params: { slug: item.slug } }))];
 }
 return Astro.redirect(Astro.params.slug === "1" ? "/insights" : `/insights/${Astro.params.slug}`, 301);

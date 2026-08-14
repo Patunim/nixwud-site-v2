@@ -24,7 +24,6 @@ export default defineType({
       // use your content.
       styles: [
         {title: 'Normal', value: 'normal'},
-        {title: 'H1', value: 'h1'},
         {title: 'H2', value: 'h2'},
         {title: 'H3', value: 'h3'},
         {title: 'H4', value: 'h4'},
@@ -62,6 +61,18 @@ export default defineType({
     defineArrayMember({
       type: 'image',
       options: {hotspot: true},
+      fields: [
+        {
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+      validation: (Rule) =>
+        Rule.custom((image: {asset?: {_ref?: string; _id?: string}} | undefined) =>
+          !image || image.asset?._ref || image.asset?._id ? true : 'Upload or select an image, or remove this empty image block.'
+        ),
     }),
   ],
 })

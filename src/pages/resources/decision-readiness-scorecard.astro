@@ -90,6 +90,7 @@ const questions = [
   .choices { display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; margin-left: 2.5rem; }
   .choices label { display: grid; place-items: center; min-height: 4.6rem; padding: .5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; }
   .choices label:has(input:checked) { border-color: var(--accent); background: rgba(97,125,255,.16); }
+  .choices label:has(input:focus-visible) { outline: 3px solid var(--accent-soft); outline-offset: 3px; }
   .choices input { position: absolute; opacity: 0; pointer-events: none; }
   .choices span { font-weight: 800; }
   .choices small { min-height: 1rem; color: var(--text-muted); font-size: .66rem; }

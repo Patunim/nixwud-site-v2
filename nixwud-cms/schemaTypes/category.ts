@@ -12,6 +12,9 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+
+      validation: (Rule) =>
+        Rule.required(),
     }),
 
     defineField({
@@ -22,6 +25,9 @@ export default defineType({
       options: {
         source: 'title',
       },
+
+      validation: (Rule) =>
+        Rule.required(),
     }),
 
     defineField({

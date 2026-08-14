@@ -28,9 +28,12 @@ const siteName = SITE_NAME;
 const baseUrl = SITE_URL;
 const pageTitle = title ? `${title} | ${siteName}` : `${siteName} — Business & Technology Consultancy`;
 const canonicalUrl = canonical || new URL(Astro.url.pathname, baseUrl).toString();
-const imageUrl = image.startsWith("http") ? image : new URL(image, baseUrl).toString();
+const resolvedImage = typeof image === "string" && image.trim() ? image : "/og-default.png";
+const imageUrl = /^https?:\/\//i.test(resolvedImage) ? resolvedImage : new URL(resolvedImage, baseUrl).toString();
 const maintenanceMode = import.meta.env.PUBLIC_MAINTENANCE_MODE === "true";
-const analyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID;
+const configuredAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID || "G-7RY15GCJ1Z";
+const analyticsId = /^G-[A-Z0-9]+$/i.test(configuredAnalyticsId) ? configuredAnalyticsId : undefined;
+const searchConsoleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const logoUrl = new URL("/favicon.svg", baseUrl).toString();
 
 const organizationSchema = {
@@ -58,7 +61,8 @@ const organizationSchema = {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {(noindex || maintenanceMode) && <meta name="robots" content="noindex, nofollow" />}
+    {searchConsoleVerification && <meta name="google-site-verification" content={searchConsoleVerification} />}
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={siteName} />

@@ -1,19 +1,21 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import InsightCard from "../../components/cards/InsightCard.astro";
-import { safeFetch, urlFor } from "../../lib/sanity.js";
+import { toHTML } from "@portabletext/to-html";
+import { safeFetch, safeImageUrl } from "../../lib/sanity.js";
 
 export async function getStaticPaths() {
-  const authors = await safeFetch(`*[_type == "author" && defined(slug.current)]{name, bio, image, "slug": slug.current}`, {}, []) as Array<Record<string, any>>;
+  const authors = await safeFetch(`*[_type == "author" && !(_id in path("drafts.**")) && defined(name) && defined(slug.current)]{name, bio, image, "slug": slug.current}`, {}, []) as Array<Record<string, any>>;
   return authors.map((author) => ({ params: { slug: author.slug }, props: { author } }));
 }
 const { author } = Astro.props as { author: Record<string, any> };
-const insights = await safeFetch(`*[_type == "post" && author->slug.current == $slug && defined(slug.current) && editorialStatus == "published"] | order(publishedAt desc){title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title}`, { slug: author.slug }, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
-const portrait = author.image ? urlFor(author.image).width(500).height(500).fit("crop").url() : null;
+const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && author->slug.current == $slug && defined(title) && defined(slug.current)] | order(publishedAt desc){title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title}`, { slug: author.slug }, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
+const portrait = safeImageUrl(author.image, (image) => image.width(500).height(500).fit("crop"));
+const bio = Array.isArray(author.bio) ? toHTML(author.bio) : "";
 ---
 
 <Layout title={author.name} description={`Insights by ${author.name} for Nixwud Consultancy.`}>
-  <header class="page-hero"><div class="container author-header">{portrait && <img src={portrait} alt={author.name} width="180" height="180" />}<div><p class="eyebrow">Author</p><h1>{author.name}</h1>{author.bio && <p class="lede">{author.bio}</p>}</div></div></header>
+  <header class="page-hero"><div class="container author-header">{portrait && <img src={portrait} alt={author.name} width="180" height="180" />}<div><p class="eyebrow">Author</p><h1>{author.name}</h1>{bio && <div class="lede author-bio" set:html={bio}></div>}</div></div></header>
   <section class="section"><div class="container--wide">{insights.length ? <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div> : <div class="empty-state"><h3>No published Insights yet.</h3><p>Published work by this author will appear here.</p></div>}</div></section>
 </Layout>
 
@@ -21,5 +23,6 @@ const portrait = author.image ? urlFor(author.image).width(500).height(500).fit(
   .author-header { display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: center; }
   .author-header img { border-radius: 50%; object-fit: cover; }
   .author-header h1 { font-size: clamp(3rem, 7vw, 6rem); margin-bottom: 1rem; }
+  .author-bio :global(p) { margin: 0; }
   @media (max-width: 600px) { .author-header { grid-template-columns: 1fr; } }
 </style>

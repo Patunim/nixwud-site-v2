@@ -30,7 +30,16 @@ npm run dev
 
 The Studio is intentionally limited to editorial content: Insights, Authors and Categories. Homepage copy, services, industries, case studies, resources, navigation and company settings are edited in the website source through VS Code.
 
-Only Insights whose **Editorial Status** is explicitly set to **Published** appear on the website. This prevents unfinished legacy or test documents from being exposed after migration.
+Sanity's normal Draft and Publish actions control website visibility. Drafts remain private; clicking Publish makes an Insight eligible to appear on the website.
+
+The website is statically generated. Local development refreshes published content directly, but the live website must rebuild after a Sanity publication. Configure a Sanity webhook to your hosting provider's deploy hook, or trigger a deployment manually after publishing.
+
+## Analytics and search indexing
+
+- GA4 uses measurement ID `G-7RY15GCJ1Z` by default. `PUBLIC_GOOGLE_ANALYTICS_ID` can override it in a deployment environment.
+- Google Search Console DNS verification lives with the domain and is not stored in this repository.
+- If Search Console uses the HTML meta-tag method, set `PUBLIC_GOOGLE_SITE_VERIFICATION` to the verification token in the deployment environment.
+- Submit `https://nixwud.com/sitemap-index.xml` in Search Console after the production domain is live.
 
 ## Important launch checks
 

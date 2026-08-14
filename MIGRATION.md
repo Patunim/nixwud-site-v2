@@ -66,6 +66,6 @@ Also test mobile navigation, search, the audit PDF download and all redirects in
 - Confirmation of the contact mailbox
 - Approval of the final logo, palette and typography
 - At least one genuine published Insight
-- Review legacy Insight documents in Sanity and explicitly set approved items to `Published`
+- Review legacy Insight documents in Sanity and publish only approved items
 - Evidence and permission for any case study or testimonial
 - Brevo and Cloudflare configuration before enabling the planned email gate

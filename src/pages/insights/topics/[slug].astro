@@ -4,11 +4,11 @@ import InsightCard from "../../../components/cards/InsightCard.astro";
 import { safeFetch } from "../../../lib/sanity.js";
 
 export async function getStaticPaths() {
-  const categories = await safeFetch(`*[_type == "category" && defined(slug.current)]{title, description, "slug": slug.current}`, {}, []) as Array<Record<string, any>>;
+  const categories = await safeFetch(`*[_type == "category" && !(_id in path("drafts.**")) && defined(title) && defined(slug.current)]{title, description, "slug": slug.current}`, {}, []) as Array<Record<string, any>>;
   return categories.map((category) => ({ params: { slug: category.slug }, props: { category } }));
 }
 const { category } = Astro.props as { category: Record<string, any> };
-const insights = await safeFetch(`*[_type == "post" && references(*[_type == "category" && slug.current == $slug]._id) && defined(slug.current) && editorialStatus == "published"] | order(publishedAt desc){title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title}`, { slug: category.slug }, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
+const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && references(*[_type == "category" && !(_id in path("drafts.**")) && slug.current == $slug]._id) && defined(title) && defined(slug.current)] | order(publishedAt desc){title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title}`, { slug: category.slug }, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
 ---
 
 <Layout title={`${category.title} Insights`} description={category.description || `Insights about ${category.title} from Nixwud Consultancy.`}>
