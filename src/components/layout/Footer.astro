@@ -26,7 +26,11 @@ import { CONTACT_EMAIL, navigation } from "../../lib/siteConfig.js";
   </div>
   <div class="container--wide footer__bottom">
     <p>© {new Date().getFullYear()} Nixwud Consultancy. All rights reserved.</p>
-    <div><a href="/privacy-policy">Privacy</a><a href="/terms">Terms</a></div>
+    <div>
+      <a href="/privacy-policy">Privacy</a>
+      <button class="footer__text-button" id="analytics-preferences" type="button">Cookie settings</button>
+      <a href="/terms">Terms</a>
+    </div>
   </div>
 </footer>
 
@@ -41,5 +45,7 @@ import { CONTACT_EMAIL, navigation } from "../../lib/siteConfig.js";
   .footer__bottom { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; border-top: 1px solid var(--line); font-size: .82rem; }
   .footer__bottom p { margin: 0; }
   .footer__bottom div { display: flex; gap: 1.25rem; }
+  .footer__text-button { padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+  .footer__text-button:hover { color: var(--text); }
   @media (max-width: 760px) { .footer__top { grid-template-columns: 1fr; } .footer__bottom { flex-direction: column; } }
 </style>

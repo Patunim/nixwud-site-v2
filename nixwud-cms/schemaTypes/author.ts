@@ -6,14 +6,12 @@ export default defineType({
   type: 'document',
 
   fields: [
-
     defineField({
       name: 'name',
       title: 'Name',
       type: 'string',
 
-      validation: (Rule) =>
-        Rule.required(),
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
@@ -26,8 +24,7 @@ export default defineType({
         maxLength: 96,
       },
 
-      validation: (Rule) =>
-        Rule.required(),
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
@@ -41,13 +38,16 @@ export default defineType({
 
       validation: (Rule) =>
         Rule.custom((image: {asset?: {_ref?: string; _id?: string}} | undefined) =>
-          !image || image.asset?._ref || image.asset?._id ? true : 'Upload or select an image, or remove this empty image field.'
+          !image || image.asset?._ref || image.asset?._id
+            ? true
+            : 'Upload or select an image, or remove this empty image field.',
         ),
     }),
 
     defineField({
       name: 'bio',
       title: 'Bio',
+      description: 'Explain the author’s relevant experience and expertise in plain language.',
       type: 'array',
 
       of: [
@@ -58,13 +58,16 @@ export default defineType({
           styles: [
             {
               title: 'Normal',
-              value: 'normal'
-            }
+              value: 'normal',
+            },
           ],
 
           lists: [],
         },
       ],
+
+      validation: (Rule) =>
+        Rule.required().warning('Add a bio to establish authorship and expertise.'),
     }),
 
     defineField({
@@ -95,24 +98,24 @@ export default defineType({
       name: 'linkedin',
       title: 'LinkedIn URL',
       type: 'url',
+
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
     }),
 
     defineField({
       name: 'twitter',
       title: 'Twitter/X URL',
       type: 'url',
-    }),
 
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+    }),
   ],
 
   preview: {
-
     select: {
       title: 'name',
       media: 'image',
       subtitle: 'role',
     },
-
   },
-
 })

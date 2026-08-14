@@ -1,0 +1,170 @@
+---
+interface Props {
+  analyticsId?: string;
+  clarityId?: string;
+}
+
+const { analyticsId, clarityId } = Astro.props;
+const enabled = Boolean(analyticsId || clarityId);
+---
+
+{enabled && (
+  <>
+    <section
+      class="analytics-consent"
+      id="analytics-consent"
+      aria-labelledby="analytics-consent-title"
+      data-analytics-id={analyticsId || ""}
+      data-clarity-id={clarityId || ""}
+      hidden
+    >
+      <div class="analytics-consent__copy">
+        <h2 id="analytics-consent-title">Your privacy choices</h2>
+        <p>
+          We use optional analytics to understand how the website is used and improve it. You can
+          accept or reject analytics without affecting the website.
+        </p>
+        <a href="/privacy-policy">Read the privacy policy</a>
+      </div>
+      <div class="analytics-consent__actions">
+        <button class="button button--accent" id="analytics-accept" type="button">Allow analytics</button>
+        <button class="button button--secondary" id="analytics-reject" type="button">Reject analytics</button>
+      </div>
+    </section>
+
+    <script is:inline>
+      (() => {
+        const panel = document.getElementById("analytics-consent");
+        const preferencesButton = document.getElementById("analytics-preferences");
+        const acceptButton = document.getElementById("analytics-accept");
+        const rejectButton = document.getElementById("analytics-reject");
+        if (!panel || !acceptButton || !rejectButton) return;
+
+        const analyticsId = panel.dataset.analyticsId || "";
+        const clarityId = panel.dataset.clarityId || "";
+        const consentKey = "nixwud.analytics-consent.v1";
+
+        const readConsent = () => {
+          try {
+            const value = window.localStorage.getItem(consentKey);
+            return value === "granted" || value === "denied" ? value : undefined;
+          } catch {
+            return undefined;
+          }
+        };
+
+        const saveConsent = (value) => {
+          try {
+            window.localStorage.setItem(consentKey, value);
+          } catch {
+            // The preference lasts for this page only when browser storage is unavailable.
+          }
+        };
+
+        const loadGoogleAnalytics = () => {
+          if (!analyticsId || document.querySelector("script[data-nixwud-ga4]")) return;
+
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+          window.gtag("js", new Date());
+          window.gtag("config", analyticsId, { anonymize_ip: true });
+
+          const script = document.createElement("script");
+          script.async = true;
+          script.dataset.nixwudGa4 = "true";
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`;
+          document.head.append(script);
+        };
+
+        const loadClarity = () => {
+          if (!clarityId || document.querySelector("script[data-nixwud-clarity]")) return;
+
+          window.clarity = window.clarity || function () {
+            (window.clarity.q = window.clarity.q || []).push(arguments);
+          };
+          window.clarity("consentv2", {
+            ad_Storage: "denied",
+            analytics_Storage: "granted"
+          });
+
+          const script = document.createElement("script");
+          script.async = true;
+          script.dataset.nixwudClarity = "true";
+          script.src = `https://www.clarity.ms/tag/${encodeURIComponent(clarityId)}`;
+          document.head.append(script);
+        };
+
+        const enableAnalytics = () => {
+          loadGoogleAnalytics();
+          loadClarity();
+        };
+
+        const hidePanel = () => {
+          panel.hidden = true;
+        };
+
+        const showPanel = () => {
+          panel.hidden = false;
+          acceptButton.focus();
+        };
+
+        acceptButton.addEventListener("click", () => {
+          saveConsent("granted");
+          enableAnalytics();
+          hidePanel();
+        });
+
+        rejectButton.addEventListener("click", () => {
+          const wasGranted = readConsent() === "granted";
+          saveConsent("denied");
+          if (typeof window.clarity === "function") {
+            window.clarity("consentv2", {
+              ad_Storage: "denied",
+              analytics_Storage: "denied"
+            });
+            window.clarity("consent", false);
+          }
+          hidePanel();
+          if (wasGranted) window.location.reload();
+        });
+
+        preferencesButton?.addEventListener("click", showPanel);
+
+        if (readConsent() === "granted") {
+          enableAnalytics();
+        } else if (readConsent() !== "denied") {
+          showPanel();
+        }
+      })();
+    </script>
+  </>
+)}
+
+<style>
+  .analytics-consent {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 120;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: end;
+    width: min(calc(100% - 2rem), 46rem);
+    padding: 1.35rem;
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: var(--radius-md);
+    background: #11151b;
+    box-shadow: var(--shadow);
+  }
+  .analytics-consent[hidden] { display: none; }
+  .analytics-consent h2 { margin-bottom: .55rem; font-size: 1.2rem; letter-spacing: -.015em; }
+  .analytics-consent p { margin-bottom: .45rem; font-size: .92rem; line-height: 1.5; }
+  .analytics-consent a { color: var(--accent-soft); font-size: .86rem; text-decoration: underline; }
+  .analytics-consent__actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+  .analytics-consent .button { min-height: 2.75rem; padding: .65rem .85rem; font-size: .86rem; }
+  @media (max-width: 680px) {
+    .analytics-consent { grid-template-columns: 1fr; gap: 1rem; }
+    .analytics-consent__actions { display: grid; grid-template-columns: 1fr; }
+  }
+</style>

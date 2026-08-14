@@ -6,21 +6,28 @@ export default defineType({
   type: 'document',
 
   fields: [
-
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
 
-      validation: (Rule) =>
-        Rule.required().min(10).max(120),
+      validation: (Rule) => Rule.required().min(10).max(120),
     }),
 
     defineField({
       name: 'keyInsight',
       title: 'Key Insight',
+      description:
+        'Give the clearest one- or two-sentence answer first. This supports readers, search and answer engines.',
       type: 'text',
       rows: 3,
+
+      validation: (Rule) =>
+        Rule.required()
+          .max(280)
+          .warning(
+            'Add a concise direct answer to improve clarity for readers and answer engines.',
+          ),
     }),
 
     defineField({
@@ -33,8 +40,7 @@ export default defineType({
         maxLength: 96,
       },
 
-      validation: (Rule) =>
-        Rule.required(),
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
@@ -44,19 +50,40 @@ export default defineType({
       type: 'text',
       rows: 4,
 
-      validation: (Rule) =>
-        Rule.max(200),
+      validation: (Rule) => Rule.required().max(200),
     }),
 
     defineField({
       name: 'summary',
       title: 'Article Summary',
-      description: 'Used for the article summary block.',
+      description: 'A plain-language overview shown near the top of the article.',
       type: 'text',
       rows: 5,
 
+      validation: (Rule) => Rule.max(350),
+    }),
+
+    defineField({
+      name: 'seoTitle',
+      title: 'Search Title (optional)',
+      description:
+        'Override the page title shown in search and social previews. Leave blank to use the Insight title.',
+      type: 'string',
+
       validation: (Rule) =>
-        Rule.max(350),
+        Rule.max(60).warning('Long titles may be shortened in search and social previews.'),
+    }),
+
+    defineField({
+      name: 'seoDescription',
+      title: 'Search Description (optional)',
+      description:
+        'A concise, useful description for search and social previews. Leave blank to use the excerpt.',
+      type: 'text',
+      rows: 3,
+
+      validation: (Rule) =>
+        Rule.max(160).warning('Long descriptions may be shortened in search and social previews.'),
     }),
 
     defineField({
@@ -65,6 +92,8 @@ export default defineType({
       type: 'reference',
 
       to: [{type: 'author'}],
+
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
@@ -78,15 +107,69 @@ export default defineType({
 
       validation: (Rule) =>
         Rule.custom((image: {asset?: {_ref?: string; _id?: string}} | undefined) =>
-          !image || image.asset?._ref || image.asset?._id ? true : 'Upload or select an image, or remove this empty image field.'
+          !image || image.asset?._ref || image.asset?._id
+            ? true
+            : 'Upload or select an image, or remove this empty image field.',
         ),
 
       fields: [
         {
           name: 'alt',
           title: 'Alt Text',
+          description: 'Describe the image for people using screen readers and for search engines.',
           type: 'string',
           validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'caption',
+          title: 'Caption',
+          description: 'Optional context displayed below the image.',
+          type: 'string',
+          validation: (Rule) => Rule.max(180),
+        },
+        {
+          name: 'credit',
+          title: 'Image Credit',
+          description: 'Optional photographer, creator, company or source name.',
+          type: 'string',
+          validation: (Rule) => Rule.max(120),
+        },
+        {
+          name: 'creditUrl',
+          title: 'Credit Link',
+          description: 'Optional link to the original creator or source.',
+          type: 'url',
+          validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+        },
+        {
+          name: 'displaySize',
+          title: 'Image Size',
+          type: 'string',
+          initialValue: 'medium',
+          options: {
+            layout: 'radio',
+            list: [
+              {title: 'Small', value: 'small'},
+              {title: 'Medium', value: 'medium'},
+              {title: 'Large', value: 'large'},
+              {title: 'Full width', value: 'full'},
+            ],
+          },
+        },
+        {
+          name: 'alignment',
+          title: 'Alignment',
+          description: 'Most noticeable on small and medium images.',
+          type: 'string',
+          initialValue: 'center',
+          options: {
+            layout: 'radio',
+            list: [
+              {title: 'Left', value: 'left'},
+              {title: 'Centre', value: 'center'},
+              {title: 'Right', value: 'right'},
+            ],
+          },
         },
       ],
     }),
@@ -102,6 +185,8 @@ export default defineType({
           to: [{type: 'category'}],
         },
       ],
+
+      validation: (Rule) => Rule.min(1).warning('Add at least one category to clarify the topic.'),
     }),
 
     defineField({
@@ -109,13 +194,16 @@ export default defineType({
       title: 'Published At',
       type: 'datetime',
 
-      initialValue: () =>
-        new Date().toISOString(),
+      initialValue: () => new Date().toISOString(),
+
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
       name: 'updatedAt',
       title: 'Updated At',
+      description:
+        'Set this only after a substantive content update, not for small formatting changes.',
       type: 'datetime',
     }),
 
@@ -152,62 +240,89 @@ export default defineType({
     }),
 
     defineField({
-  name: 'sources',
-  title: 'Sources',
-  type: 'array',
+      name: 'sources',
+      title: 'Sources',
+      type: 'array',
 
-  of: [
+      of: [
+        {
+          type: 'object',
 
-    {
-      type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Source Title',
+              type: 'string',
 
-      fields: [
+              validation: (Rule) => Rule.required(),
+            }),
 
-        defineField({
-          name: 'title',
-          title: 'Source Title',
-          type: 'string',
+            defineField({
+              name: 'url',
+              title: 'Source URL',
+              type: 'url',
 
-          validation: (Rule) =>
-            Rule.required(),
-        }),
+              validation: (Rule) => Rule.required().uri({scheme: ['http', 'https']}),
+            }),
 
-        defineField({
-          name: 'url',
-          title: 'Source URL',
-          type: 'url',
+            defineField({
+              name: 'publisher',
+              title: 'Publisher',
+              type: 'string',
+            }),
 
-          validation: (Rule) =>
-            Rule.required().uri({scheme: ['http', 'https']}),
-        }),
-
-        defineField({
-          name: 'publisher',
-          title: 'Publisher',
-          type: 'string',
-        }),
-
-        defineField({
-          name: 'publishedAt',
-          title: 'Published Date',
-          type: 'date',
-        }),
-
+            defineField({
+              name: 'publishedAt',
+              title: 'Published Date',
+              type: 'date',
+            }),
+          ],
+        },
       ],
-    },
-
-  ],
-}),
+    }),
     defineField({
       name: 'body',
       title: 'Body',
       type: 'blockContent',
+
+      validation: (Rule) => Rule.required(),
     }),
 
+    defineField({
+      name: 'faqs',
+      title: 'Frequently Asked Questions',
+      description:
+        'Optional direct questions and concise answers. Only add questions that the article genuinely answers.',
+      type: 'array',
+      validation: (Rule) => Rule.max(8),
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Question',
+              type: 'string',
+              validation: (Rule) => Rule.required().max(160),
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Answer',
+              description: 'Answer directly in plain language before adding qualifications.',
+              type: 'text',
+              rows: 4,
+              validation: (Rule) => Rule.required().max(600),
+            }),
+          ],
+          preview: {
+            select: {title: 'question', subtitle: 'answer'},
+          },
+        },
+      ],
+    }),
   ],
 
   preview: {
-
     select: {
       title: 'title',
       author: 'author.name',
@@ -215,7 +330,6 @@ export default defineType({
     },
 
     prepare(selection) {
-
       const {author} = selection
 
       return {

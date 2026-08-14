@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navigation from "../components/layout/Navigation.astro";
 import Footer from "../components/layout/Footer.astro";
+import AnalyticsConsent from "../components/AnalyticsConsent.astro";
 import { CONTACT_EMAIL, SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "../lib/siteConfig.js";
 
 interface Props {
@@ -11,6 +12,9 @@ interface Props {
   canonical?: string;
   type?: "website" | "article";
   publishedTime?: string;
+  updatedTime?: string;
+  authorName?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
   noindex?: boolean;
 }
 
@@ -21,6 +25,9 @@ const {
   canonical,
   type = "website",
   publishedTime,
+  updatedTime,
+  authorName,
+  structuredData,
   noindex = false
 } = Astro.props;
 
@@ -34,11 +41,15 @@ const maintenanceMode = import.meta.env.PUBLIC_MAINTENANCE_MODE === "true";
 const configuredAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID || "G-7RY15GCJ1Z";
 const analyticsId = /^G-[A-Z0-9]+$/i.test(configuredAnalyticsId) ? configuredAnalyticsId : undefined;
 const searchConsoleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
+const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION?.trim();
+const configuredClarityId = import.meta.env.PUBLIC_MICROSOFT_CLARITY_ID?.trim();
+const clarityId = configuredClarityId && /^[a-z0-9]+$/i.test(configuredClarityId) ? configuredClarityId : undefined;
 const logoUrl = new URL("/favicon.svg", baseUrl).toString();
 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${baseUrl}#organization`,
   name: siteName,
   url: baseUrl,
   logo: logoUrl,
@@ -47,6 +58,17 @@ const organizationSchema = {
   sameAs: SOCIAL_LINKS,
   knowsAbout: ["Business strategy", "Business analysis", "Technology consulting", "Digital platforms", "AI readiness", "Automation", "SEO", "Generative engine optimization"]
 };
+const pageSchemas = Array.isArray(structuredData)
+  ? structuredData
+  : structuredData
+    ? [structuredData]
+    : [];
+const serializeJsonLd = (value: Record<string, unknown>) => JSON.stringify(value)
+  .replace(/</g, "\\u003c")
+  .replace(/\u2028/g, "\\u2028")
+  .replace(/\u2029/g, "\\u2029");
+const organizationSchemaJson = serializeJsonLd(organizationSchema);
+const pageSchemaJson = pageSchemas.map(serializeJsonLd);
 ---
 
 <!doctype html>
@@ -63,6 +85,7 @@ const organizationSchema = {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {(noindex || maintenanceMode) && <meta name="robots" content="noindex, nofollow" />}
     {searchConsoleVerification && <meta name="google-site-verification" content={searchConsoleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={siteName} />
@@ -75,17 +98,11 @@ const organizationSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+    {updatedTime && <meta property="article:modified_time" content={updatedTime} />}
+    {authorName && <meta name="author" content={authorName} />}
+    <script is:inline type="application/ld+json" set:html={organizationSchemaJson}></script>
+    {pageSchemaJson.map((schema) => <script is:inline type="application/ld+json" set:html={schema}></script>)}
 
-    {analyticsId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}></script>}
-    {analyticsId && (
-      <script is:inline define:vars={{ analyticsId }}>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag("js", new Date());
-        gtag("config", analyticsId);
-      </script>
-    )}
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -104,6 +121,7 @@ const organizationSchema = {
         <Footer />
       </>
     )}
+    <AnalyticsConsent analyticsId={analyticsId} clarityId={clarityId} />
   </body>
 </html>
 

@@ -5,6 +5,8 @@ import { safeImageUrl } from "../lib/sanity.js";
 interface Props { value?: unknown; }
 const { value } = Astro.props;
 const blocks = Array.isArray(value) ? value : [];
+const imageWidths = { small: 640, medium: 900, large: 1200, full: 1600 } as const;
+const validAlignments = new Set(["left", "center", "right"]);
 const html = blocks.length
   ? toHTML(blocks as any, {
       components: {
@@ -15,10 +17,43 @@ const html = blocks.length
         },
         types: {
           image: ({ value: image }) => {
-            const src = safeImageUrl(image, (builder) => builder.width(1400).fit("max").auto("format"));
+            const size = Object.hasOwn(imageWidths, image?.displaySize)
+              ? image.displaySize as keyof typeof imageWidths
+              : "medium";
+            const alignment = validAlignments.has(image?.alignment) ? image.alignment : "center";
+            const width = imageWidths[size];
+            const src = safeImageUrl(image, (builder) => builder.width(width).fit("max").auto("format").quality(86));
             if (!src) return "";
             const alt = typeof image.alt === "string" ? image.alt : "";
-            return `<figure><img src="${escapeHTML(src)}" alt="${escapeHTML(alt)}" loading="lazy" decoding="async" /></figure>`;
+            const responsiveWidths = [480, 640, 900, 1200, 1600].filter((candidate) => candidate <= width);
+            const srcset = responsiveWidths
+              .map((candidate) => {
+                const url = safeImageUrl(image, (builder) => builder.width(candidate).fit("max").auto("format").quality(86));
+                return url ? `${escapeHTML(url)} ${candidate}w` : "";
+              })
+              .filter(Boolean)
+              .join(", ");
+            const caption = typeof image.caption === "string" ? image.caption.trim() : "";
+            const credit = typeof image.credit === "string" ? image.credit.trim() : "";
+            const creditUrl = typeof image.creditUrl === "string" && /^https?:\/\//i.test(image.creditUrl)
+              ? image.creditUrl
+              : "";
+            const creditHtml = credit
+              ? `<span class="article-image__credit">Credit: ${creditUrl
+                  ? `<a href="${escapeHTML(creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHTML(credit)}</a>`
+                  : escapeHTML(credit)}</span>`
+              : "";
+            const captionHtml = caption || credit
+              ? `<figcaption>${caption ? escapeHTML(caption) : ""}${caption && credit ? " · " : ""}${creditHtml}</figcaption>`
+              : "";
+            const sizes = size === "small"
+              ? "(max-width: 680px) calc(100vw - 2rem), 640px"
+              : size === "medium"
+                ? "(max-width: 780px) calc(100vw - 2rem), 736px"
+                : size === "large"
+                  ? "(max-width: 1100px) calc(100vw - 2rem), 1024px"
+                  : "(max-width: 1400px) calc(100vw - 2rem), 1376px";
+            return `<figure class="article-image article-image--${size} article-image--${alignment}"><img src="${escapeHTML(src)}"${srcset ? ` srcset="${srcset}" sizes="${escapeHTML(sizes)}"` : ""} alt="${escapeHTML(alt)}" loading="lazy" decoding="async" />${captionHtml}</figure>`;
           }
         }
       }

@@ -3,18 +3,59 @@ import Layout from "../../layouts/Layout.astro";
 import InsightCard from "../../components/cards/InsightCard.astro";
 import { toHTML } from "@portabletext/to-html";
 import { safeFetch, safeImageUrl } from "../../lib/sanity.js";
+import { SITE_NAME, SITE_URL } from "../../lib/siteConfig.js";
 
 export async function getStaticPaths() {
-  const authors = await safeFetch(`*[_type == "author" && !(_id in path("drafts.**")) && defined(name) && defined(slug.current)]{name, bio, image, "slug": slug.current}`, {}, []) as Array<Record<string, any>>;
-  return authors.map((author) => ({ params: { slug: author.slug }, props: { author } }));
+  const authors = await safeFetch(`*[_type == "author" && !(_id in path("drafts.**")) && defined(name) && defined(slug.current)]{"slug": slug.current}`, {}, []) as Array<{ slug: string }>;
+  return authors.map((author) => ({ params: { slug: author.slug } }));
 }
-const { author } = Astro.props as { author: Record<string, any> };
+const author = await safeFetch(`*[_type == "author" && !(_id in path("drafts.**")) && slug.current == $slug][0]{
+  name, bio, image, role, organization, expertise, linkedin, twitter, "slug": slug.current
+}`, { slug: Astro.params.slug }, null) as Record<string, any> | null;
+if (!author) {
+  return Astro.redirect("/insights", 302);
+}
 const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && author->slug.current == $slug && defined(title) && defined(slug.current)] | order(publishedAt desc){title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title}`, { slug: author.slug }, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
-const portrait = safeImageUrl(author.image, (image) => image.width(500).height(500).fit("crop"));
+const portrait = safeImageUrl(author.image, (image) => image.width(500).height(500).fit("crop").auto("format").quality(88));
 const bio = Array.isArray(author.bio) ? toHTML(author.bio) : "";
+const bioText = Array.isArray(author.bio)
+  ? author.bio.flatMap((block: Record<string, any>) =>
+      Array.isArray(block?.children) ? block.children.map((child: Record<string, any>) => child?.text || "") : []
+    ).join(" ").trim()
+  : "";
+const authorUrl = new URL(`/authors/${author.slug}`, SITE_URL).toString();
+const sameAs = [author.linkedin, author.twitter].filter(
+  (url): url is string => typeof url === "string" && /^https?:\/\//i.test(url)
+);
+const profileSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": `${authorUrl}#profile`,
+  url: authorUrl,
+  name: `${author.name} | ${SITE_NAME}`,
+  mainEntity: {
+    "@type": "Person",
+    "@id": `${authorUrl}#person`,
+    name: author.name,
+    url: authorUrl,
+    image: portrait,
+    description: bioText || undefined,
+    jobTitle: author.role || undefined,
+    worksFor: author.organization
+      ? {
+          "@type": "Organization",
+          "@id": author.organization === SITE_NAME ? `${SITE_URL}#organization` : undefined,
+          name: author.organization,
+          url: author.organization === SITE_NAME ? SITE_URL : undefined
+        }
+      : undefined,
+    knowsAbout: Array.isArray(author.expertise) && author.expertise.length ? author.expertise : undefined,
+    sameAs: sameAs.length ? sameAs : undefined
+  }
+};
 ---
 
-<Layout title={author.name} description={`Insights by ${author.name} for Nixwud Consultancy.`}>
+<Layout title={author.name} description={bioText || `Insights by ${author.name} for Nixwud Consultancy.`} canonical={authorUrl} image={portrait} structuredData={profileSchema}>
   <header class="page-hero"><div class="container author-header">{portrait && <img src={portrait} alt={author.name} width="180" height="180" />}<div><p class="eyebrow">Author</p><h1>{author.name}</h1>{bio && <div class="lede author-bio" set:html={bio}></div>}</div></div></header>
   <section class="section"><div class="container--wide">{insights.length ? <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div> : <div class="empty-state"><h3>No published Insights yet.</h3><p>Published work by this author will appear here.</p></div>}</div></section>
 </Layout>

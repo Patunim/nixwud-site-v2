@@ -72,8 +72,10 @@ for (const file of htmlFiles) {
 }
 
 const homepage = await readFile(join(distRoot, "index.html"), "utf8");
-if (!/googletagmanager\.com\/gtag\/js\?id=G-[A-Z0-9]+/i.test(homepage)) {
-  report(join(distRoot, "index.html"), "GA4 tag is missing or malformed");
+if (!/data-analytics-id=["']G-[A-Z0-9]+["']/i.test(homepage)) report(join(distRoot, "index.html"), "GA4 ID is missing or malformed");
+if (!/id=["']analytics-consent["']/i.test(homepage)) report(join(distRoot, "index.html"), "analytics consent control is missing");
+if (/<script[^>]+src=["']https:\/\/(?:www\.)?(?:googletagmanager\.com|clarity\.ms)\//i.test(homepage)) {
+  report(join(distRoot, "index.html"), "analytics loads before the visitor's consent choice");
 }
 
 const robots = await readFile(join(distRoot, "robots.txt"), "utf8");
@@ -81,8 +83,22 @@ if (!/^Sitemap:\s+https?:\/\//im.test(robots)) report(join(distRoot, "robots.txt
 
 const sitemapFiles = files.filter((file) => /sitemap-\d+\.xml$/.test(file));
 const sitemap = (await Promise.all(sitemapFiles.map((file) => readFile(file, "utf8")))).join("\n");
-for (const excluded of ["/blog/", "/topics/", "/search/", "/privacy-policy/", "/terms/"]) {
-  if (sitemap.includes(excluded)) report(sitemapFiles[0] || distRoot, `excluded route appears in sitemap: ${excluded}`);
+const sitemapPaths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].flatMap((match) => {
+  try {
+    return [new URL(match[1]).pathname];
+  } catch {
+    return [];
+  }
+});
+for (const excluded of ["/blog/", "/topics/"]) {
+  if (sitemapPaths.some((path) => path.startsWith(excluded))) {
+    report(sitemapFiles[0] || distRoot, `excluded route appears in sitemap: ${excluded}`);
+  }
+}
+for (const excluded of ["/search/", "/privacy-policy/", "/terms/"]) {
+  if (sitemapPaths.includes(excluded)) {
+    report(sitemapFiles[0] || distRoot, `excluded route appears in sitemap: ${excluded}`);
+  }
 }
 
 if (errors.length) {

@@ -49,6 +49,7 @@ export default defineType({
                 title: 'URL',
                 name: 'href',
                 type: 'url',
+                validation: (Rule) => Rule.required().uri({scheme: ['http', 'https', 'mailto']}),
               },
             ],
           },
@@ -65,13 +66,67 @@ export default defineType({
         {
           name: 'alt',
           title: 'Alt Text',
+          description: 'Describe the image for people using screen readers and for search engines.',
           type: 'string',
           validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'caption',
+          title: 'Caption',
+          description: 'Optional context displayed below the image.',
+          type: 'string',
+          validation: (Rule) => Rule.max(180),
+        },
+        {
+          name: 'credit',
+          title: 'Image Credit',
+          description: 'Optional photographer, creator, company or source name.',
+          type: 'string',
+          validation: (Rule) => Rule.max(120),
+        },
+        {
+          name: 'creditUrl',
+          title: 'Credit Link',
+          description: 'Optional link to the original creator or source.',
+          type: 'url',
+          validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+        },
+        {
+          name: 'displaySize',
+          title: 'Image Size',
+          type: 'string',
+          initialValue: 'medium',
+          options: {
+            layout: 'radio',
+            list: [
+              {title: 'Small', value: 'small'},
+              {title: 'Medium', value: 'medium'},
+              {title: 'Large', value: 'large'},
+              {title: 'Full width', value: 'full'},
+            ],
+          },
+        },
+        {
+          name: 'alignment',
+          title: 'Alignment',
+          description: 'Most noticeable on small and medium images.',
+          type: 'string',
+          initialValue: 'center',
+          options: {
+            layout: 'radio',
+            list: [
+              {title: 'Left', value: 'left'},
+              {title: 'Centre', value: 'center'},
+              {title: 'Right', value: 'right'},
+            ],
+          },
         },
       ],
       validation: (Rule) =>
         Rule.custom((image: {asset?: {_ref?: string; _id?: string}} | undefined) =>
-          !image || image.asset?._ref || image.asset?._id ? true : 'Upload or select an image, or remove this empty image block.'
+          !image || image.asset?._ref || image.asset?._id
+            ? true
+            : 'Upload or select an image, or remove this empty image block.',
         ),
     }),
   ],
