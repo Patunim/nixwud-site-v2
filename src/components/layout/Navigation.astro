@@ -115,22 +115,22 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
 <style>
   .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: rgba(9,11,15,.95); backdrop-filter: blur(18px); }
   .nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; min-height: 4.8rem; gap: 2rem; }
-  .nav__desktop { display: flex; justify-content: center; align-items: center; gap: clamp(1rem, 2vw, 1.8rem); }
-  .nav__link { display: inline-flex; align-items: center; gap: .35rem; color: var(--text-muted); font-size: .88rem; font-weight: 650; text-decoration: none; transition: color var(--transition); }
+  .nav__desktop { display: flex; justify-content: center; align-items: stretch; height: 100%; gap: clamp(1rem, 2vw, 1.8rem); }
+  .nav__link { display: inline-flex; align-items: center; gap: .35rem; height: 100%; color: var(--text-muted); font-size: .88rem; font-weight: 650; text-decoration: none; transition: color var(--transition); }
   .nav__link:hover, .nav__link[aria-current="page"] { color: var(--text); }
   
   /* Desktop Dropdown */
-  .nav__dropdown-group { position: relative; display: inline-flex; align-items: center; }
+  .nav__dropdown-group { position: relative; display: inline-flex; align-items: center; height: 100%; }
   .nav__chevron { transition: transform var(--transition); opacity: .7; }
   .nav__dropdown-group:hover .nav__chevron,
   .nav__dropdown-group:focus-within .nav__chevron { transform: rotate(180deg); opacity: 1; }
   
   .nav__dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% - 0.25rem);
     left: 50%;
-    transform: translateX(-50%) translateY(.35rem);
-    min-width: 14.5rem;
+    transform: translateX(-50%);
+    min-width: 15rem;
     padding: .45rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
@@ -139,15 +139,23 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    transition: opacity var(--transition), visibility var(--transition);
     z-index: 60;
+  }
+  /* Invisible hover bridge between trigger and dropdown panel */
+  .nav__dropdown::before {
+    content: "";
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    right: 0;
+    height: 0.75rem;
   }
   .nav__dropdown-group:hover .nav__dropdown,
   .nav__dropdown-group:focus-within .nav__dropdown {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateX(-50%) translateY(0.5rem);
   }
   .nav__dropdown-item {
     display: block;
