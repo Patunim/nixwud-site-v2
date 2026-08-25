@@ -208,10 +208,10 @@ const heroCreditUrl = typeof post.mainImage?.creditUrl === "string" && /^https?:
 
 <style>
   .article-hero { padding-block: clamp(6rem, 12vw, 10rem) 4rem; }
-  .article-hero h1 { font-size: clamp(2.8rem, 7vw, 5.8rem); margin-bottom: 1.4rem; }
+  .article-hero h1 { font-size: var(--text-h1); font-weight: 600; line-height: var(--leading-display); letter-spacing: var(--tracking-display); max-width: 24ch; margin-bottom: 1.4rem; }
   .breadcrumbs { display: flex; gap: .6rem; margin-bottom: 2rem; color: var(--text-muted); font-size: .84rem; }
   .breadcrumbs a:hover { color: var(--text); }
-  .article-meta { display: flex; flex-wrap: wrap; gap: 1rem 2rem; color: var(--text-muted); font-size: .9rem; }
+  .article-meta { display: flex; flex-wrap: wrap; gap: 1rem 2rem; color: var(--text-muted); font-size: .875rem; }
   .article-meta a { color: var(--accent-soft); }
   .review-meta { margin: 1rem 0 0; color: var(--text-muted); font-size: .84rem; }
   .review-meta a { color: var(--accent-soft); }
@@ -227,10 +227,10 @@ const heroCreditUrl = typeof post.mainImage?.creditUrl === "string" && /^https?:
   .hero-image { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-lg); }
   .insight-box, .summary-box { margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--ink-soft); }
   .insight-box { border-color: rgba(97,125,255,.55); }
-  .insight-box p:last-child, .summary-box p:last-child { margin: .6rem 0 0; color: var(--text); font-size: 1.15rem; }
+  .insight-box p:last-child, .summary-box p:last-child { margin: .6rem 0 0; color: var(--text); font-size: var(--text-body-lg); line-height: var(--leading-body-lg); }
   .faq-list { display: grid; gap: 1rem; }
   .faq-item { padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--ink-soft); }
-  .faq-item h3 { margin: 0 0 .65rem; font-size: 1.2rem; }
+  .faq-item h3 { margin: 0 0 .65rem; font-size: var(--text-h4); font-weight: 500; line-height: 1.38; }
   .faq-item p { margin: 0; }
   .sources { padding-left: 1.3rem; }
   .sources li { margin-bottom: .8rem; color: var(--text-muted); }

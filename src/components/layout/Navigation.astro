@@ -116,8 +116,8 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
   .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: rgba(9,11,15,.95); backdrop-filter: blur(18px); }
   .nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; min-height: 4.8rem; gap: 2rem; }
   .nav__desktop { display: flex; justify-content: center; align-items: stretch; height: 100%; gap: clamp(1rem, 2vw, 1.8rem); }
-  .nav__link { display: inline-flex; align-items: center; gap: .35rem; height: 100%; color: var(--text-muted); font-size: .88rem; font-weight: 650; text-decoration: none; transition: color var(--transition); }
-  .nav__link:hover, .nav__link[aria-current="page"] { color: var(--text); }
+  .nav__link { display: inline-flex; align-items: center; gap: .35rem; height: 100%; color: var(--text-muted); font-size: 0.875rem; font-weight: 400; letter-spacing: 0.01em; text-decoration: none; transition: color var(--transition); }
+  .nav__link:hover, .nav__link[aria-current="page"] { color: var(--text); font-weight: 500; }
   
   /* Desktop Dropdown */
   .nav__dropdown-group { position: relative; display: inline-flex; align-items: center; height: 100%; }
@@ -130,7 +130,7 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
     top: calc(100% - 0.25rem);
     left: 50%;
     transform: translateX(-50%);
-    min-width: 15rem;
+    min-width: 15.5rem;
     padding: .45rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
@@ -162,8 +162,9 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
     padding: .6rem .85rem;
     border-radius: calc(var(--radius-sm) - 2px);
     color: var(--text-muted);
-    font-size: .82rem;
-    font-weight: 600;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
     line-height: 1.35;
     text-decoration: none;
     transition: color var(--transition), background var(--transition);
@@ -172,6 +173,7 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
   .nav__dropdown-item:focus-visible,
   .nav__dropdown-item[aria-current="page"] {
     color: var(--text);
+    font-weight: 500;
     background: rgba(255, 255, 255, 0.06);
   }
 
