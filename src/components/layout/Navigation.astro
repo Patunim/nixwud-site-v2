@@ -12,7 +12,37 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
 
     <div class="nav__desktop">
       {navigation.map((item) => (
-        <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
+        item.children && item.children.length > 0 ? (
+          <div class="nav__dropdown-group">
+            <a
+              href={item.href}
+              class="nav__link nav__link--has-dropdown"
+              aria-current={isActive(item.href) ? "page" : undefined}
+              aria-haspopup="true"
+            >
+              <span>{item.label}</span>
+              <svg class="nav__chevron" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true">
+                <path d="M1 1.25L4.5 4.75L8 1.25" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <div class="nav__dropdown" role="menu" aria-label={`${item.label} sub-navigation`}>
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  role="menuitem"
+                  class="nav__dropdown-item"
+                  aria-current={path === child.href ? "page" : undefined}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} class="nav__link" aria-current={isActive(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        )
       ))}
     </div>
 
@@ -26,7 +56,28 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
   <div id="mobile-navigation" class="mobile-nav" hidden data-mobile-menu>
     <div class="container--wide mobile-nav__inner">
       {navigation.map((item) => (
-        <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
+        item.children && item.children.length > 0 ? (
+          <div class="mobile-nav__group">
+            <a href={item.href} class="mobile-nav__parent" aria-current={isActive(item.href) ? "page" : undefined}>
+              {item.label}
+            </a>
+            <div class="mobile-nav__children">
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  class="mobile-nav__child"
+                  aria-current={path === child.href ? "page" : undefined}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        )
       ))}
       <a class="button button--accent" href="/contact">Start a conversation</a>
     </div>
@@ -53,23 +104,84 @@ const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith
     document.body.classList.toggle("menu-open", !open);
     if (!open) requestAnimationFrame(() => menu.querySelector<HTMLElement>("a")?.focus());
   });
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && menu instanceof HTMLElement && !menu.hidden) closeMenu(true); });
-  window.addEventListener("resize", () => { if (window.innerWidth >= 960) closeMenu(false); });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu instanceof HTMLElement && !menu.hidden) closeMenu(true);
+  });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 960) closeMenu(false);
+  });
 </script>
 
 <style>
-  .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: rgba(9,11,15,.92); backdrop-filter: blur(18px); }
+  .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: rgba(9,11,15,.95); backdrop-filter: blur(18px); }
   .nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; min-height: 4.8rem; gap: 2rem; }
-  .nav__desktop { display: flex; justify-content: center; gap: clamp(1rem, 2.3vw, 2rem); }
-  .nav__desktop a { color: var(--text-muted); font-size: .88rem; font-weight: 650; }
-  .nav__desktop a:hover, .nav__desktop a[aria-current="page"] { color: var(--text); }
-  .nav__toggle { display: none; width: 2.8rem; height: 2.8rem; padding: .7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: transparent; }
+  .nav__desktop { display: flex; justify-content: center; align-items: center; gap: clamp(1rem, 2vw, 1.8rem); }
+  .nav__link { display: inline-flex; align-items: center; gap: .35rem; color: var(--text-muted); font-size: .88rem; font-weight: 650; text-decoration: none; transition: color var(--transition); }
+  .nav__link:hover, .nav__link[aria-current="page"] { color: var(--text); }
+  
+  /* Desktop Dropdown */
+  .nav__dropdown-group { position: relative; display: inline-flex; align-items: center; }
+  .nav__chevron { transition: transform var(--transition); opacity: .7; }
+  .nav__dropdown-group:hover .nav__chevron,
+  .nav__dropdown-group:focus-within .nav__chevron { transform: rotate(180deg); opacity: 1; }
+  
+  .nav__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(.35rem);
+    min-width: 14.5rem;
+    padding: .45rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #11151b;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    z-index: 60;
+  }
+  .nav__dropdown-group:hover .nav__dropdown,
+  .nav__dropdown-group:focus-within .nav__dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0.5rem);
+  }
+  .nav__dropdown-item {
+    display: block;
+    padding: .6rem .85rem;
+    border-radius: calc(var(--radius-sm) - 2px);
+    color: var(--text-muted);
+    font-size: .82rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-decoration: none;
+    transition: color var(--transition), background var(--transition);
+  }
+  .nav__dropdown-item:hover,
+  .nav__dropdown-item:focus-visible,
+  .nav__dropdown-item[aria-current="page"] {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .nav__toggle { display: none; width: 2.8rem; height: 2.8rem; padding: .7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: transparent; cursor: pointer; }
   .nav__toggle span { display: block; height: 1px; background: currentColor; }
   .nav__toggle span + span { margin-top: .5rem; }
-  .mobile-nav { position: fixed; inset: 4.8rem 0 0; background: var(--ink); }
-  .mobile-nav__inner { display: grid; gap: 0; padding-block: 1rem 2rem; }
-  .mobile-nav__inner > a:not(.button) { padding: 1rem 0; border-bottom: 1px solid var(--line); font-size: 1.2rem; }
-  .mobile-nav__inner .button { margin-top: 1.5rem; }
+  
+  /* Mobile Navigation */
+  .mobile-nav { position: fixed; inset: 4.8rem 0 0; background: var(--ink); overflow-y: auto; z-index: 49; }
+  .mobile-nav__inner { display: grid; gap: 0; padding-block: 1rem 3rem; }
+  .mobile-nav__inner > a:not(.button) { padding: 1rem 0; border-bottom: 1px solid var(--line); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+  .mobile-nav__group { padding-block: 1rem .5rem; border-bottom: 1px solid var(--line); }
+  .mobile-nav__parent { display: block; font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: .6rem; }
+  .mobile-nav__children { display: grid; gap: .35rem; padding-left: .9rem; border-left: 2px solid rgba(255, 255, 255, 0.12); margin-left: .25rem; }
+  .mobile-nav__child { display: block; padding: .45rem 0; color: var(--text-muted); font-size: .95rem; font-weight: 500; text-decoration: none; }
+  .mobile-nav__child:hover, .mobile-nav__child[aria-current="page"] { color: var(--accent-soft); }
+  .mobile-nav__inner .button { margin-top: 2rem; }
+  
   @media (max-width: 960px) {
     .nav { grid-template-columns: auto 1fr auto; }
     .nav__desktop, .nav__cta { display: none; }

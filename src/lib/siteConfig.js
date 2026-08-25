@@ -6,15 +6,6 @@ export const SITE_DESCRIPTION =
 export const CONTACT_EMAIL = "hello@nixwud.com";
 export const SOCIAL_LINKS = [];
 
-export const navigation = [
-  { label: "Thinking", href: "/insights" },
-  { label: "Services", href: "/services" },
-  { label: "Industries", href: "/industries" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Resources", href: "/resources" },
-  { label: "About", href: "/about" }
-];
-
 export const services = [
   {
     slug: "strategy-business-analysis",
@@ -31,11 +22,11 @@ export const services = [
     outcomes: ["Stronger digital foundations", "Better customer journeys", "Maintainable delivery"]
   },
   {
-    slug: "ai-automation",
+    slug: "ai-crm-business-automation",
     number: "03",
-    title: "AI & Automation",
-    summary: "Identify where automation can remove friction without creating unnecessary operational risk.",
-    outcomes: ["Practical AI readiness", "Reduced manual work", "Responsible adoption"]
+    title: "AI, CRM & Business Automation",
+    summary: "Improve how work moves through your business by connecting AI workflows, CRM pipelines and operational automation.",
+    outcomes: ["Intelligent workflow automation", "Cleaner CRM pipelines & lead routing", "Reduced manual operational friction"]
   },
   {
     slug: "growth-discoverability",
@@ -58,6 +49,29 @@ export const industries = [];
  * @type {Array<{title: string; client?: string; challenge: string; outcome?: string}>}
  */
 export const caseStudies = [];
+
+export const navigation = [
+  { label: "Insights", href: "/insights" },
+  {
+    label: "Services",
+    href: "/services",
+    children: [
+      { label: "All Services", href: "/services" },
+      ...services.map((s) => ({ label: s.title, href: `/services/${s.slug}` }))
+    ]
+  },
+  { label: "Industries", href: "/industries" },
+  {
+    label: "Case Studies",
+    href: "/case-studies",
+    children: [
+      { label: "All Case Studies", href: "/case-studies" },
+      ...caseStudies.map((cs) => ({ label: cs.title, href: cs.href || `/case-studies/${cs.slug}` }))
+    ]
+  },
+  { label: "Resources", href: "/resources" },
+  { label: "About", href: "/about" }
+];
 
 export const resources = [
   {
@@ -101,16 +115,22 @@ export const serviceDetails = {
     ],
     deliverables: ["Digital experience strategy", "Information architecture and UX", "Website and platform delivery", "Content systems and technical governance"]
   },
-  "ai-automation": {
-    eyebrow: "AI & Automation",
-    title: "Use automation where it creates value, not where it creates noise.",
-    description: "We assess workflows, data and operational readiness before recommending AI or automation initiatives.",
+  "ai-crm-business-automation": {
+    eyebrow: "AI, CRM & Business Automation",
+    title: "Connect how work, leads and data move through your systems.",
+    description: "We help organizations design and implement practical automation across AI workflows, CRM lifecycle management, and core business systems—reducing friction without introducing unnecessary operational complexity.",
     challenges: [
-      "Teams are under pressure to adopt AI without a clear use case.",
-      "Manual processes are consuming valuable time.",
-      "Risk, ownership and measurement are unclear."
+      "Manual, repetitive tasks and data entry are consuming valuable team time.",
+      "Leads and prospect data fall through cracks due to fragmented CRM workflows and inconsistent pipeline routing.",
+      "Teams are under pressure to adopt AI or automation without a clear business use case or integration plan.",
+      "Disparate software tools and business platforms operate in silos, creating operational bottlenecks."
     ],
-    deliverables: ["AI readiness assessment", "Workflow and opportunity mapping", "Automation prototypes", "Governance and adoption roadmap"]
+    deliverables: [
+      "AI workflow and repetitive task automation",
+      "CRM architecture, pipeline management and lead routing",
+      "End-to-end system integration and data synchronization",
+      "Process optimization and operational automation roadmap"
+    ]
   },
   "growth-discoverability": {
     eyebrow: "Growth & Discoverability",
