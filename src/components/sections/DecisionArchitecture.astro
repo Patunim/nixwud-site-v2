@@ -192,55 +192,59 @@ const stages = [
 </section>
 
 <script>
-  // Desktop Tab Navigation Logic
-  const desktopTabs = document.querySelectorAll<HTMLButtonElement>(".pipeline-node");
-  const desktopPanels = document.querySelectorAll<HTMLElement>(".stage-panel");
+  function initDecisionArchitecture() {
+    // Desktop Tab Navigation Logic
+    const desktopTabs = document.querySelectorAll<HTMLButtonElement>(".pipeline-node");
+    const desktopPanels = document.querySelectorAll<HTMLElement>(".stage-panel");
 
-  desktopTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const targetId = tab.getAttribute("data-stage");
-      if (!targetId) return;
+    desktopTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const targetId = tab.getAttribute("data-stage");
+        if (!targetId) return;
 
-      desktopTabs.forEach((t) => {
-        const isActive = t === tab;
-        t.classList.toggle("pipeline-node--active", isActive);
-        t.setAttribute("aria-selected", isActive ? "true" : "false");
-      });
+        desktopTabs.forEach((t) => {
+          const isActive = t === tab;
+          t.classList.toggle("pipeline-node--active", isActive);
+          t.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
 
-      desktopPanels.forEach((p) => {
-        const isMatch = p.id === `panel-desktop-${targetId}`;
-        p.classList.toggle("stage-panel--active", isMatch);
-        p.hidden = !isMatch;
+        desktopPanels.forEach((p) => {
+          const isMatch = p.id === `panel-desktop-${targetId}`;
+          p.classList.toggle("stage-panel--active", isMatch);
+          p.hidden = !isMatch;
+        });
       });
     });
-  });
 
-  // Mobile Accordion Logic (Direct In-Place Expansion)
-  const mobileStages = document.querySelectorAll<HTMLElement>(".mobile-stage");
+    // Mobile Accordion Logic (Direct In-Place Expansion)
+    const mobileStages = document.querySelectorAll<HTMLElement>(".mobile-stage");
 
-  mobileStages.forEach((stageEl) => {
-    const trigger = stageEl.querySelector<HTMLButtonElement>(".mobile-stage__trigger");
-    if (!trigger) return;
+    mobileStages.forEach((stageEl) => {
+      const trigger = stageEl.querySelector<HTMLButtonElement>(".mobile-stage__trigger");
+      if (!trigger) return;
 
-    trigger.addEventListener("click", () => {
-      const isCurrentlyActive = stageEl.classList.contains("mobile-stage--active");
+      trigger.addEventListener("click", () => {
+        const isCurrentlyActive = stageEl.classList.contains("mobile-stage--active");
 
-      // Close all mobile stages first (one open at a time)
-      mobileStages.forEach((item) => {
-        item.classList.remove("mobile-stage--active");
-        const btn = item.querySelector<HTMLButtonElement>(".mobile-stage__trigger");
-        if (btn) {
-          btn.setAttribute("aria-expanded", "false");
+        // Close all mobile stages first (one open at a time)
+        mobileStages.forEach((item) => {
+          item.classList.remove("mobile-stage--active");
+          const btn = item.querySelector<HTMLButtonElement>(".mobile-stage__trigger");
+          if (btn) {
+            btn.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        // If it wasn't already open, open it
+        if (!isCurrentlyActive) {
+          stageEl.classList.add("mobile-stage--active");
+          trigger.setAttribute("aria-expanded", "true");
         }
       });
-
-      // If it wasn't already open, open it
-      if (!isCurrentlyActive) {
-        stageEl.classList.add("mobile-stage--active");
-        trigger.setAttribute("aria-expanded", "true");
-      }
     });
-  });
+  }
+
+  document.addEventListener("astro:page-load", initDecisionArchitecture);
 </script>
 
 <style>

@@ -13,51 +13,65 @@ import Layout from "../layouts/Layout.astro";
 
 <script>
   type SearchItem = { title: string; description: string; type: string; url: string };
-  const form = document.querySelector(".search-form");
-  const input = document.querySelector("#site-search");
-  const results = document.querySelector("[data-results]");
-  const status = document.querySelector("[data-status]");
-  let index: SearchItem[] = [];
-  fetch("/search.json")
-    .then((response) => {
-      if (!response.ok) throw new Error("Search index unavailable");
-      return response.json();
-    })
-    .then((data) => {
-      index = Array.isArray(data) ? data : [];
-      const q = new URLSearchParams(location.search).get("q") || (input instanceof HTMLInputElement ? input.value : "");
-      if (q && input instanceof HTMLInputElement) {
-        input.value = q;
-        runSearch(q);
-      }
-    })
-    .catch(() => {
-      if (status) status.textContent = "Search is temporarily unavailable. Please try again shortly.";
-    });
-  function runSearch(query: string) {
-    const normalized = query.trim().toLowerCase();
-    const matches = normalized ? index.filter((item) => `${item.title} ${item.description} ${item.type}`.toLowerCase().includes(normalized)).slice(0, 20) : [];
-    if (status) status.textContent = normalized ? `${matches.length} result${matches.length === 1 ? "" : "s"} for “${query}”.` : "Enter a search term to begin.";
-    if (results) {
-      const cards = matches.map((item) => {
-        const article = document.createElement("article");
-        const type = document.createElement("p");
-        const heading = document.createElement("h2");
-        const link = document.createElement("a");
-        const description = document.createElement("span");
-        const target = new URL(item.url, location.origin);
-        type.textContent = item.type;
-        link.textContent = item.title;
-        link.href = target.origin === location.origin && ["http:", "https:"].includes(target.protocol) ? target.href : "/search";
-        description.textContent = item.description || "";
-        heading.append(link);
-        article.append(type, heading, description);
-        return article;
+  function initSearch() {
+    const form = document.querySelector(".search-form");
+    const input = document.querySelector("#site-search");
+    const results = document.querySelector("[data-results]");
+    const status = document.querySelector("[data-status]");
+    if (!form || !input) return;
+
+    let index: SearchItem[] = [];
+    fetch("/search.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("Search index unavailable");
+        return response.json();
+      })
+      .then((data) => {
+        index = Array.isArray(data) ? data : [];
+        const q = new URLSearchParams(location.search).get("q") || (input instanceof HTMLInputElement ? input.value : "");
+        if (q && input instanceof HTMLInputElement) {
+          input.value = q;
+          runSearch(q);
+        }
+      })
+      .catch(() => {
+        if (status) status.textContent = "Search is temporarily unavailable. Please try again shortly.";
       });
-      results.replaceChildren(...cards);
+
+    function runSearch(query: string) {
+      const normalized = query.trim().toLowerCase();
+      const matches = normalized ? index.filter((item) => `${item.title} ${item.description} ${item.type}`.toLowerCase().includes(normalized)).slice(0, 20) : [];
+      if (status) status.textContent = normalized ? `${matches.length} result${matches.length === 1 ? "" : "s"} for "${query}".` : "Enter a search term to begin.";
+      if (results) {
+        const cards = matches.map((item) => {
+          const article = document.createElement("article");
+          const type = document.createElement("p");
+          const heading = document.createElement("h2");
+          const link = document.createElement("a");
+          const description = document.createElement("span");
+          const target = new URL(item.url, location.origin);
+          type.textContent = item.type;
+          link.textContent = item.title;
+          link.href = target.origin === location.origin && ["http:", "https:"].includes(target.protocol) ? target.href : "/search";
+          description.textContent = item.description || "";
+          heading.append(link);
+          article.append(type, heading, description);
+          return article;
+        });
+        results.replaceChildren(...cards);
+      }
     }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!(input instanceof HTMLInputElement)) return;
+      const query = input.value;
+      history.replaceState({}, "", query ? `?q=${encodeURIComponent(query)}` : location.pathname);
+      runSearch(query);
+    });
   }
-  form?.addEventListener("submit", (event) => { event.preventDefault(); if (!(input instanceof HTMLInputElement)) return; const query = input.value; history.replaceState({}, "", query ? `?q=${encodeURIComponent(query)}` : location.pathname); runSearch(query); });
+
+  document.addEventListener("astro:page-load", initSearch);
 </script>
 
 <style>

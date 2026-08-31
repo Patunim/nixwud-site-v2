@@ -287,6 +287,7 @@ const isActive = (href: string) =>
   } else {
     initMobileNavigation();
   }
+  document.addEventListener("astro:page-load", initMobileNavigation);
 </script>
 
 <style>

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Navigation from "../components/layout/Navigation.astro";
 import Footer from "../components/layout/Footer.astro";
 import AnalyticsConsent from "../components/AnalyticsConsent.astro";
@@ -101,6 +102,7 @@ const serializedSchemas = allSchemas.map(serializeJsonLd);
     {authorName && <meta name="author" content={authorName} />}
     {serializedSchemas.map((schema) => <script is:inline type="application/ld+json" set:html={schema}></script>)}
 
+    <ClientRouter />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -121,24 +123,28 @@ const serializedSchemas = allSchemas.map(serializeJsonLd);
     )}
     <AnalyticsConsent analyticsId={analyticsId} clarityId={clarityId} />
     <script>
-      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("is-revealed");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
-        );
+      function initScrollReveal() {
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("is-revealed");
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
+          );
 
-        document.querySelectorAll("section, .page-hero, .toolkit-feature, .toolkit-instrument, .featured-insight").forEach((el) => {
-          el.classList.add("reveal-on-scroll");
-          observer.observe(el);
-        });
+          document.querySelectorAll("section, .page-hero, .toolkit-feature, .toolkit-instrument, .featured-insight").forEach((el) => {
+            el.classList.add("reveal-on-scroll");
+            observer.observe(el);
+          });
+        }
       }
+
+      document.addEventListener("astro:page-load", initScrollReveal);
     </script>
   </body>
 </html>

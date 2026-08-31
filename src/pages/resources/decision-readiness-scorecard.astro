@@ -91,75 +91,81 @@ const questions = [
 </Layout>
 
 <script>
-  const form = document.querySelector("#readiness-form");
-  const result = document.querySelector("#result");
-  const bands = [
-    {
-      max: 24,
-      tag: "High Uncertainty",
-      title: "Pause and clarify",
-      message: "The decision is carrying material uncertainty. Moving directly to implementation is likely to create avoidable rework and unexpected friction.",
-      actions: [
-        "Restate the underlying business friction without referencing software products",
-        "Identify missing cross-functional stakeholders and baseline evidence",
-        "Establish explicit decision ownership and clear criteria for success"
-      ]
-    },
-    {
-      max: 38,
-      tag: "Moderate Alignment",
-      title: "Promising, but not fully aligned",
-      message: "The foundations are forming, but several critical gaps could weaken delivery, team adoption or measurement.",
-      actions: [
-        "Resolve the lowest-scoring statements first before authorizing vendor commitments",
-        "Compare realistic options and trade-offs explicitly with the operating team",
-        "Confirm internal operational bandwidth, governance and milestone metrics"
-      ]
-    },
-    {
-      max: 50,
-      tag: "Execution Ready",
-      title: "Ready for structured action",
-      message: "The decision has strong strategic and technical foundations. Preserve that clarity as the initiative moves into staged delivery.",
-      actions: [
-        "Document the agreed decision criteria in an executive project charter",
-        "Deliver in measurable, verifiable stages tied to operational value",
-        "Review evidence and underlying assumptions at each deployment milestone"
-      ]
-    }
-  ];
+  function initScorecard() {
+    const form = document.querySelector("#readiness-form");
+    const result = document.querySelector("#result");
+    if (!form || !result) return;
 
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
-    const data = new FormData(form);
-    const score = Array.from({ length: 10 }, (_, index) => Number(data.get(`q${index + 1}`) || 0)).reduce((sum, value) => sum + value, 0);
-    const band = bands.find((item) => score <= item.max) || bands[2];
-    const scoreNode = result.querySelector("[data-score]");
-    const tagNode = result.querySelector("[data-band-tag]");
-    const meterNode = result.querySelector<HTMLElement>("[data-meter-bar]");
-    const titleNode = result.querySelector("[data-title]");
-    const messageNode = result.querySelector("[data-message]");
-    const actionsNode = result.querySelector("[data-actions]");
+    const bands = [
+      {
+        max: 24,
+        tag: "High Uncertainty",
+        title: "Pause and clarify",
+        message: "The decision is carrying material uncertainty. Moving directly to implementation is likely to create avoidable rework and unexpected friction.",
+        actions: [
+          "Restate the underlying business friction without referencing software products",
+          "Identify missing cross-functional stakeholders and baseline evidence",
+          "Establish explicit decision ownership and clear criteria for success"
+        ]
+      },
+      {
+        max: 38,
+        tag: "Moderate Alignment",
+        title: "Promising, but not fully aligned",
+        message: "The foundations are forming, but several critical gaps could weaken delivery, team adoption or measurement.",
+        actions: [
+          "Resolve the lowest-scoring statements first before authorizing vendor commitments",
+          "Compare realistic options and trade-offs explicitly with the operating team",
+          "Confirm internal operational bandwidth, governance and milestone metrics"
+        ]
+      },
+      {
+        max: 50,
+        tag: "Execution Ready",
+        title: "Ready for structured action",
+        message: "The decision has strong strategic and technical foundations. Preserve that clarity as the initiative moves into staged delivery.",
+        actions: [
+          "Document the agreed decision criteria in an executive project charter",
+          "Deliver in measurable, verifiable stages tied to operational value",
+          "Review evidence and underlying assumptions at each deployment milestone"
+        ]
+      }
+    ];
 
-    if (scoreNode) scoreNode.textContent = String(score);
-    if (tagNode) tagNode.textContent = band.tag;
-    if (meterNode) meterNode.style.width = `${(score / 50) * 100}%`;
-    if (titleNode) titleNode.textContent = band.title;
-    if (messageNode) messageNode.textContent = band.message;
-    if (actionsNode) actionsNode.innerHTML = band.actions.map((action) => `<li><span class="action-bullet">›</span><span>${action}</span></li>`).join("");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
+      const data = new FormData(form);
+      const score = Array.from({ length: 10 }, (_, index) => Number(data.get(`q${index + 1}`) || 0)).reduce((sum, value) => sum + value, 0);
+      const band = bands.find((item) => score <= item.max) || bands[2];
+      const scoreNode = result.querySelector("[data-score]");
+      const tagNode = result.querySelector("[data-band-tag]");
+      const meterNode = result.querySelector<HTMLElement>("[data-meter-bar]");
+      const titleNode = result.querySelector("[data-title]");
+      const messageNode = result.querySelector("[data-message]");
+      const actionsNode = result.querySelector("[data-actions]");
 
-    result.hidden = false;
-    result.focus();
-    result.scrollIntoView({ behavior: "smooth" });
-  });
+      if (scoreNode) scoreNode.textContent = String(score);
+      if (tagNode) tagNode.textContent = band.tag;
+      if (meterNode) meterNode.style.width = `${(score / 50) * 100}%`;
+      if (titleNode) titleNode.textContent = band.title;
+      if (messageNode) messageNode.textContent = band.message;
+      if (actionsNode) actionsNode.innerHTML = band.actions.map((action) => `<li><span class="action-bullet">›</span><span>${action}</span></li>`).join("");
 
-  result?.querySelector("[data-reset]")?.addEventListener("click", () => {
-    if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
-    form.reset();
-    result.hidden = true;
-    form.scrollIntoView({ behavior: "smooth" });
-  });
+      result.hidden = false;
+      result.focus();
+      result.scrollIntoView({ behavior: "smooth" });
+    });
+
+    result.querySelector("[data-reset]")?.addEventListener("click", () => {
+      if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
+      form.reset();
+      result.hidden = true;
+      form.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initScorecard);
 </script>
 
 <style>
