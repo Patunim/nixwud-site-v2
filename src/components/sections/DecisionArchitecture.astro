@@ -73,54 +73,116 @@ const stages = [
       description="A structured path from operational uncertainty to measurable commercial value."
     />
 
-    <div class="decision-arch__pipeline" role="tablist" aria-label="Decision Architecture stages">
-      {stages.map((stage, index) => (
-        <button
-          type="button"
-          class:list={["pipeline-node", { "pipeline-node--active": index === 0 }]}
-          data-stage={stage.id}
-          role="tab"
-          aria-selected={index === 0 ? "true" : "false"}
-          aria-controls={`panel-${stage.id}`}
-          id={`tab-${stage.id}`}
-        >
-          <span class="pipeline-node__num">{stage.number}</span>
-          <span class="pipeline-node__label">{stage.label}</span>
-          <span class="pipeline-node__dot" aria-hidden="true"></span>
-        </button>
-      ))}
-    </div>
+    <!-- Desktop View (Horizontal Pipeline + Tabbed Panel) -->
+    <div class="decision-arch__desktop">
+      <div class="decision-arch__pipeline" role="tablist" aria-label="Decision Architecture stages">
+        {stages.map((stage, index) => (
+          <button
+            type="button"
+            class:list={["pipeline-node", { "pipeline-node--active": index === 0 }]}
+            data-stage={stage.id}
+            role="tab"
+            aria-selected={index === 0 ? "true" : "false"}
+            aria-controls={`panel-desktop-${stage.id}`}
+            id={`tab-desktop-${stage.id}`}
+          >
+            <span class="pipeline-node__num">{stage.number}</span>
+            <span class="pipeline-node__label">{stage.label}</span>
+            <span class="pipeline-node__dot" aria-hidden="true"></span>
+          </button>
+        ))}
+      </div>
 
-    <div class="decision-arch__display">
-      {stages.map((stage, index) => (
-        <div
-          class:list={["stage-panel", { "stage-panel--active": index === 0 }]}
-          id={`panel-${stage.id}`}
-          role="tabpanel"
-          aria-labelledby={`tab-${stage.id}`}
-          hidden={index !== 0}
-        >
-          <div class="stage-panel__grid">
-            <div class="stage-panel__main">
-              <span class="stage-panel__kicker">Stage {stage.number} Focus</span>
-              <h3>{stage.label}</h3>
-              <p class="stage-panel__summary">{stage.summary}</p>
-              <div class="stage-panel__output">
-                <span class="output-label">Key Consulting Output</span>
-                <strong>{stage.output}</strong>
+      <div class="decision-arch__display">
+        {stages.map((stage, index) => (
+          <div
+            class:list={["stage-panel", { "stage-panel--active": index === 0 }]}
+            id={`panel-desktop-${stage.id}`}
+            role="tabpanel"
+            aria-labelledby={`tab-desktop-${stage.id}`}
+            hidden={index !== 0}
+          >
+            <div class="stage-panel__grid">
+              <div class="stage-panel__main">
+                <span class="stage-panel__kicker">Stage {stage.number} Focus</span>
+                <h3>{stage.label}</h3>
+                <p class="stage-panel__summary">{stage.summary}</p>
+                <div class="stage-panel__output">
+                  <span class="output-label">Key Consulting Output</span>
+                  <strong>{stage.output}</strong>
+                </div>
+              </div>
+
+              <div class="stage-panel__questions">
+                <span class="questions-label">Critical Diagnostic Questions</span>
+                <ul class="list-clean diagnostic-list">
+                  {stage.questions.map((q) => (
+                    <li>
+                      <span class="bullet" aria-hidden="true">›</span>
+                      <span>{q}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
+          </div>
+        ))}
+      </div>
+    </div>
 
-            <div class="stage-panel__questions">
-              <span class="questions-label">Critical Diagnostic Questions</span>
-              <ul class="list-clean diagnostic-list">
-                {stage.questions.map((q) => (
-                  <li>
-                    <span class="bullet" aria-hidden="true">›</span>
-                    <span>{q}</span>
-                  </li>
-                ))}
-              </ul>
+    <!-- Mobile View (Accordion with Content Directly Under Each Stage) -->
+    <div class="decision-arch__mobile" aria-label="Decision Architecture stages accordion">
+      {stages.map((stage, index) => (
+        <div
+          class:list={["mobile-stage", { "mobile-stage--active": index === 0 }]}
+          data-mobile-stage={stage.id}
+        >
+          <button
+            type="button"
+            class="mobile-stage__trigger"
+            aria-expanded={index === 0 ? "true" : "false"}
+            aria-controls={`panel-mobile-${stage.id}`}
+            id={`tab-mobile-${stage.id}`}
+          >
+            <div class="mobile-stage__meta">
+              <span class="mobile-stage__num">{stage.number}</span>
+              <span class="mobile-stage__title">{stage.label}</span>
+            </div>
+            <span class="mobile-stage__indicator" aria-hidden="true">
+              <svg class="mobile-stage__chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+
+          <div
+            class="mobile-stage__drawer"
+            id={`panel-mobile-${stage.id}`}
+            role="region"
+            aria-labelledby={`tab-mobile-${stage.id}`}
+          >
+            <div class="mobile-stage__content">
+              <div class="mobile-stage__inner">
+                <span class="stage-panel__kicker">Stage {stage.number} Focus</span>
+                <p class="mobile-stage__summary">{stage.summary}</p>
+
+                <div class="stage-panel__output">
+                  <span class="output-label">Key Consulting Output</span>
+                  <strong>{stage.output}</strong>
+                </div>
+
+                <div class="mobile-stage__questions">
+                  <span class="questions-label">Critical Diagnostic Questions</span>
+                  <ul class="list-clean diagnostic-list">
+                    {stage.questions.map((q) => (
+                      <li>
+                        <span class="bullet" aria-hidden="true">›</span>
+                        <span>{q}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -130,25 +192,53 @@ const stages = [
 </section>
 
 <script>
-  const tabs = document.querySelectorAll<HTMLButtonElement>(".pipeline-node");
-  const panels = document.querySelectorAll<HTMLElement>(".stage-panel");
+  // Desktop Tab Navigation Logic
+  const desktopTabs = document.querySelectorAll<HTMLButtonElement>(".pipeline-node");
+  const desktopPanels = document.querySelectorAll<HTMLElement>(".stage-panel");
 
-  tabs.forEach((tab) => {
+  desktopTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const targetId = tab.getAttribute("data-stage");
       if (!targetId) return;
 
-      tabs.forEach((t) => {
+      desktopTabs.forEach((t) => {
         const isActive = t === tab;
         t.classList.toggle("pipeline-node--active", isActive);
         t.setAttribute("aria-selected", isActive ? "true" : "false");
       });
 
-      panels.forEach((p) => {
-        const isMatch = p.id === `panel-${targetId}`;
+      desktopPanels.forEach((p) => {
+        const isMatch = p.id === `panel-desktop-${targetId}`;
         p.classList.toggle("stage-panel--active", isMatch);
         p.hidden = !isMatch;
       });
+    });
+  });
+
+  // Mobile Accordion Logic (Direct In-Place Expansion)
+  const mobileStages = document.querySelectorAll<HTMLElement>(".mobile-stage");
+
+  mobileStages.forEach((stageEl) => {
+    const trigger = stageEl.querySelector<HTMLButtonElement>(".mobile-stage__trigger");
+    if (!trigger) return;
+
+    trigger.addEventListener("click", () => {
+      const isCurrentlyActive = stageEl.classList.contains("mobile-stage--active");
+
+      // Close all mobile stages first (one open at a time)
+      mobileStages.forEach((item) => {
+        item.classList.remove("mobile-stage--active");
+        const btn = item.querySelector<HTMLButtonElement>(".mobile-stage__trigger");
+        if (btn) {
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // If it wasn't already open, open it
+      if (!isCurrentlyActive) {
+        stageEl.classList.add("mobile-stage--active");
+        trigger.setAttribute("aria-expanded", "true");
+      }
     });
   });
 </script>
@@ -157,6 +247,15 @@ const stages = [
   .decision-arch {
     position: relative;
     background-image: radial-gradient(circle at 15% 50%, rgba(83, 109, 206, 0.04) 0%, transparent 50%);
+  }
+
+  /* Desktop View */
+  .decision-arch__desktop {
+    display: block;
+  }
+
+  .decision-arch__mobile {
+    display: none;
   }
 
   .decision-arch__pipeline {
@@ -186,6 +285,11 @@ const stages = [
   .pipeline-node:hover {
     background: var(--ink-soft);
     border-color: var(--line);
+  }
+
+  .pipeline-node:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
   .pipeline-node--active {
@@ -342,27 +446,157 @@ const stages = [
     line-height: 1.2;
   }
 
+  /* Mobile Accordion Styles */
   @media (max-width: 960px) {
-    .decision-arch__pipeline {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .pipeline-node__dot {
+    .decision-arch__desktop {
       display: none;
     }
 
-    .stage-panel__grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+    .decision-arch__mobile {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+      margin-top: 2rem;
+    }
+
+    .mobile-stage {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--ink-soft);
+      overflow: hidden;
+      transition: border-color 220ms ease, background 220ms ease, box-shadow 220ms ease;
+    }
+
+    .mobile-stage--active {
+      border-color: rgba(97, 125, 255, 0.45);
+      background: rgba(18, 22, 34, 0.95);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .mobile-stage__trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1.1rem 1.25rem;
+      background: transparent;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: background 200ms ease;
+    }
+
+    .mobile-stage__trigger:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    .mobile-stage__meta {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .mobile-stage__num {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--accent-soft);
+      flex-shrink: 0;
+    }
+
+    .mobile-stage__title {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+      transition: color 200ms ease;
+    }
+
+    .mobile-stage--active .mobile-stage__title {
+      color: var(--accent-soft);
+    }
+
+    .mobile-stage__indicator {
+      display: grid;
+      place-items: center;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: var(--radius-xs);
+      color: var(--text-muted);
+      flex-shrink: 0;
+      margin-left: 0.5rem;
+      transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), color 200ms ease;
+    }
+
+    .mobile-stage__chevron {
+      display: block;
+      transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-stage--active .mobile-stage__chevron {
+      transform: rotate(180deg);
+      color: var(--accent-soft);
+    }
+
+    /* CSS Grid based smooth accordion animation */
+    .mobile-stage__drawer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-stage--active .mobile-stage__drawer {
+      grid-template-rows: 1fr;
+    }
+
+    .mobile-stage__content {
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 220ms ease, transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-stage--active .mobile-stage__content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-stage__inner {
+      padding: 0 1.25rem 1.35rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 0.25rem;
+      padding-top: 1.1rem;
+    }
+
+    .mobile-stage__summary {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: var(--leading-body);
+      margin: 0.35rem 0 1.25rem;
+    }
+
+    .mobile-stage__questions {
+      margin-top: 1.25rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .stage-panel {
       animation: none;
+    }
+
+    .mobile-stage__drawer,
+    .mobile-stage__content,
+    .mobile-stage__chevron {
+      transition: none !important;
     }
   }
 </style>
