@@ -3,7 +3,14 @@ import "../styles/global.css";
 import Navigation from "../components/layout/Navigation.astro";
 import Footer from "../components/layout/Footer.astro";
 import AnalyticsConsent from "../components/AnalyticsConsent.astro";
-import { CONTACT_EMAIL, SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "../lib/siteConfig.js";
+import { SITE_DESCRIPTION, SITE_NAME } from "../lib/siteConfig.js";
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+  getAbsoluteImageUrl,
+  getCanonicalUrl,
+  serializeJsonLd
+} from "../lib/seo.js";
 
 interface Props {
   title?: string;
@@ -32,11 +39,13 @@ const {
 } = Astro.props;
 
 const siteName = SITE_NAME;
-const baseUrl = SITE_URL;
-const pageTitle = title ? `${title} | ${siteName}` : `${siteName} — Business & Technology Consultancy`;
-const canonicalUrl = canonical || new URL(Astro.url.pathname, baseUrl).toString();
-const resolvedImage = typeof image === "string" && image.trim() ? image : "/og-default.png";
-const imageUrl = /^https?:\/\//i.test(resolvedImage) ? resolvedImage : new URL(resolvedImage, baseUrl).toString();
+const pageTitle = title
+  ? title.includes(siteName)
+    ? title
+    : `${title} | ${siteName}`
+  : `${siteName} | Business & Technology Consultancy`;
+const canonicalUrl = canonical || getCanonicalUrl(Astro.url.pathname);
+const imageUrl = getAbsoluteImageUrl(image);
 const maintenanceMode = import.meta.env.PUBLIC_MAINTENANCE_MODE === "true";
 const configuredAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID || "G-7RY15GCJ1Z";
 const analyticsId = /^G-[A-Z0-9]+$/i.test(configuredAnalyticsId) ? configuredAnalyticsId : undefined;
@@ -44,31 +53,20 @@ const searchConsoleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATIO
 const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION?.trim();
 const configuredClarityId = import.meta.env.PUBLIC_MICROSOFT_CLARITY_ID?.trim();
 const clarityId = configuredClarityId && /^[a-z0-9]+$/i.test(configuredClarityId) ? configuredClarityId : undefined;
-const logoUrl = new URL("/favicon.svg", baseUrl).toString();
 
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": `${baseUrl}#organization`,
-  name: siteName,
-  url: baseUrl,
-  logo: logoUrl,
-  description: SITE_DESCRIPTION,
-  email: CONTACT_EMAIL,
-  sameAs: SOCIAL_LINKS,
-  knowsAbout: ["Business strategy", "Business analysis", "Technology consulting", "Digital platforms", "AI readiness", "AI automation", "CRM automation", "Business automation", "SEO", "Generative engine optimization"]
-};
-const pageSchemas = Array.isArray(structuredData)
+const isHomepage = Astro.url.pathname === "/" || Astro.url.pathname === "";
+const baseSchemas = isHomepage
+  ? [buildOrganizationSchema(), buildWebSiteSchema()]
+  : [buildOrganizationSchema()];
+
+const customSchemas = Array.isArray(structuredData)
   ? structuredData
   : structuredData
     ? [structuredData]
     : [];
-const serializeJsonLd = (value: Record<string, unknown>) => JSON.stringify(value)
-  .replace(/</g, "\\u003c")
-  .replace(/\u2028/g, "\\u2028")
-  .replace(/\u2029/g, "\\u2029");
-const organizationSchemaJson = serializeJsonLd(organizationSchema);
-const pageSchemaJson = pageSchemas.map(serializeJsonLd);
+
+const allSchemas = [...baseSchemas, ...customSchemas];
+const serializedSchemas = allSchemas.map(serializeJsonLd);
 ---
 
 <!doctype html>
@@ -80,6 +78,7 @@ const pageSchemaJson = pageSchemas.map(serializeJsonLd);
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -100,8 +99,7 @@ const pageSchemaJson = pageSchemas.map(serializeJsonLd);
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {updatedTime && <meta property="article:modified_time" content={updatedTime} />}
     {authorName && <meta name="author" content={authorName} />}
-    <script is:inline type="application/ld+json" set:html={organizationSchemaJson}></script>
-    {pageSchemaJson.map((schema) => <script is:inline type="application/ld+json" set:html={schema}></script>)}
+    {serializedSchemas.map((schema) => <script is:inline type="application/ld+json" set:html={schema}></script>)}
 
   </head>
   <body>
@@ -122,6 +120,26 @@ const pageSchemaJson = pageSchemas.map(serializeJsonLd);
       </>
     )}
     <AnalyticsConsent analyticsId={analyticsId} clarityId={clarityId} />
+    <script>
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-revealed");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
+        );
+
+        document.querySelectorAll("section, .page-hero, .toolkit-feature, .toolkit-instrument, .featured-insight").forEach((el) => {
+          el.classList.add("reveal-on-scroll");
+          observer.observe(el);
+        });
+      }
+    </script>
   </body>
 </html>
 

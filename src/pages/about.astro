@@ -1,53 +1,303 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CTA from "../components/sections/CTA.astro";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/about");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "About", url: "/about" }
+]);
+
+const principles = [
+  {
+    number: "01",
+    title: "Business before technology",
+    desc: "Begin with organizational context, human workflows and commercial outcomes, not software tools or vendor pitches."
+  },
+  {
+    number: "02",
+    title: "Clarity over complexity",
+    desc: "Make the most important strategic decisions easy to see, understand, communicate and act upon."
+  },
+  {
+    number: "03",
+    title: "Teach before selling",
+    desc: "Provide useful, rigorous thinking and diagnostics that earn executive trust before any commercial engagement."
+  },
+  {
+    number: "04",
+    title: "Measure what matters",
+    desc: "Connect delivery milestones to concrete operational evidence and commercial outcomes that leadership values."
+  },
+  {
+    number: "05",
+    title: "Think before building",
+    desc: "Reduce structural uncertainty early through disciplined framing, before it turns into expensive development rework."
+  },
+  {
+    number: "06",
+    title: "Build for the long term",
+    desc: "Create systems, codebases and documentation that internal teams can easily understand, operate and evolve independently."
+  }
+];
 ---
 
-<Layout title="About Nixwud Consultancy" description="Nixwud Consultancy combines strategic thinking, business understanding and modern technology to support better decisions.">
+<Layout
+  title="About Us & Operating Principles"
+  description="Learn about Nixwud Consultancy's mission, philosophy and six operating principles for aligning business decisions and technology execution."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
   <header class="page-hero">
     <div class="container--wide">
       <p class="eyebrow">About Nixwud Consultancy</p>
       <h1>We help organizations think clearly before they build.</h1>
-      <p class="lede">Nixwud Consultancy exists to connect business understanding with technology judgement—so leaders can make stronger decisions and build for the long term.</p>
+      <p class="lede">Nixwud Consultancy exists to connect commercial understanding with technology judgement, so leaders can make stronger decisions and build systems for the long term.</p>
     </div>
   </header>
 
-  <section class="section">
-    <div class="container split">
-      <div><p class="eyebrow">Our point of view</p><h2>Technology is the vehicle. Business outcomes are the product.</h2></div>
-      <div>
-        <p class="lede">A new platform, campaign or automation is only useful when it improves how an organization works, serves customers or grows.</p>
-        <p>That is why our work begins with questions: What is changing? Where is the friction? What evidence matters? What must the organization be able to do next?</p>
+  <!-- Editorial Centerpiece Statement -->
+  <section class="section border-bottom pov-centerpiece">
+    <div class="container--wide">
+      <p class="eyebrow">Core conviction</p>
+      <h2 class="pov-statement">Technology is the vehicle. Business outcomes are the product.</h2>
+      <div class="pov-grid">
+        <div class="pov-narrative">
+          <p class="lede">A new digital platform, automated workflow or CRM integration is only useful when it measurably improves how an organization operates, serves customers or grows.</p>
+          <p>That is why our work begins with fundamental questions: What is changing? Where is the operational friction? What evidence matters? What must the organization be capable of doing next?</p>
+        </div>
+        <div class="system-map" aria-label="System relationship map">
+          <div class="system-node">
+            <span class="node-tag">CONTEXT</span>
+            <strong>Business Need</strong>
+          </div>
+          <span class="system-arrow" aria-hidden="true">→</span>
+          <div class="system-node">
+            <span class="node-tag">ALIGNMENT</span>
+            <strong>Decision Framing</strong>
+          </div>
+          <span class="system-arrow" aria-hidden="true">→</span>
+          <div class="system-node">
+            <span class="node-tag">ARCHITECTURE</span>
+            <strong>Systems & Tools</strong>
+          </div>
+          <span class="system-arrow" aria-hidden="true">→</span>
+          <div class="system-node system-node--accent">
+            <span class="node-tag">VALUE</span>
+            <strong>Outcome Delivered</strong>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Editorial Numbered Principles Bands -->
   <section class="section section--paper">
     <div class="container--wide">
-      <p class="eyebrow paper-eyebrow">Operating principles</p>
-      <div class="principle-grid grid grid--3">
-        <article><span>01</span><h3>Business before technology</h3><p>Begin with context, people and outcomes—not tools.</p></article>
-        <article><span>02</span><h3>Clarity over complexity</h3><p>Make the important idea easier to see and act on.</p></article>
-        <article><span>03</span><h3>Teach before selling</h3><p>Useful thinking earns trust before a commercial conversation.</p></article>
-        <article><span>04</span><h3>Measure what matters</h3><p>Connect delivery to evidence the organization values.</p></article>
-        <article><span>05</span><h3>Think before building</h3><p>Reduce uncertainty before it turns into expensive rework.</p></article>
-        <article><span>06</span><h3>Build for the long term</h3><p>Create systems teams can understand, operate and improve.</p></article>
+      <header class="principles-header">
+        <p class="eyebrow paper-eyebrow">Operating principles</p>
+        <h2>Six foundational commitments that govern our work.</h2>
+        <p class="lede">These principles shape how we evaluate trade-offs, advise leadership teams and structure engagements.</p>
+      </header>
+
+      <div class="principles-bands">
+        {principles.map((principle) => (
+          <article class="principle-band">
+            <span class="principle-band__num">{principle.number}</span>
+            <div class="principle-band__content">
+              <h3>{principle.title}</h3>
+              <p>{principle.desc}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="section border-bottom">
-    <div class="container split">
-      <div><p class="eyebrow">Mission</p><h2>Stronger digital foundations. Sustainable growth.</h2></div>
-      <div><p class="lede">Our mission is to combine strategic thinking, business understanding and modern technology to help organizations build stronger digital foundations and achieve sustainable growth.</p><p>Our long-term ambition is simple: become the company businesses learn from first and hire second.</p></div>
+  <section class="section border-bottom mission-section">
+    <div class="container--narrow">
+      <p class="eyebrow">Firm mission</p>
+      <h2 class="mission-headline">Stronger digital foundations. Sustainable growth.</h2>
+      <p class="lede mission-lede">
+        Our mission is to combine strategic thinking, business analysis and modern technology to help organizations build resilient digital foundations and achieve sustainable commercial growth.
+      </p>
+      <p class="mission-ambition">
+        Our long-term ambition is simple: become the consultancy businesses learn from first and hire second.
+      </p>
     </div>
   </section>
   <CTA />
 </Layout>
 
 <style>
-  .paper-eyebrow { color: #3554d8; }
-  .principle-grid article { min-height: 15rem; padding: 1.5rem 0; border-top: 1px solid var(--line-dark); }
-  .principle-grid span { color: #3554d8; font-size: .78rem; font-weight: 800; }
-  .principle-grid h3 { margin: 2.5rem 0 .8rem; }
+  .pov-centerpiece {
+    padding-block: clamp(4.5rem, 7vw, 7rem);
+    background-image: radial-gradient(circle at 10% 50%, rgba(83, 109, 206, 0.04) 0%, transparent 60%);
+  }
+
+  .pov-statement {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
+    margin: 1rem 0 3rem;
+  }
+
+  .pov-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .pov-narrative p {
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+    line-height: var(--leading-body);
+  }
+
+  .pov-narrative .lede {
+    color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+
+  .system-map {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1.25rem;
+    border: 1px solid var(--line);
+    background: var(--ink-soft);
+    border-radius: var(--radius-md);
+  }
+
+  .system-node {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .system-node .node-tag {
+    color: var(--accent-soft);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .system-node strong {
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .system-node--accent strong {
+    color: var(--accent-soft);
+  }
+
+  .system-arrow {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    opacity: 0.5;
+  }
+
+  .principles-header {
+    max-width: 48rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .principles-header h2 {
+    max-width: 22ch;
+    margin-bottom: 1rem;
+  }
+
+  .principles-bands {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .principle-band {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 2rem;
+    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .principle-band:last-child {
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .principle-band__num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .principle-band__content h3 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.2rem, 1.4vw, 1.45rem);
+    color: var(--ink);
+  }
+
+  .principle-band__content p {
+    margin: 0;
+    color: var(--text-dark-muted);
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+    max-width: 42rem;
+  }
+
+  .mission-section {
+    padding-block: clamp(5rem, 8vw, 8rem);
+  }
+
+  .mission-headline {
+    font-size: clamp(2rem, 3.2vw, 2.75rem);
+    max-width: 24ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .mission-lede {
+    margin-bottom: 1.5rem;
+  }
+
+  .mission-ambition {
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+    line-height: var(--leading-body);
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 900px) {
+    .pov-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .system-map {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .system-arrow {
+      transform: rotate(90deg);
+      text-align: center;
+    }
+
+    .principle-band {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
 </style>

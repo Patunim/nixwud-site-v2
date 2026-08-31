@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nixwud Symbol">
+  <rect width="64" height="64" rx="14" fill="#090b0f"/>
+  <rect x="7" y="7" width="50" height="50" rx="10" fill="none" stroke="#617dff" stroke-width="2"/>
+  <path d="M19 45V19h6.2l13.8 17.2V19h6v26h-6.2L25 27.8V45z" fill="#f4f3ef"/>
+</svg>

@@ -6,21 +6,62 @@ import Button from "../ui/Button.astro";
   <div class="container--wide hero__inner">
     <div class="hero__copy">
       <p class="eyebrow">Business & Technology Consultancy</p>
-      <h1>Better technology decisions begin with understanding your business.</h1>
-      <p class="lede">Nixwud Consultancy helps organizations connect strategy, systems and execution so technology creates measurable business value.</p>
-      <div class="button-row">
+      <h1 class="hero__headline">Better technology decisions begin with understanding your business.</h1>
+      <p class="lede hero__lede">
+        Nixwud Consultancy helps organizations connect strategy, systems and execution so technology creates measurable business value.
+      </p>
+      <div class="button-row hero__actions">
         <Button href="/contact" variant="primary">Discuss your priorities</Button>
         <Button href="/insights" variant="secondary">Explore our thinking</Button>
       </div>
     </div>
 
     <aside class="hero__framework" aria-label="Nixwud decision framework">
-      <p class="kicker">A clearer decision path</p>
-      <ol>
-        <li><span>01</span><strong>Understand</strong><small>Context before assumptions</small></li>
-        <li><span>02</span><strong>Align</strong><small>Priorities before projects</small></li>
-        <li><span>03</span><strong>Decide</strong><small>Evidence before investment</small></li>
-        <li><span>04</span><strong>Deliver</strong><small>Outcomes before output</small></li>
+      <div class="hero__framework-header">
+        <span class="hero__framework-tag">Consulting Method</span>
+        <p class="hero__framework-title">A clearer decision path</p>
+      </div>
+      <ol class="hero__framework-list">
+        <li class="hero__framework-item">
+          <div class="hero__framework-marker">
+            <span class="hero__framework-num">01</span>
+            <span class="hero__framework-node" aria-hidden="true"></span>
+          </div>
+          <div class="hero__framework-body">
+            <strong class="hero__framework-title-item">Understand</strong>
+            <small class="hero__framework-desc">Context before assumptions</small>
+          </div>
+        </li>
+        <li class="hero__framework-item">
+          <div class="hero__framework-marker">
+            <span class="hero__framework-num">02</span>
+            <span class="hero__framework-node" aria-hidden="true"></span>
+          </div>
+          <div class="hero__framework-body">
+            <strong class="hero__framework-title-item">Align</strong>
+            <small class="hero__framework-desc">Priorities before projects</small>
+          </div>
+        </li>
+        <li class="hero__framework-item">
+          <div class="hero__framework-marker">
+            <span class="hero__framework-num">03</span>
+            <span class="hero__framework-node" aria-hidden="true"></span>
+          </div>
+          <div class="hero__framework-body">
+            <strong class="hero__framework-title-item">Decide</strong>
+            <small class="hero__framework-desc">Evidence before investment</small>
+          </div>
+        </li>
+        <li class="hero__framework-item">
+          <div class="hero__framework-marker">
+            <span class="hero__framework-num">04</span>
+            <span class="hero__framework-node" aria-hidden="true"></span>
+          </div>
+          <div class="hero__framework-body">
+            <strong class="hero__framework-title-item">Deliver</strong>
+            <small class="hero__framework-desc">Outcomes before output</small>
+          </div>
+        </li>
       </ol>
     </aside>
   </div>
@@ -28,89 +69,165 @@ import Button from "../ui/Button.astro";
 
 <style>
   .hero {
-    min-height: calc(100vh - 4.8rem);
-    display: grid;
-    align-items: center;
-    padding-block: clamp(5.5rem, 10vw, 9rem);
+    position: relative;
+    padding-block: clamp(4.5rem, 8vw, 7.5rem);
     border-bottom: 1px solid var(--line);
+    background-image:
+      radial-gradient(circle at 85% 20%, rgba(83, 109, 206, 0.05) 0%, transparent 60%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+    background-size: 100% 100%, 4rem 4rem, 4rem 4rem;
   }
 
   .hero__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1.65fr) minmax(17rem, 0.65fr);
-    gap: clamp(3rem, 7vw, 7rem);
-    align-items: end;
+    grid-template-columns: minmax(0, 1.45fr) minmax(20rem, 0.85fr);
+    gap: clamp(3rem, 6vw, 6.5rem);
+    align-items: start;
   }
 
   .hero__copy {
-    max-width: 56rem;
+    max-width: 52rem;
   }
 
-  .hero__copy h1 {
-    max-width: 13ch;
-    margin-bottom: 1.75rem;
+  .hero__headline {
+    max-width: 22ch;
+    margin-bottom: 1.5rem;
   }
 
-  .hero__copy .lede {
-    max-width: 43rem;
-    margin-bottom: 2rem;
+  .hero__lede {
+    max-width: 36rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .hero__actions {
+    margin-top: 0;
   }
 
   .hero__framework {
-    align-self: end;
-    padding: 1.4rem 1.5rem;
+    position: relative;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
     border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    background: transparent;
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    transition: border-color var(--transition);
   }
 
-  .hero__framework .kicker {
-    margin-bottom: 0;
-    color: var(--text-muted);
+  .hero__framework:hover {
+    border-color: rgba(83, 109, 206, 0.35);
   }
 
-  .hero__framework ol {
+  .hero__framework-header {
+    padding-bottom: 0.25rem;
+  }
+
+  .hero__framework-tag {
+    display: inline-block;
+    color: var(--accent-soft);
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .hero__framework-title {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .hero__framework-list {
+    position: relative;
     list-style: none;
     padding: 0;
-    margin: 1.4rem 0 0;
+    margin: 1.25rem 0 0;
   }
 
-  .hero__framework li {
+  .hero__framework-item {
+    position: relative;
     display: grid;
-    grid-template-columns: 2rem 1fr;
-    padding: 0.9rem 0;
+    grid-template-columns: 2.5rem 1fr;
+    column-gap: 0.75rem;
+    align-items: start;
+    padding-block: 0.95rem;
     border-top: 1px solid var(--line);
+    transition: background var(--transition);
   }
 
-  .hero__framework li:last-child {
+  .hero__framework-item:last-child {
     padding-bottom: 0;
   }
 
-  .hero__framework span {
-    grid-row: span 2;
+  .hero__framework-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .hero__framework-num {
+    display: block;
     color: var(--accent-soft);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-  }
-
-  .hero__framework strong {
-    color: var(--text);
-    font-size: 0.9rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
     font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
   }
 
-  .hero__framework small {
-    margin-top: 0.2rem;
+  .hero__framework-node {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--line);
+    transition: background var(--transition), transform var(--transition);
+  }
+
+  .hero__framework-item:hover .hero__framework-node {
+    background: var(--accent);
+    transform: scale(1.4);
+  }
+
+  .hero__framework-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .hero__framework-title-item {
+    display: block;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    transition: color var(--transition);
+  }
+
+  .hero__framework-item:hover .hero__framework-title-item {
+    color: var(--accent-soft);
+  }
+
+  .hero__framework-desc {
+    display: block;
     color: var(--text-muted);
-    font-size: 0.78rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
     line-height: 1.45;
+    font-weight: 400;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     .hero {
-      min-height: auto;
-      padding-block: 5rem;
+      padding-block: 4.5rem;
     }
 
     .hero__inner {
@@ -118,8 +235,8 @@ import Button from "../ui/Button.astro";
       gap: 3.5rem;
     }
 
-    .hero__copy h1 {
-      max-width: 15ch;
+    .hero__headline {
+      max-width: 24ch;
     }
 
     .hero__framework {
@@ -129,15 +246,19 @@ import Button from "../ui/Button.astro";
 
   @media (max-width: 600px) {
     .hero {
-      padding-block: 4rem;
+      padding-block: 3.5rem 4rem;
     }
 
-    .hero__copy h1 {
+    .hero__headline {
       max-width: none;
     }
 
     .hero__framework {
-      padding: 1.2rem;
+      padding: 1.25rem;
+    }
+
+    .hero__framework-item {
+      padding-block: 0.85rem;
     }
   }
 </style>

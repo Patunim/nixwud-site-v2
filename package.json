@@ -8,8 +8,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/check-built-site.mjs",
+    "build": "astro build && node scripts/check-built-site.mjs && node scripts/check-seo.mjs",
     "check": "astro check",
+    "check:seo": "node scripts/check-seo.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

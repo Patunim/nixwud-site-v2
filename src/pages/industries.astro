@@ -2,32 +2,175 @@
 import Layout from "../layouts/Layout.astro";
 import CTA from "../components/sections/CTA.astro";
 import { industries } from "../lib/siteConfig.js";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/industries");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Industries", url: "/industries" }
+]);
+
+const contextDimensions = [
+  { label: "MARKET DYNAMICS", title: "Commercial Realities", desc: "Competitive pressure, customer expectations, margin profiles and unit economics." },
+  { label: "OPERATING WORKFLOWS", title: "Human Processes", desc: "Core workflows, cross-functional handoffs, manual friction and delivery bottlenecks." },
+  { label: "SYSTEM ARCHITECTURE", title: "Technology Footprint", desc: "Legacy databases, software dependencies, integrations and data governance." },
+  { label: "TEAM CAPABILITY", title: "Organizational Bandwidth", desc: "Internal skills, leadership ownership, operating models and change adoption." },
+  { label: "REGULATION & RISK", title: "Governance Boundaries", desc: "Compliance mandates, security controls, privacy rules and liability parameters." }
+];
 ---
 
-<Layout title="Industries" description="Industry-aware business and technology consulting from Nixwud Consultancy.">
-  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Industries</p><h1>Context changes the quality of every technology decision.</h1><p class="lede">We bring a structured method to each engagement, then adapt it to the realities of the organization, market and operating environment.</p></div></header>
+<Layout
+  title="Industry Context & Sector Analysis"
+  description="Discover how Nixwud evaluates sector dynamics, regulatory constraints and technical architecture to make sound business technology decisions."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">Industries</p>
+      <h1>Context changes the quality of every technology decision.</h1>
+      <p class="lede">We bring a structured methodology to each engagement, adapting our analysis to the commercial, regulatory and technical realities of your sector.</p>
+    </div>
+  </header>
 
   <section class="section">
     <div class="container--wide">
       {industries.length ? (
         <div class="grid grid--3">
           {industries.map((industry, index) => (
-            <article class="card"><span class="card__number">0{index + 1}</span><h3>{industry.title}</h3><p>{industry.summary}</p>{industry.challenges?.length && <ul class="tag-list">{industry.challenges.slice(0,3).map((item) => <li class="tag">{item}</li>)}</ul>}</article>
+            <article class="card">
+              <span class="card__number">0{index + 1}</span>
+              <h3>{industry.title}</h3>
+              <p>{industry.summary}</p>
+              {industry.challenges?.length && (
+                <ul class="tag-list">
+                  {(industry.challenges as string[]).slice(0, 3).map((item: string) => <li class="tag">{item}</li>)}
+                </ul>
+              )}
+            </article>
           ))}
         </div>
       ) : (
-        <div class="empty-state"><h3>Industry profiles will be evidence-led.</h3><p>Profiles will be published when Nixwud has useful, specific expertise to share. Until then, we will not pretend generic sector copy is insight.</p></div>
+        <div class="context-map">
+          <div class="context-map__header">
+            <span class="context-map__kicker">Sector Context Matrix</span>
+            <h2>How industry variables shape technology decisions.</h2>
+            <p class="lede">Rather than publishing superficial industry marketing pages, we analyze how five intersecting sector constraints dictate what solutions will actually work.</p>
+          </div>
+
+          <div class="context-matrix">
+            {contextDimensions.map((dim, idx) => (
+              <div class="context-node">
+                <span class="context-node__num">0{idx + 1}</span>
+                <span class="context-node__tag">{dim.label}</span>
+                <h3>{dim.title}</h3>
+                <p>{dim.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   </section>
 
-  <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Across sectors</p><h2>The questions remain practical.</h2></div><ul class="list-clean sector-list"><li>Where does value get created or lost?</li><li>Which constraints are structural?</li><li>What must customers and teams be able to do?</li><li>How will progress be measured?</li></ul></div></section>
+  <section class="section section--paper">
+    <div class="container split">
+      <div>
+        <p class="eyebrow paper-eyebrow">Across sectors</p>
+        <h2>The core strategic questions remain constant.</h2>
+      </div>
+      <ul class="list-clean sector-list">
+        <li>Where is commercial value created, delayed or lost across the current workflow?</li>
+        <li>Which technical or regulatory constraints are fixed, and which can be improved?</li>
+        <li>What specific capabilities must internal teams and customers possess?</li>
+        <li>How will leadership measure progress, performance and return on investment?</li>
+      </ul>
+    </div>
+  </section>
   <CTA />
 </Layout>
 
 <style>
   .card h3 { margin: 3rem 0 1rem; }
-  .paper-eyebrow { color: #3554d8; }
-  .sector-list li { padding: 1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 650; }
+  .paper-eyebrow { color: var(--accent); }
+  .sector-list li { padding: 1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 500; }
   .sector-list li:last-child { border-bottom: 1px solid var(--line-dark); }
+
+  .context-map {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .context-map__header {
+    max-width: 44rem;
+    margin-bottom: 3rem;
+  }
+
+  .context-map__kicker {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .context-map__header h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .context-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .context-node {
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .context-node__num {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .context-node__tag {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .context-node h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+
+  .context-node p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 760px) {
+    .context-matrix {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

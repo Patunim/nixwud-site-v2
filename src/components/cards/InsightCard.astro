@@ -12,15 +12,97 @@ const date = publishedDate
 ---
 
 <article class="card insight-card">
-  <div class="insight-card__meta"><span>{insight.categories?.[0] || "Strategic Insight"}</span><span>{date}</span></div>
+  <div class="insight-card__meta">
+    <span class="insight-card__category">{insight.categories?.[0] || "Strategic Analysis"}</span>
+    <span class="insight-card__date">{date}</span>
+  </div>
   <h3><a href={`/insights/${insight.slug}`}>{insight.title}</a></h3>
   <p>{insight.excerpt || "A practical perspective to support clearer business and technology decisions."}</p>
   <a class="card__link" href={`/insights/${insight.slug}`}>Read the insight</a>
 </article>
 
 <style>
-  .insight-card { display: flex; flex-direction: column; min-height: 20rem; }
-  .insight-card__meta { display: flex; justify-content: space-between; gap: 1rem; color: var(--text-muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
-  .insight-card h3 { margin: 2rem 0 1rem; }
-  .insight-card .card__link { margin-top: auto; }
+  .insight-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .insight-card:hover {
+    border-color: rgba(158, 174, 240, 0.35);
+  }
+
+  .insight-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .insight-card__category {
+    color: var(--accent-soft);
+  }
+
+  .insight-card h3 {
+    max-width: 18ch;
+    margin: 2.75rem 0 1rem;
+  }
+
+  .insight-card h3 a {
+    color: inherit;
+    text-decoration: none;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+    transition: color var(--transition);
+  }
+
+  .insight-card h3 a:hover {
+    color: var(--accent-soft);
+  }
+
+  .insight-card p {
+    max-width: 30rem;
+    margin-bottom: 0;
+  }
+
+  .insight-card .card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    margin-top: auto;
+    padding-top: 2rem;
+  }
+
+  .insight-card .card__link::after {
+    content: "↗";
+    font-size: 0.9em;
+    transition: transform var(--transition);
+  }
+
+  .insight-card .card__link:hover::after {
+    transform: translate(2px, -2px);
+  }
+
+  @media (max-width: 600px) {
+    .insight-card {
+      min-height: auto;
+    }
+
+    .insight-card h3 {
+      max-width: none;
+      margin-top: 2rem;
+    }
+
+    .insight-card .card__link {
+      padding-top: 1.5rem;
+    }
+  }
 </style>

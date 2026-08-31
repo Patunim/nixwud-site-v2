@@ -2,46 +2,194 @@
 import Layout from "../layouts/Layout.astro";
 import Button from "../components/ui/Button.astro";
 import { CONTACT_EMAIL } from "../lib/siteConfig.js";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/contact");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Contact", url: "/contact" }
+]);
+
+const conversationStages = [
+  { step: "01", label: "Business Problem", desc: "Share where your operations, systems or growth need clarity." },
+  { step: "02", label: "Context Review", desc: "We review your note and identify the core diagnostic questions." },
+  { step: "03", label: "Focused Discussion", desc: "A direct, 30-minute introductory conversation with no sales pitch." },
+  { step: "04", label: "Clear Next Step", desc: "A concrete recommendation for a diagnostic, project or alternative route." }
+];
 ---
 
-<Layout title="Contact" description="Start a business and technology conversation with Nixwud Consultancy.">
+<Layout
+  title="Contact Nixwud Consultancy"
+  description="Start an introductory conversation with Nixwud Consultancy regarding strategy, digital platforms, AI automation or growth."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
   <header class="page-hero">
     <div class="container--wide">
       <p class="eyebrow">Start a conversation</p>
       <h1>Tell us what your organization is trying to improve.</h1>
-      <p class="lede">You do not need a finished brief or a predetermined solution. Begin with the business challenge, the decision or the opportunity.</p>
-      <div class="button-row"><Button href={`mailto:${CONTACT_EMAIL}`} variant="primary">Email {CONTACT_EMAIL}</Button></div>
+      <p class="lede">You do not need a finished technical specification or a formal brief. Begin with the business problem, the pending decision or the operational opportunity.</p>
+      <div class="button-row">
+        <Button href={`mailto:${CONTACT_EMAIL}`} variant="primary">Email {CONTACT_EMAIL}</Button>
+      </div>
     </div>
   </header>
 
-  <section class="section">
-    <div class="container split">
-      <div><p class="eyebrow">A useful first message</p><h2>Context helps us respond thoughtfully.</h2></div>
-      <ul class="list-clean list-lines">
-        <li>What is changing or not working as expected?</li>
-        <li>Who is affected by the decision?</li>
-        <li>What outcome would make the work valuable?</li>
-        <li>Is there a deadline, constraint or existing system we should understand?</li>
-      </ul>
+  <!-- Consulting Conversation Journey -->
+  <section class="section border-bottom contact-track-section">
+    <div class="container--wide">
+      <div class="contact-track-box">
+        <span class="track-kicker">Consulting Progression</span>
+        <h2>From initial note to a clear decision.</h2>
+        <div class="contact-track">
+          {conversationStages.map((stage, idx) => (
+            <div class="track-step">
+              <div class="track-step__marker">
+                <span class="track-step__num">{stage.step}</span>
+                {idx < conversationStages.length - 1 && <span class="track-step__line" aria-hidden="true"></span>}
+              </div>
+              <h3>{stage.label}</h3>
+              <p>{stage.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- Helpful First Note Guidance -->
   <section class="section section--paper">
-    <div class="container--wide">
-      <p class="eyebrow paper-eyebrow">What happens next</p>
-      <ol class="next grid grid--3">
-        <li><span>01</span><h3>We read the context</h3><p>We review your note and identify the most useful questions.</p></li>
-        <li><span>02</span><h3>We clarify the need</h3><p>If there is a fit, we arrange a focused conversation.</p></li>
-        <li><span>03</span><h3>We recommend a next step</h3><p>That may be a diagnostic, a defined engagement or honest guidance elsewhere.</p></li>
-      </ol>
+    <div class="container split">
+      <div>
+        <p class="eyebrow paper-eyebrow">A useful first note</p>
+        <h2>Context helps us respond thoughtfully.</h2>
+        <p class="lede">A brief outline of these questions is often enough to determine if our capabilities match your situation.</p>
+      </div>
+      <ul class="list-clean context-questions">
+        <li><span>01</span> What business process, digital platform or workflow is currently not performing as needed?</li>
+        <li><span>02</span> Which teams, customers or leadership stakeholders are most affected by the issue?</li>
+        <li><span>03</span> What specific outcome or metric would make addressing this challenge valuable?</li>
+        <li><span>04</span> Are there timeline considerations, legacy system constraints or budget parameters we should know?</li>
+      </ul>
     </div>
   </section>
 </Layout>
 
 <style>
-  .paper-eyebrow { color: #3554d8; }
-  .next { list-style: none; padding: 0; margin: 0; }
-  .next li { padding-top: 1.2rem; border-top: 1px solid var(--line-dark); }
-  .next span { color: #3554d8; font-size: .78rem; font-weight: 800; }
-  .next h3 { margin: 2.5rem 0 .8rem; }
+  .contact-track-section {
+    padding-block: clamp(3rem, 5vw, 5rem);
+    background-image: radial-gradient(circle at 85% 50%, rgba(83, 109, 206, 0.04) 0%, transparent 60%);
+  }
+
+  .contact-track-box {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .track-kicker {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-track-box h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    margin: 0 0 3rem;
+  }
+
+  .contact-track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .track-step {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .track-step__marker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+
+  .track-step__num {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(0, 0, 0, 0.3);
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .track-step__line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .track-step h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+
+  .track-step p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .context-questions li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 0.75rem;
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--line-dark);
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .context-questions li:last-child {
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .context-questions span {
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .contact-track {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .track-step__line {
+      display: none;
+    }
+  }
 </style>

@@ -1,21 +1,290 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import ResourceCard from "../../components/cards/ResourceCard.astro";
 import CTA from "../../components/sections/CTA.astro";
-import { resources } from "../../lib/siteConfig.js";
+import Button from "../../components/ui/Button.astro";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/resources");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Resources", url: "/resources" }
+]);
 ---
 
-<Layout title="Free Resources" description="Free audits, scorecards, guides and tools from Nixwud Consultancy.">
-  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Free resources</p><h1>Practical tools for clearer business and technology decisions.</h1><p class="lede">Use these audits, scorecards and guides to identify the real issue, structure a conversation and make a stronger next decision.</p></div></header>
+<Layout
+  title="Business & Technology Decision Resources"
+  description="Access practical diagnostic tools, alignment audits and readiness frameworks from Nixwud Consultancy to evaluate business and technology decisions."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">Practical tools</p>
+      <h1>Frameworks for clearer business and technology decisions.</h1>
+      <p class="lede">Use these diagnostic audits, scorecards and decision guides to evaluate underlying issues, structure team conversations and make informed next moves.</p>
+    </div>
+  </header>
 
-  <section class="section"><div class="container--wide"><div class="grid grid--2">{resources.map((resource) => <ResourceCard resource={resource} />)}</div></div></section>
+  <section class="section">
+    <div class="container--wide">
+      <div class="toolkit-stack">
+        <!-- Primary Resource: Editorial Audit Presentation -->
+        <article class="toolkit-feature">
+          <div class="toolkit-feature__meta">
+            <span class="toolkit-tag">PRIMARY DIAGNOSTIC RESOURCE</span>
+            <span class="toolkit-format">PDF GUIDE & AUDIT</span>
+          </div>
+          <div class="toolkit-feature__grid">
+            <div class="toolkit-feature__main">
+              <h2>Business & Technology Alignment Audit</h2>
+              <p class="toolkit-feature__desc">A structured five-part audit designed to identify where strategic priorities, operating systems and day-to-day execution are falling out of alignment.</p>
+              <div class="toolkit-feature__actions">
+                <Button href="/resources/business-technology-alignment-audit.pdf" variant="primary">Download the audit</Button>
+              </div>
+            </div>
+            <div class="toolkit-feature__breakdown">
+              <span class="breakdown-title">What the audit evaluates</span>
+              <ul class="list-clean breakdown-list">
+                <li><span>01</span> Strategic priority and commercial focus</li>
+                <li><span>02</span> Current-state operational workflow friction</li>
+                <li><span>03</span> Technology stack sprawl and technical debt</li>
+                <li><span>04</span> Internal team ownership and operating bandwidth</li>
+                <li><span>05</span> Measurable milestones and governance criteria</li>
+              </ul>
+            </div>
+          </div>
+        </article>
 
-  <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Built to be used</p><h2>No filler. No inflated templates.</h2></div><div><p class="lede">Every resource should help someone understand a situation, ask better questions or take a more informed next step.</p><ul class="list-clean principles"><li>Practical enough to use immediately</li><li>Clear enough to share with a team</li><li>Structured around decisions and evidence</li><li>Updated when the thinking improves</li></ul></div></div></section>
-  <CTA title="The resource surfaced a bigger question?" description="Share the context and we will help you identify the next useful step." />
+        <!-- Interactive Diagnostic Instrument: Decision Readiness Scorecard -->
+        <article class="toolkit-instrument">
+          <div class="instrument-meta">
+            <span class="toolkit-tag">INTERACTIVE INSTRUMENT</span>
+            <span class="instrument-live-pill"><span class="pulse-dot"></span> 10 QUESTIONS · 3 MIN</span>
+          </div>
+          <div class="instrument-grid">
+            <div class="instrument-main">
+              <h2>Technology Decision Readiness Scorecard</h2>
+              <p class="instrument-desc">Rate ten core statements on a 1 to 5 scale to evaluate whether your pending business or technology investment has the clarity and alignment needed before committing capital.</p>
+              <div class="instrument-actions">
+                <Button href="/resources/decision-readiness-scorecard" variant="primary">Launch the scorecard</Button>
+              </div>
+            </div>
+            <div class="instrument-preview" aria-hidden="true">
+              <div class="instrument-badge">
+                <span class="badge-kicker">READINESS SPECTRUM</span>
+                <div class="badge-meter">
+                  <div class="badge-bar"></div>
+                </div>
+                <div class="badge-labels">
+                  <span>Pause & Clarify</span>
+                  <span>Execution Ready</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container split">
+      <div>
+        <p class="eyebrow paper-eyebrow">Built for application</p>
+        <h2>Structured for clarity, not marketing volume.</h2>
+      </div>
+      <div>
+        <p class="lede">Every diagnostic resource is designed to help leadership teams evaluate operational reality, ask better questions and avoid premature commitments.</p>
+        <ul class="list-clean principles">
+          <li>Practical enough for immediate internal evaluation</li>
+          <li>Clear enough to facilitate cross-functional alignment</li>
+          <li>Structured around objective decision criteria and evidence</li>
+          <li>Refined continually as consulting methodology advances</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <CTA title="Did the diagnostic surface a deeper operational question?" description="Share your context and we will help you identify a practical, evidence-based next step." />
 </Layout>
 
 <style>
-  .paper-eyebrow { color: #3554d8; }
-  .principles li { padding: .8rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); }
+  .toolkit-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .toolkit-feature,
+  .toolkit-instrument {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    transition: border-color var(--transition);
+  }
+
+  .toolkit-feature:hover,
+  .toolkit-instrument:hover {
+    border-color: rgba(83, 109, 206, 0.4);
+  }
+
+  .toolkit-feature__meta,
+  .instrument-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .toolkit-tag {
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .toolkit-format {
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .instrument-live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    background: rgba(83, 109, 206, 0.15);
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .toolkit-feature__grid,
+  .instrument-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .toolkit-feature__main h2,
+  .instrument-main h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    line-height: 1.25;
+    margin: 0 0 1rem;
+  }
+
+  .toolkit-feature__desc,
+  .instrument-desc {
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+    line-height: var(--leading-body);
+    margin: 0 0 2rem;
+    max-width: 36rem;
+  }
+
+  .breakdown-title {
+    display: block;
+    color: var(--text);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+
+  .breakdown-list li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--line);
+    color: var(--text);
+    font-size: 0.9375rem;
+  }
+
+  .breakdown-list li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .breakdown-list span {
+    color: var(--accent-soft);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .instrument-preview {
+    display: flex;
+    justify-content: center;
+  }
+
+  .instrument-badge {
+    width: 100%;
+    max-width: 20rem;
+    padding: 1.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .badge-kicker {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .badge-meter {
+    height: 8px;
+    background: var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .badge-bar {
+    height: 100%;
+    width: 72%;
+    background: var(--accent);
+  }
+
+  .badge-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+  }
+
+  .paper-eyebrow { color: var(--accent); }
+  .principles li { padding: .8rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 500; }
   .principles li:last-child { border-bottom: 1px solid var(--line-dark); }
+
+  @media (max-width: 900px) {
+    .toolkit-feature__grid,
+    .instrument-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .instrument-preview {
+      display: none;
+    }
+  }
 </style>

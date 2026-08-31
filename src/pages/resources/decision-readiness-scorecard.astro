@@ -1,33 +1,64 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import CTA from "../../components/sections/CTA.astro";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/resources/decision-readiness-scorecard");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Resources", url: "/resources" },
+  { name: "Decision Readiness Scorecard", url: "/resources/decision-readiness-scorecard" }
+]);
 
 const questions = [
-  "We can describe the business problem without naming a technology solution.",
-  "The people affected by the decision have been identified and heard.",
-  "We have agreed what a successful outcome would look like.",
-  "We understand the current process, system or customer journey.",
-  "The most important constraints and risks are documented.",
-  "We have evidence for the scale or urgency of the problem.",
-  "Decision ownership and delivery ownership are clear.",
-  "We have compared realistic options, including doing less or nothing.",
-  "The organization has the time, skills and capacity to support the change.",
-  "We know how progress and value will be measured after implementation."
+  "The business problem can be clearly stated without referencing a specific technology or product.",
+  "The decision owner is identified and has the authority to make trade-offs.",
+  "The outcome that defines success is measurable and understood by key stakeholders.",
+  "The cost of doing nothing has been estimated or explicitly discussed.",
+  "The people affected by the decision have contributed their perspective.",
+  "Technical, regulatory and operational constraints are documented.",
+  "At least two realistic options have been compared on cost, risk and effort.",
+  "The organization has the capacity and capability to implement the chosen direction.",
+  "Assumptions about data quality and system dependencies have been tested.",
+  "There is a plan to evaluate whether the decision delivered its intended value."
 ];
 ---
 
-<Layout title="Technology Decision Readiness Scorecard" description="Assess whether a business and technology decision is ready to move forward.">
-  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Interactive scorecard</p><h1>Is this technology decision ready to move forward?</h1><p class="lede">Rate ten statements honestly. Your score is calculated only in your browser and is not submitted or stored.</p></div></header>
+<Layout
+  title="Technology Decision Readiness Scorecard"
+  description="Evaluate whether your pending business or technology initiative has the strategic clarity, team alignment and evidence required before committing capital."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">Diagnostic tool</p>
+      <h1>Technology Decision Readiness Scorecard</h1>
+      <p class="lede">Rate ten core statements to evaluate whether your business and technology decision has the clarity, alignment and evidence required before committing resources.</p>
+    </div>
+  </header>
 
   <section class="section"><div class="container--narrow">
     <form id="readiness-form">
-      <ol class="questions list-clean">
+      <ol class="list-clean questions">
         {questions.map((question, index) => (
           <li>
             <fieldset>
               <legend><span>{String(index + 1).padStart(2, "0")}</span>{question}</legend>
               <div class="choices">
-                {[1,2,3,4,5].map((value) => <label><input type="radio" name={`q${index + 1}`} value={value} required /><span>{value}</span><small>{value === 1 ? "Not true" : value === 5 ? "Completely true" : ""}</small></label>)}
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <label>
+                    <input
+                      type="radio"
+                      name={`q${index + 1}`}
+                      value={value}
+                      aria-label={`Rating ${value} of 5: ${value === 1 ? "Not true" : value === 5 ? "Completely true" : `Rating ${value}`}`}
+                      required
+                    />
+                    <span>{value}</span>
+                    <small aria-hidden="true">{value === 1 ? "Not true" : value === 5 ? "Completely true" : ""}</small>
+                  </label>
+                ))}
               </div>
             </fieldset>
           </li>
@@ -37,24 +68,65 @@ const questions = [
     </form>
 
     <section id="result" class="result" hidden aria-live="polite" tabindex="-1">
-      <p class="kicker">Your readiness score</p>
-      <p class="result__score"><strong data-score>0</strong><span>/ 50</span></p>
+      <div class="result__header">
+        <p class="kicker">Diagnostic Assessment</p>
+        <span class="result__band-tag" data-band-tag>Evaluating</span>
+      </div>
+      <div class="result__score-wrap">
+        <p class="result__score"><strong data-score>0</strong><span>/ 50</span></p>
+        <div class="result__meter" aria-hidden="true">
+          <div class="result__meter-bar" data-meter-bar style="width: 0%;"></div>
+        </div>
+      </div>
       <h2 data-title></h2>
       <p class="lede" data-message></p>
-      <ul class="list-clean check-list" data-actions></ul>
+      <div class="result__actions-wrap">
+        <span class="actions-heading">Recommended Immediate Steps</span>
+        <ul class="list-clean check-list" data-actions></ul>
+      </div>
       <button class="button button--secondary" type="button" data-reset>Retake the scorecard</button>
     </section>
   </div></section>
-  <CTA title="Want an outside view of the decision?" />
+  <CTA title="Want an objective perspective on the diagnostic result?" />
 </Layout>
 
 <script>
   const form = document.querySelector("#readiness-form");
   const result = document.querySelector("#result");
   const bands = [
-    { max: 24, title: "Pause and clarify", message: "The decision is carrying material uncertainty. Moving directly to implementation is likely to create avoidable rework.", actions: ["Restate the business problem without naming a tool", "Identify missing stakeholders and evidence", "Define success and decision ownership"] },
-    { max: 38, title: "Promising, but not fully aligned", message: "The foundations are forming, but several gaps could weaken delivery or measurement.", actions: ["Resolve the lowest-scoring statements first", "Compare options and trade-offs explicitly", "Confirm capacity, ownership and measures"] },
-    { max: 50, title: "Ready for structured action", message: "The decision has strong foundations. Preserve that clarity as the work moves into delivery.", actions: ["Document the agreed decision criteria", "Deliver in measurable stages", "Review evidence and assumptions regularly"] }
+    {
+      max: 24,
+      tag: "High Uncertainty",
+      title: "Pause and clarify",
+      message: "The decision is carrying material uncertainty. Moving directly to implementation is likely to create avoidable rework and unexpected friction.",
+      actions: [
+        "Restate the underlying business friction without referencing software products",
+        "Identify missing cross-functional stakeholders and baseline evidence",
+        "Establish explicit decision ownership and clear criteria for success"
+      ]
+    },
+    {
+      max: 38,
+      tag: "Moderate Alignment",
+      title: "Promising, but not fully aligned",
+      message: "The foundations are forming, but several critical gaps could weaken delivery, team adoption or measurement.",
+      actions: [
+        "Resolve the lowest-scoring statements first before authorizing vendor commitments",
+        "Compare realistic options and trade-offs explicitly with the operating team",
+        "Confirm internal operational bandwidth, governance and milestone metrics"
+      ]
+    },
+    {
+      max: 50,
+      tag: "Execution Ready",
+      title: "Ready for structured action",
+      message: "The decision has strong strategic and technical foundations. Preserve that clarity as the initiative moves into staged delivery.",
+      actions: [
+        "Document the agreed decision criteria in an executive project charter",
+        "Deliver in measurable, verifiable stages tied to operational value",
+        "Review evidence and underlying assumptions at each deployment milestone"
+      ]
+    }
   ];
 
   form?.addEventListener("submit", (event) => {
@@ -64,19 +136,29 @@ const questions = [
     const score = Array.from({ length: 10 }, (_, index) => Number(data.get(`q${index + 1}`) || 0)).reduce((sum, value) => sum + value, 0);
     const band = bands.find((item) => score <= item.max) || bands[2];
     const scoreNode = result.querySelector("[data-score]");
+    const tagNode = result.querySelector("[data-band-tag]");
+    const meterNode = result.querySelector<HTMLElement>("[data-meter-bar]");
     const titleNode = result.querySelector("[data-title]");
     const messageNode = result.querySelector("[data-message]");
     const actionsNode = result.querySelector("[data-actions]");
+
     if (scoreNode) scoreNode.textContent = String(score);
+    if (tagNode) tagNode.textContent = band.tag;
+    if (meterNode) meterNode.style.width = `${(score / 50) * 100}%`;
     if (titleNode) titleNode.textContent = band.title;
     if (messageNode) messageNode.textContent = band.message;
-    if (actionsNode) actionsNode.innerHTML = band.actions.map((action) => `<li>${action}</li>`).join("");
+    if (actionsNode) actionsNode.innerHTML = band.actions.map((action) => `<li><span class="action-bullet">›</span><span>${action}</span></li>`).join("");
+
     result.hidden = false;
     result.focus();
+    result.scrollIntoView({ behavior: "smooth" });
   });
+
   result?.querySelector("[data-reset]")?.addEventListener("click", () => {
     if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
-    form.reset(); result.hidden = true; form.scrollIntoView({ behavior: "smooth" });
+    form.reset();
+    result.hidden = true;
+    form.scrollIntoView({ behavior: "smooth" });
   });
 </script>
 
@@ -85,19 +167,48 @@ const questions = [
   .questions > li { padding: 2rem 0; border-top: 1px solid var(--line); }
   .questions > li:last-child { border-bottom: 1px solid var(--line); }
   fieldset { margin: 0; padding: 0; border: 0; }
-  legend { display: grid; grid-template-columns: 2.5rem 1fr; width: 100%; margin-bottom: 1.2rem; color: var(--text); font-size: 1.1rem; font-weight: 650; }
+  legend { display: grid; grid-template-columns: 2.5rem 1fr; width: 100%; margin-bottom: 1.2rem; color: var(--text); font-size: 1.1rem; font-weight: 600; }
   legend span { color: var(--accent-soft); font-size: .78rem; }
   .choices { display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; margin-left: 2.5rem; }
-  .choices label { display: grid; place-items: center; min-height: 4.6rem; padding: .5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; }
-  .choices label:has(input:checked) { border-color: var(--accent); background: rgba(97,125,255,.16); }
+  .choices label { display: grid; place-items: center; min-height: 4.6rem; padding: .5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; transition: border-color var(--transition), background var(--transition); }
+  .choices label:hover { border-color: rgba(158, 174, 240, 0.35); background: var(--ink-soft); }
+  .choices label:has(input:checked) { border-color: var(--accent); background: rgba(83, 109, 206, 0.16); }
   .choices label:has(input:focus-visible) { outline: 3px solid var(--accent-soft); outline-offset: 3px; }
   .choices input { position: absolute; opacity: 0; pointer-events: none; }
-  .choices span { font-weight: 800; }
+  .choices span { font-weight: 600; }
   .choices small { min-height: 1rem; color: var(--text-muted); font-size: .66rem; }
-  .result { margin-top: 4rem; padding: clamp(1.5rem, 5vw, 3rem); border: 1px solid rgba(97,125,255,.6); border-radius: var(--radius-lg); background: var(--ink-soft); }
-  .result__score { display: flex; align-items: baseline; gap: .5rem; margin: 1rem 0; }
-  .result__score strong { color: var(--text); font-size: 4rem; line-height: 1; }
-  .result h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
-  .result .button { margin-top: 1.5rem; }
-  @media (max-width: 600px) { .choices { margin-left: 0; } .choices small { display: none; } legend { grid-template-columns: 2rem 1fr; } }
+
+  .result { margin-top: 4rem; padding: clamp(1.75rem, 5vw, 3rem); border: 1px solid var(--accent); border-radius: var(--radius-lg); background: var(--ink-soft); }
+  .result__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .result__header .kicker { margin: 0; color: var(--accent-soft); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+  .result__band-tag { padding: 0.25rem 0.65rem; border-radius: 9999px; background: rgba(83, 109, 206, 0.15); color: var(--accent-soft); font-size: 0.75rem; font-weight: 600; }
+
+  .result__score-wrap { margin: 1.5rem 0 2rem; }
+  .result__score { display: flex; align-items: baseline; gap: .5rem; margin: 0 0 0.75rem; }
+  .result__score strong { color: var(--text); font-size: 4.5rem; line-height: 1; font-family: var(--font-display); }
+  .result__score span { color: var(--text-muted); font-size: 1.25rem; }
+
+  .result__meter { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; width: 100%; max-width: 24rem; }
+  .result__meter-bar { height: 100%; background: var(--accent); transition: width 400ms ease-out; }
+
+  .result h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+  .result .lede { margin-bottom: 2rem; color: var(--text-muted); font-size: 1.1rem; }
+
+  .result__actions-wrap { margin: 2rem 0; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(0, 0, 0, 0.2); }
+  .actions-heading { display: block; color: var(--accent-soft); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+  .check-list li { display: grid; grid-template-columns: 1.25rem 1fr; gap: 0.5rem; padding: 0.75rem 0; border-top: 1px solid var(--line); color: var(--text); font-size: 0.95rem; line-height: 1.45; }
+  .check-list li:last-child { border-bottom: none; }
+  .action-bullet { color: var(--accent); font-weight: 700; font-size: 1.1rem; }
+
+  .result .button { margin-top: 1rem; }
+
+  @media (max-width: 600px) {
+    .choices { margin-left: 0; gap: .35rem; }
+    .choices small { display: none; }
+    legend { grid-template-columns: 2rem 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .result__meter-bar { transition: none; }
+  }
 </style>

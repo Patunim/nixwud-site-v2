@@ -1,10 +1,50 @@
 ---
-interface Props { service: { slug: string; number: string; title: string; summary: string; outcomes?: string[] }; paper?: boolean; }
+interface Props {
+  service: { slug: string; number: string; title: string; summary: string; outcomes?: string[] };
+  paper?: boolean;
+}
 const { service, paper = false } = Astro.props;
 ---
 
-<article class:list={["card service-card", { "card--paper": paper }]}>
-  <span class="card__number">{service.number}</span>
+<article class:list={["card service-card", `service-card--${service.slug}`, { "card--paper": paper }]}>
+  <div class="service-card__header">
+    <span class="card__number">{service.number}</span>
+    <div class="service-card__motif" aria-hidden="true">
+      {service.slug === "strategy-business-analysis" && (
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none" stroke="currentColor">
+          <circle cx="8" cy="8" r="3" stroke-width="1.2" />
+          <circle cx="28" cy="8" r="3" stroke-width="1.2" />
+          <circle cx="18" cy="28" r="3" stroke-width="1.2" />
+          <path d="M10.5 9.5L16 25M25.5 9.5L20 25" stroke-width="1.2" stroke-dasharray="2 2" />
+        </svg>
+      )}
+      {service.slug === "digital-platforms" && (
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none" stroke="currentColor">
+          <rect x="4" y="6" width="28" height="20" rx="2" stroke-width="1.2" />
+          <line x1="4" y1="12" x2="32" y2="12" stroke-width="1.2" />
+          <line x1="12" y1="12" x2="12" y2="26" stroke-width="1.2" />
+          <circle cx="8" cy="9" r="1" fill="currentColor" />
+          <circle cx="12" cy="9" r="1" fill="currentColor" />
+        </svg>
+      )}
+      {service.slug === "ai-crm-business-automation" && (
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none" stroke="currentColor">
+          <rect x="5" y="5" width="10" height="10" rx="1.5" stroke-width="1.2" />
+          <rect x="21" y="5" width="10" height="10" rx="1.5" stroke-width="1.2" />
+          <rect x="13" y="21" width="10" height="10" rx="1.5" stroke-width="1.2" />
+          <path d="M15 10H21M10 15V18H18V21M26 15V18H18" stroke-width="1.2" />
+        </svg>
+      )}
+      {service.slug === "growth-discoverability" && (
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none" stroke="currentColor">
+          <circle cx="15" cy="15" r="8" stroke-width="1.2" />
+          <line x1="21" y1="21" x2="30" y2="30" stroke-width="1.5" />
+          <path d="M15 11V15H19" stroke-width="1.2" />
+          <path d="M6 28C10 24 16 26 22 22" stroke-width="1.2" stroke-dasharray="2 2" />
+        </svg>
+      )}
+    </div>
+  </div>
   <h3>{service.title}</h3>
   <p>{service.summary}</p>
   {service.outcomes && <ul class="tag-list">{service.outcomes.map((outcome) => <li class="tag">{outcome}</li>)}</ul>}
@@ -12,9 +52,94 @@ const { service, paper = false } = Astro.props;
 </article>
 
 <style>
-  .service-card { display: flex; flex-direction: column; min-height: 24rem; }
-  .service-card h3 { margin: 3rem 0 1rem; }
-  .service-card .card__link { margin-top: auto; padding-top: 1.5rem; }
-  .card--paper .card__link, .card--paper .card__number { color: #3554d8; }
-  .card--paper .tag { color: #505866; border-color: var(--line-dark); }
+  .service-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .service-card:hover {
+    border-color: rgba(158, 174, 240, 0.35);
+  }
+
+  .service-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .service-card .card__number {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .service-card__motif {
+    color: var(--accent-soft);
+    opacity: 0.45;
+    transition: opacity var(--transition), transform var(--transition);
+  }
+
+  .service-card:hover .service-card__motif {
+    opacity: 0.85;
+    transform: translateY(-2px);
+  }
+
+  .service-card h3 {
+    max-width: 15ch;
+    margin: 2.75rem 0 0.9rem;
+  }
+
+  .service-card p {
+    max-width: 30rem;
+    margin-bottom: 0;
+  }
+
+  .service-card .tag-list {
+    margin-top: 1.5rem;
+  }
+
+  .service-card .card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    margin-top: auto;
+    padding-top: 2rem;
+  }
+
+  .service-card .card__link::after {
+    content: "↗";
+    font-size: 0.9em;
+    transition: transform var(--transition);
+  }
+
+  .service-card .card__link:hover::after {
+    transform: translate(2px, -2px);
+  }
+
+  .card--paper .card__link,
+  .card--paper .card__number {
+    color: var(--accent-soft);
+  }
+
+  .card--paper .tag {
+    color: var(--text-dark-muted);
+    border-color: var(--line-dark);
+  }
+
+  @media (max-width: 600px) {
+    .service-card h3 {
+      max-width: none;
+      margin-top: 2rem;
+    }
+
+    .service-card .card__link {
+      padding-top: 1.5rem;
+    }
+  }
 </style>

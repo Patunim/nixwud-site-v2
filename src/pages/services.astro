@@ -1,30 +1,80 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ServiceCard from "../components/cards/ServiceCard.astro";
 import CTA from "../components/sections/CTA.astro";
 import { services } from "../lib/siteConfig.js";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/services");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Services", url: "/services" }
+]);
 ---
 
-<Layout title="Consulting Services" description="Strategy, digital platforms, AI and automation, and discoverability services from Nixwud Consultancy.">
+<Layout
+  title="Business & Technology Consulting Services"
+  description="Explore Nixwud's consulting capabilities across strategy, business analysis, digital platforms, AI automation, CRM workflows and search discoverability."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
   <header class="page-hero">
     <div class="container--wide">
       <p class="eyebrow">Consulting services</p>
       <h1>Capabilities connected by one principle: business value first.</h1>
-      <p class="lede">We combine strategy, analysis and modern technology to help organizations understand the problem, choose an appropriate response and deliver lasting value.</p>
+      <p class="lede">We combine strategic analysis and modern technology to help organizations clarify the problem, choose an appropriate response and deliver lasting operational value.</p>
     </div>
   </header>
 
   <section class="section">
-    <div class="container--wide grid grid--2">{services.map((service) => <ServiceCard service={service} />)}</div>
+    <div class="container--wide">
+      <div class="service-index">
+        {services.map((service) => (
+          <article class="service-index__item">
+            <div class="service-index__num-col">
+              <span class="service-index__num">{service.number}</span>
+            </div>
+            <div class="service-index__main-col">
+              <div class="service-index__header">
+                <h2><a href={`/services/${service.slug}`}>{service.title}</a></h2>
+                <a class="service-index__arrow" href={`/services/${service.slug}`} aria-label={`Explore ${service.title}`}>↗</a>
+              </div>
+              <p class="service-index__summary">{service.summary}</p>
+              {service.outcomes && (
+                <ul class="tag-list service-index__tags">
+                  {service.outcomes.map((outcome) => <li class="tag">{outcome}</li>)}
+                </ul>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
   </section>
 
   <section class="section section--paper">
-    <div class="container split">
-      <div><p class="eyebrow paper-eyebrow">Engagement model</p><h2>Start with the decision, then shape the work.</h2></div>
-      <ol class="engagement list-clean">
-        <li><span>01</span><div><strong>Focused discovery</strong><p>Understand context, evidence, stakeholders and constraints.</p></div></li>
-        <li><span>02</span><div><strong>Decision framing</strong><p>Clarify options, trade-offs, priorities and measures of success.</p></div></li>
-        <li><span>03</span><div><strong>Measured delivery</strong><p>Implement in useful stages and learn from real outcomes.</p></div></li>
+    <div class="container--wide">
+      <header class="engagement-header">
+        <p class="eyebrow paper-eyebrow">Engagement model</p>
+        <h2>Start with the decision, then shape the work.</h2>
+        <p class="lede">A disciplined three-stage progression designed to reduce operational uncertainty before committing client capital.</p>
+      </header>
+
+      <ol class="engagement grid grid--3 list-clean">
+        <li class="engagement-step">
+          <span class="step-num">01</span>
+          <h3>Focused discovery</h3>
+          <p>Examine business context, underlying constraints, stakeholder priorities and available evidence.</p>
+        </li>
+        <li class="engagement-step">
+          <span class="step-num">02</span>
+          <h3>Decision framing</h3>
+          <p>Clarify realistic options, evaluate trade-offs, define success metrics and establish delivery scope.</p>
+        </li>
+        <li class="engagement-step">
+          <span class="step-num">03</span>
+          <h3>Measured delivery</h3>
+          <p>Implement in structured, verifiable stages, learn from operational outcomes and refine deliberately.</p>
+        </li>
       </ol>
     </div>
   </section>
@@ -32,10 +82,139 @@ import { services } from "../lib/siteConfig.js";
 </Layout>
 
 <style>
-  .paper-eyebrow { color: #3554d8; }
-  .engagement li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 1.25rem 0; border-top: 1px solid var(--line-dark); }
-  .engagement li:last-child { border-bottom: 1px solid var(--line-dark); }
-  .engagement span { color: #3554d8; font-size: .8rem; font-weight: 800; }
-  .engagement strong { color: var(--ink); font-size: 1.1rem; }
-  .engagement p { margin: .35rem 0 0; }
+  .service-index {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service-index__item {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 2rem;
+    padding-block: clamp(2.5rem, 4vw, 3.5rem);
+    border-top: 1px solid var(--line);
+    transition: background var(--transition), border-color var(--transition);
+  }
+
+  .service-index__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .service-index__num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .service-index__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .service-index__header h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    line-height: 1.25;
+  }
+
+  .service-index__header h2 a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .service-index__header h2 a:hover {
+    color: var(--accent-soft);
+  }
+
+  .service-index__arrow {
+    font-size: 1.5rem;
+    color: var(--accent-soft);
+    text-decoration: none;
+    transition: transform var(--transition), color var(--transition);
+  }
+
+  .service-index__item:hover .service-index__arrow {
+    transform: translate(3px, -3px);
+    color: var(--text);
+  }
+
+  .service-index__summary {
+    max-width: 44rem;
+    margin: 1rem 0 1.5rem;
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+    line-height: var(--leading-body);
+  }
+
+  .service-index__tags {
+    margin: 0;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .engagement-header {
+    max-width: 48rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .engagement-header h2 {
+    max-width: 22ch;
+    margin-bottom: 1rem;
+  }
+
+  .engagement-header .lede {
+    margin-bottom: 0;
+  }
+
+  .engagement-step {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .engagement-step .step-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .engagement-step h3 {
+    margin: 1.25rem 0 .65rem;
+    color: var(--ink);
+    font-size: clamp(1.2rem, 1.4vw, 1.45rem);
+  }
+
+  .engagement-step p {
+    margin: 0;
+    color: var(--text-dark-muted);
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+  }
+
+  @media (max-width: 760px) {
+    .service-index__item {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .service-index__num {
+      font-size: 1.5rem;
+    }
+
+    .engagement {
+      grid-template-columns: 1fr;
+      row-gap: 2.5rem;
+    }
+  }
 </style>

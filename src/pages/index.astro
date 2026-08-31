@@ -1,7 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/sections/Hero.astro";
+import DecisionArchitecture from "../components/sections/DecisionArchitecture.astro";
 import Methodology from "../components/sections/Methodology.astro";
+import Testimonials from "../components/sections/Testimonials.astro";
 import CTA from "../components/sections/CTA.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 import ServiceCard from "../components/cards/ServiceCard.astro";
@@ -24,34 +26,45 @@ const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**"
         <h2>Technology creates complexity when the business question is unclear.</h2>
       </div>
       <div>
-        <p class="lede">Many organizations begin with a platform, tool or trend. We begin by understanding the decision the business actually needs to make.</p>
-        <ul class="list-clean list-lines">
-          <li>Business priorities are disconnected from delivery.</li>
-          <li>Teams invest before defining measurable value.</li>
-          <li>Systems grow faster than the operating model around them.</li>
-        </ul>
+        <p class="lede">Many organizations begin with a platform, tool or vendor pitch. We begin by understanding the operational decision the business actually needs to make.</p>
+        <div class="challenge-items">
+          <div class="challenge-item">
+            <span class="challenge-tag">MISALIGNMENT</span>
+            <p>Strategic priorities become disconnected from day-to-day delivery.</p>
+          </div>
+          <div class="challenge-item">
+            <span class="challenge-tag">PREMATURE INVESTMENT</span>
+            <p>Organizations invest in software before defining measurable success criteria.</p>
+          </div>
+          <div class="challenge-item">
+            <span class="challenge-tag">OPERATIONAL FRICTION</span>
+            <p>System complexity expands faster than the team and operating model around it.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+  <DecisionArchitecture />
 
   <Methodology />
 
   <section class="section border-bottom">
     <div class="container--wide">
-      <SectionHeading eyebrow="Capabilities" title="Four connected ways to move from uncertainty to progress." description="Each engagement is shaped around the business outcome, not a predetermined technology product." />
+      <SectionHeading eyebrow="Capabilities" title="Four connected ways to move from uncertainty to progress." description="Each engagement is shaped around a specific business outcome, not a predetermined software product." />
       <div class="grid grid--2">{services.map((service) => <ServiceCard service={service} />)}</div>
     </div>
   </section>
 
   <section class="section">
     <div class="container--wide">
-      <SectionHeading eyebrow="Our thinking" title="Useful ideas before a sales conversation." description="Practical insights, frameworks and guides designed to make complex decisions easier to understand." />
+      <SectionHeading eyebrow="Our thinking" title="Useful ideas before a sales conversation." description="Practical frameworks, analytical guides and operational perspectives designed to make complex decisions easier to understand." />
       {insights.length > 0 ? (
         <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div>
       ) : (
         <div class="empty-state">
           <h3>New thinking is being prepared.</h3>
-          <p>Published Insights will appear here when they are ready. We do not use invented articles to fill space.</p>
+          <p>Published Insights will appear here when they are ready. We do not use invented articles or placeholder posts to fill space.</p>
         </div>
       )}
       <p class="section-link"><a class="card__link" href="/insights">Explore all Insights</a></p>
@@ -63,23 +76,103 @@ const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**"
       <div>
         <p class="eyebrow paper-eyebrow">What we value</p>
         <h2>Business before technology.</h2>
+        <p class="lede">Four foundational principles that govern how we evaluate, advise and build.</p>
       </div>
       <div class="principles">
-        <p>Clarity over complexity.</p>
-        <p>Evidence before assumption.</p>
-        <p>Outcomes before output.</p>
-        <p>Long-term value before short-term novelty.</p>
+        <div class="principle-item">
+          <span class="principle-num">01</span>
+          <p>Clarity over complexity.</p>
+        </div>
+        <div class="principle-item">
+          <span class="principle-num">02</span>
+          <p>Evidence before assumption.</p>
+        </div>
+        <div class="principle-item">
+          <span class="principle-num">03</span>
+          <p>Outcomes before output.</p>
+        </div>
+        <div class="principle-item">
+          <span class="principle-num">04</span>
+          <p>Long-term value before short-term novelty.</p>
+        </div>
       </div>
     </div>
   </section>
+
+  <Testimonials />
 
   <CTA />
 </Layout>
 
 <style>
-  .list-lines { margin-top: 2.5rem; }
-  .section-link { margin: 2rem 0 0; }
-  .paper-eyebrow { color: #3554d8; }
-  .principles p { margin: 0; padding: 1.1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-size: 1.15rem; font-weight: 650; }
-  .principles p:last-child { border-bottom: 1px solid var(--line-dark); }
+  .challenge-items {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 2rem;
+  }
+
+  .challenge-item {
+    padding: 1.15rem 1.35rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    background: var(--ink-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .challenge-tag {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+  }
+
+  .challenge-item p {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+  }
+
+  .section-link {
+    margin: 2rem 0 0;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .principles {
+    display: grid;
+  }
+
+  .principle-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .principle-item:last-child {
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .principle-num {
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .principle-item p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
 </style>

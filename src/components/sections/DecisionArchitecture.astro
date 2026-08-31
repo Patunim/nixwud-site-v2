@@ -1,0 +1,368 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const stages = [
+  {
+    id: "question",
+    number: "01",
+    label: "Business Question",
+    summary: "Isolate the operational friction before evaluating software solutions.",
+    questions: [
+      "What specific workflow or customer journey is underperforming?",
+      "Who owns the problem and who is affected by the decision?",
+      "What is the commercial cost of leaving the issue unresolved?"
+    ],
+    output: "Problem Charter & Scope Definition"
+  },
+  {
+    id: "evidence",
+    number: "02",
+    label: "Evidence & Reality",
+    summary: "Quantify scale, workflow bottlenecks and real data rather than assumptions.",
+    questions: [
+      "What do current system logs, lead flows or customer data show?",
+      "Where are manual handoffs and rework consuming team hours?",
+      "What baseline metrics will define measurable success?"
+    ],
+    output: "Diagnostic Assessment & Gap Analysis"
+  },
+  {
+    id: "constraints",
+    number: "03",
+    label: "System Constraints",
+    summary: "Map legacy dependencies, team bandwidth and technical boundaries.",
+    questions: [
+      "Which existing databases, APIs or workflows must be preserved?",
+      "What are the compliance, regulatory or security parameters?",
+      "Does the organization have internal capacity to operate the change?"
+    ],
+    output: "Technical & Operational Feasibility Map"
+  },
+  {
+    id: "decision",
+    number: "04",
+    label: "Decision Gate",
+    summary: "Evaluate realistic options, trade-offs and build vs buy considerations.",
+    questions: [
+      "What are the trade-offs between custom platforms vs configured SaaS?",
+      "What is the total cost of ownership over 24 to 36 months?",
+      "What is the smallest useful stage to deploy first?"
+    ],
+    output: "Executive Decision Case & Vendor Criteria"
+  },
+  {
+    id: "delivery",
+    number: "05",
+    label: "Measured Delivery",
+    summary: "Implement in verifiable stages, validating outcomes against real evidence.",
+    questions: [
+      "Are delivery milestones tied to business outcomes rather than code commits?",
+      "How is team adoption and data accuracy monitored post-launch?",
+      "What operational adjustments are required as evidence emerges?"
+    ],
+    output: "Operational Deployment & Value Governance"
+  }
+];
+---
+
+<section class="section border-bottom decision-arch">
+  <div class="container--wide">
+    <SectionHeading
+      eyebrow="Decision Architecture"
+      title="How strategic technology decisions are resolved."
+      description="A structured path from operational uncertainty to measurable commercial value."
+    />
+
+    <div class="decision-arch__pipeline" role="tablist" aria-label="Decision Architecture stages">
+      {stages.map((stage, index) => (
+        <button
+          type="button"
+          class:list={["pipeline-node", { "pipeline-node--active": index === 0 }]}
+          data-stage={stage.id}
+          role="tab"
+          aria-selected={index === 0 ? "true" : "false"}
+          aria-controls={`panel-${stage.id}`}
+          id={`tab-${stage.id}`}
+        >
+          <span class="pipeline-node__num">{stage.number}</span>
+          <span class="pipeline-node__label">{stage.label}</span>
+          <span class="pipeline-node__dot" aria-hidden="true"></span>
+        </button>
+      ))}
+    </div>
+
+    <div class="decision-arch__display">
+      {stages.map((stage, index) => (
+        <div
+          class:list={["stage-panel", { "stage-panel--active": index === 0 }]}
+          id={`panel-${stage.id}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${stage.id}`}
+          hidden={index !== 0}
+        >
+          <div class="stage-panel__grid">
+            <div class="stage-panel__main">
+              <span class="stage-panel__kicker">Stage {stage.number} Focus</span>
+              <h3>{stage.label}</h3>
+              <p class="stage-panel__summary">{stage.summary}</p>
+              <div class="stage-panel__output">
+                <span class="output-label">Key Consulting Output</span>
+                <strong>{stage.output}</strong>
+              </div>
+            </div>
+
+            <div class="stage-panel__questions">
+              <span class="questions-label">Critical Diagnostic Questions</span>
+              <ul class="list-clean diagnostic-list">
+                {stage.questions.map((q) => (
+                  <li>
+                    <span class="bullet" aria-hidden="true">›</span>
+                    <span>{q}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".pipeline-node");
+  const panels = document.querySelectorAll<HTMLElement>(".stage-panel");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const targetId = tab.getAttribute("data-stage");
+      if (!targetId) return;
+
+      tabs.forEach((t) => {
+        const isActive = t === tab;
+        t.classList.toggle("pipeline-node--active", isActive);
+        t.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+
+      panels.forEach((p) => {
+        const isMatch = p.id === `panel-${targetId}`;
+        p.classList.toggle("stage-panel--active", isMatch);
+        p.hidden = !isMatch;
+      });
+    });
+  });
+</script>
+
+<style>
+  .decision-arch {
+    position: relative;
+    background-image: radial-gradient(circle at 15% 50%, rgba(83, 109, 206, 0.04) 0%, transparent 50%);
+  }
+
+  .decision-arch__pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.5rem;
+    position: relative;
+    margin: 2.5rem 0 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .pipeline-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 0.75rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--transition), border-color var(--transition);
+  }
+
+  .pipeline-node:hover {
+    background: var(--ink-soft);
+    border-color: var(--line);
+  }
+
+  .pipeline-node--active {
+    background: var(--ink-soft);
+    border-color: rgba(83, 109, 206, 0.4);
+  }
+
+  .pipeline-node__num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    margin-bottom: 0.35rem;
+  }
+
+  .pipeline-node__label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .pipeline-node--active .pipeline-node__label {
+    color: var(--accent-soft);
+  }
+
+  .pipeline-node__dot {
+    position: absolute;
+    bottom: -1.85rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line);
+    border: 2px solid var(--ink);
+    transition: background var(--transition), transform var(--transition);
+  }
+
+  .pipeline-node--active .pipeline-node__dot {
+    background: var(--accent);
+    transform: translateX(-50%) scale(1.3);
+  }
+
+  .decision-arch__display {
+    margin-top: 1.5rem;
+  }
+
+  .stage-panel {
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    animation: fadeIn 200ms ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stage-panel__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .stage-panel__kicker {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.45rem;
+  }
+
+  .stage-panel__main h3 {
+    font-size: clamp(1.4rem, 2vw, 1.85rem);
+    color: var(--text);
+    margin: 0 0 1rem;
+  }
+
+  .stage-panel__summary {
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+    line-height: var(--leading-body);
+    margin-bottom: 1.75rem;
+    max-width: 34rem;
+  }
+
+  .stage-panel__output {
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(83, 109, 206, 0.08);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  }
+
+  .output-label {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+
+  .stage-panel__output strong {
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  .questions-label {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+
+  .diagnostic-list li {
+    display: grid;
+    grid-template-columns: 1.25rem 1fr;
+    gap: 0.5rem;
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--line);
+    color: var(--text);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  .diagnostic-list li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .diagnostic-list .bullet {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 960px) {
+    .decision-arch__pipeline {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .pipeline-node__dot {
+      display: none;
+    }
+
+    .stage-panel__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage-panel {
+      animation: none;
+    }
+  }
+</style>

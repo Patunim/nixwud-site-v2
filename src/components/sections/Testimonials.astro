@@ -1,0 +1,257 @@
+---
+import { testimonials } from "../../lib/siteConfig.js";
+
+const approvedTestimonials = (testimonials as Array<{
+  name: string;
+  role: string;
+  organization: string;
+  quote: string;
+  context?: string;
+  service?: string;
+  date?: string;
+  approved?: boolean;
+  featured?: boolean;
+}>).filter((t) => t.approved);
+
+const featuredTestimonial = approvedTestimonials.find((t) => t.featured) || approvedTestimonials[0];
+---
+
+<section class="section border-bottom testimonials-section">
+  <div class="container--wide">
+    <div class="testimonial-container">
+      <div class="testimonial-header">
+        <p class="eyebrow">Client perspective</p>
+        <span class="testimonial-standard">VERIFIED FEEDBACK</span>
+      </div>
+
+      {featuredTestimonial ? (
+        <div class="featured-quote-wrap">
+          <blockquote class="featured-quote">
+            “{featuredTestimonial.quote}”
+          </blockquote>
+          <div class="featured-meta">
+            <div class="featured-author-block">
+              <strong class="featured-name">{featuredTestimonial.name}</strong>
+              <span class="featured-role">{featuredTestimonial.role}{featuredTestimonial.organization ? `, ${featuredTestimonial.organization}` : ""}</span>
+            </div>
+            {featuredTestimonial.context && (
+              <span class="featured-context-tag">{featuredTestimonial.context}</span>
+            )}
+          </div>
+          {approvedTestimonials.length > 1 && (
+            <div class="testimonial-nav">
+              <span class="testimonial-counter">01 / 0{approvedTestimonials.length}</span>
+              <a href="/testimonials" class="testimonial-all-link">Read all perspectives ↗</a>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div class="testimonial-integrity-card">
+          <div class="integrity-content">
+            <h2 class="integrity-title">What the work feels like from the other side.</h2>
+            <p class="lede integrity-lede">
+              We publish client feedback only when the engagement is complete, the outcomes are verifiable and the organization has granted explicit permission to share their experience.
+            </p>
+            <div class="integrity-actions">
+              <a href="/testimonials" class="integrity-link">Learn about our feedback standard ↗</a>
+            </div>
+          </div>
+          <div class="integrity-pillars" aria-hidden="true">
+            <div class="pillar-item">
+              <span class="pillar-num">01</span>
+              <strong>Problem Clarity</strong>
+            </div>
+            <div class="pillar-item">
+              <span class="pillar-num">02</span>
+              <strong>Decision Alignment</strong>
+            </div>
+            <div class="pillar-item">
+              <span class="pillar-num">03</span>
+              <strong>Execution Delivery</strong>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-section {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+    background-image: radial-gradient(circle at 15% 50%, rgba(83, 109, 206, 0.04) 0%, transparent 60%);
+  }
+
+  .testimonial-container {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-header .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .testimonial-standard {
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .featured-quote-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(14rem, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .featured-quote {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .featured-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .featured-author-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .featured-name {
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+
+  .featured-role {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+  }
+
+  .featured-context-tag {
+    display: inline-block;
+    width: fit-content;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-xs);
+    background: rgba(83, 109, 206, 0.12);
+    border: 1px solid rgba(83, 109, 206, 0.25);
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .testimonial-nav {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    margin-top: 2rem;
+  }
+
+  .testimonial-counter {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .testimonial-all-link {
+    color: var(--accent-soft);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .testimonial-all-link:hover {
+    color: var(--text);
+  }
+
+  .testimonial-integrity-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(14rem, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .integrity-title {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    line-height: 1.2;
+    margin: 0 0 1rem;
+  }
+
+  .integrity-lede {
+    margin-bottom: 1.5rem;
+  }
+
+  .integrity-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-soft);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .integrity-link:hover {
+    color: var(--text);
+  }
+
+  .integrity-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pillar-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .pillar-num {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .pillar-item strong {
+    color: var(--text);
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 900px) {
+    .featured-quote-wrap,
+    .testimonial-integrity-card {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

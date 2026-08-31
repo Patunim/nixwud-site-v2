@@ -2,21 +2,195 @@
 import Layout from "../layouts/Layout.astro";
 import CTA from "../components/sections/CTA.astro";
 import { caseStudies } from "../lib/siteConfig.js";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/case-studies");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Case Studies", url: "/case-studies" }
+]);
+
+const verificationStages = [
+  { step: "01", tag: "ENGAGEMENT", label: "Business Challenge", desc: "Document baseline metrics and operating constraints before starting work." },
+  { step: "02", tag: "DELIVERY", label: "Staged Execution", desc: "Track implementation decisions against agreed commercial criteria." },
+  { step: "03", tag: "VALIDATION", label: "Outcome Verification", desc: "Measure actual performance and operational value post-deployment." },
+  { step: "04", tag: "PUBLICATION", label: "Evidence Released", desc: "Publish findings only with client consent and verifiable data." }
+];
 ---
 
-<Layout title="Case Studies" description="Evidence-led case studies from Nixwud Consultancy.">
-  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Case studies</p><h1>Evidence deserves more care than marketing claims.</h1><p class="lede">We publish case studies only when the work is real, the outcome is supportable and the client has granted appropriate permission.</p></div></header>
-  <section class="section"><div class="container--wide">
-    {caseStudies.length ? <div class="grid grid--2">{caseStudies.map((study, index) => <article class="card study"><span class="card__number">0{index + 1}</span><p class="kicker">{study.client || "Client engagement"}</p><h3>{study.title}</h3><p>{study.challenge}</p>{study.outcome && <p class="outcome"><strong>Outcome:</strong> {study.outcome}</p>}</article>)}</div> : <div class="empty-state"><h3>No public case studies yet.</h3><p>We are preparing evidence responsibly. Anonymous or approved client work will appear here when it can be presented accurately.</p></div>}
-  </div></section>
-  <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Evidence standard</p><h2>What a Nixwud case study should show.</h2></div><ul class="list-clean standard"><li>The original business context</li><li>The decision and trade-offs</li><li>What changed in practice</li><li>The evidence behind the outcome</li></ul></div></section>
+<Layout
+  title="Case Studies & Client Evidence"
+  description="Read verified client outcomes and case studies demonstrating Nixwud's evidence-based approach to business and technology consulting."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">Case studies</p>
+      <h1>Evidence deserves more care than marketing claims.</h1>
+      <p class="lede">We publish case studies only when the work is real, the outcomes are fully verified and the client organization has granted explicit permission.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container--wide">
+      {caseStudies.length ? (
+        <div class="grid grid--2">
+          {caseStudies.map((study, index) => (
+            <article class="card study">
+              <span class="card__number">0{index + 1}</span>
+              <p class="kicker">{study.client || "Client engagement"}</p>
+              <h3>{study.title}</h3>
+              <p>{study.challenge}</p>
+              {study.outcome && <p class="outcome"><strong>Outcome:</strong> {study.outcome}</p>}
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="evidence-protocol">
+          <div class="protocol-header">
+            <span class="protocol-kicker">Integrity Protocol</span>
+            <h2>Our standard for public evidence.</h2>
+            <p class="lede">Many consulting websites publish unverified claims or invented client logos. We hold published case material to a four-stage verification protocol.</p>
+          </div>
+
+          <div class="protocol-pipeline">
+            {verificationStages.map((stage, idx) => (
+              <div class="protocol-stage">
+                <div class="protocol-stage__head">
+                  <span class="protocol-stage__num">{stage.step}</span>
+                  <span class="protocol-stage__tag">{stage.tag}</span>
+                </div>
+                <h3>{stage.label}</h3>
+                <p>{stage.desc}</p>
+                {idx < verificationStages.length - 1 && <span class="protocol-stage__connector" aria-hidden="true">→</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container split">
+      <div>
+        <p class="eyebrow paper-eyebrow">Evidence standard</p>
+        <h2>What a Nixwud case study must demonstrate.</h2>
+      </div>
+      <ul class="list-clean standard">
+        <li>The specific business problem and operating constraints at the start of the work.</li>
+        <li>The strategic decisions, trade-offs and options evaluated before implementation.</li>
+        <li>The concrete structural, digital or operational changes introduced.</li>
+        <li>The verified business outcomes and measurable evidence produced.</li>
+      </ul>
+    </div>
+  </section>
+
   <CTA />
 </Layout>
 
 <style>
   .study .kicker { margin: 2rem 0 .7rem; color: var(--accent-soft); }
   .study .outcome { margin-top: 1.5rem; color: var(--text); }
-  .paper-eyebrow { color: #3554d8; }
-  .standard li { padding: 1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 650; }
+  .paper-eyebrow { color: var(--accent); }
+  .standard li { padding: 1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 500; }
   .standard li:last-child { border-bottom: 1px solid var(--line-dark); }
+
+  .evidence-protocol {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .protocol-header {
+    max-width: 44rem;
+    margin-bottom: 3rem;
+  }
+
+  .protocol-kicker {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .protocol-header h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .protocol-pipeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .protocol-stage {
+    position: relative;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .protocol-stage__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+  }
+
+  .protocol-stage__num {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .protocol-stage__tag {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .protocol-stage h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .protocol-stage p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .protocol-stage__connector {
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 1.25rem;
+    z-index: 2;
+  }
+
+  @media (max-width: 900px) {
+    .protocol-pipeline {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .protocol-stage__connector {
+      display: none;
+    }
+  }
 </style>

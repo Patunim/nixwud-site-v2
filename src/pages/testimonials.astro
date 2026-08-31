@@ -1,0 +1,284 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CTA from "../components/sections/CTA.astro";
+import { testimonials } from "../lib/siteConfig.js";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/testimonials");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "About", url: "/about" },
+  { name: "Testimonials", url: "/testimonials" }
+]);
+
+const approvedTestimonials = (testimonials as Array<{
+  name: string;
+  role: string;
+  organization: string;
+  quote: string;
+  context?: string;
+  service?: string;
+  date?: string;
+  approved?: boolean;
+}>).filter((t) => t.approved);
+
+const valueThemes = [
+  {
+    number: "01",
+    title: "Clarity",
+    summary: "Structuring ambiguous, multi-stakeholder challenges into understandable choices and clear priorities."
+  },
+  {
+    number: "02",
+    title: "Direction",
+    summary: "Providing disciplined roadmap recommendations with concrete milestones before committing capital."
+  },
+  {
+    number: "03",
+    title: "Practicality",
+    summary: "Designing systems, architectures and automated workflows that internal teams can operate independently."
+  }
+];
+---
+
+<Layout
+  title="Client Feedback & Testimonials"
+  description="Read verified client feedback and perspectives on strategic consulting, digital platforms and automation engagements with Nixwud."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">Client perspective</p>
+      <h1>What the work feels like from the other side.</h1>
+      <p class="lede">We value direct feedback because it demonstrates whether our consulting process created genuine clarity, stronger decisions and durable operational improvements.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container--wide">
+      {approvedTestimonials.length > 0 ? (
+        <div class="testimonials-archive">
+          {approvedTestimonials.map((t, idx) => (
+            <article class:list={["testimonial-spread", `testimonial-spread--${(idx % 3) + 1}`]}>
+              <div class="testimonial-spread__quote-wrap">
+                <span class="testimonial-num">0{idx + 1}</span>
+                <blockquote class="testimonial-quote">“{t.quote}”</blockquote>
+              </div>
+              <div class="testimonial-spread__meta">
+                <p class="testimonial-author"><strong>{t.name}</strong></p>
+                <p class="testimonial-role">{t.role}{t.organization ? `, ${t.organization}` : ""}</p>
+                {t.context && <span class="testimonial-context">{t.context}</span>}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="testimonial-protocol">
+          <div class="protocol-header">
+            <span class="protocol-kicker">Integrity Standard</span>
+            <h2>Client perspectives will appear here as they are approved for publication.</h2>
+            <p class="lede">Nixwud publishes client feedback only with explicit permission and only when the context can be represented accurately. We would rather publish fewer accounts than manufacture social proof.</p>
+          </div>
+
+          <div class="value-matrix">
+            {valueThemes.map((theme) => (
+              <div class="value-node">
+                <span class="value-node__num">{theme.number}</span>
+                <h3>{theme.title}</h3>
+                <p>{theme.summary}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container split">
+      <div>
+        <p class="eyebrow paper-eyebrow">Feedback principles</p>
+        <h2>What meaningful client feedback measures.</h2>
+      </div>
+      <ul class="list-clean feedback-criteria">
+        <li>Did the engagement isolate the real business problem before prescribing technology?</li>
+        <li>Were recommendations practical enough for the team to execute without dependency?</li>
+        <li>Did leadership gain clarity and alignment on the most important trade-offs?</li>
+        <li>Was the communication direct, evidence-led and respectful of the organization's time?</li>
+      </ul>
+    </div>
+  </section>
+
+  <CTA title="Have a difficult decision to work through?" description="Share your context and we will help you identify a practical, evidence-based next step." />
+</Layout>
+
+<style>
+  .testimonials-archive {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .testimonial-spread {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(16rem, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .testimonial-spread--2 {
+    grid-template-columns: minmax(16rem, 1fr) minmax(0, 1.6fr);
+  }
+
+  .testimonial-spread--2 .testimonial-spread__quote-wrap {
+    order: 2;
+  }
+
+  .testimonial-spread--2 .testimonial-spread__meta {
+    order: 1;
+  }
+
+  .testimonial-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-quote {
+    margin: 0;
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--text);
+  }
+
+  .testimonial-author {
+    margin: 0 0 0.25rem;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .testimonial-role {
+    margin: 0 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .testimonial-context {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-xs);
+    background: rgba(83, 109, 206, 0.12);
+    border: 1px solid rgba(83, 109, 206, 0.25);
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .testimonial-protocol {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .protocol-header {
+    max-width: 44rem;
+    margin-bottom: 3rem;
+  }
+
+  .protocol-kicker {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .protocol-header h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .value-matrix {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .value-node {
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .value-node__num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .value-node h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .value-node p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .feedback-criteria li {
+    padding: 1rem 0;
+    border-top: 1px solid var(--line-dark);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .feedback-criteria li:last-child {
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  @media (max-width: 900px) {
+    .testimonial-spread,
+    .testimonial-spread--2 {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .testimonial-spread--2 .testimonial-spread__quote-wrap {
+      order: 1;
+    }
+
+    .testimonial-spread--2 .testimonial-spread__meta {
+      order: 2;
+    }
+
+    .value-matrix {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

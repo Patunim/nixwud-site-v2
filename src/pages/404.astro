@@ -4,7 +4,85 @@ import Button from "../components/ui/Button.astro";
 ---
 
 <Layout title="Page not found" description="The requested page could not be found." noindex={true}>
-  <section class="not-found"><div class="container--narrow"><p class="eyebrow">404 — Page not found</p><h1>This path does not lead anywhere useful.</h1><p class="lede">The address may have changed or the page may no longer exist. Return to the main site or search the Insights library.</p><div class="button-row"><Button href="/" variant="primary">Return home</Button><Button href="/search" variant="secondary">Search the site</Button></div></div></section>
+  <section class="not-found">
+    <div class="container--wide not-found__grid">
+      <div class="not-found__code-wrap" aria-hidden="true">
+        <span class="not-found__code">404</span>
+      </div>
+      <div class="not-found__content">
+        <p class="eyebrow">404: Unresolved route</p>
+        <h1>This path does not lead anywhere useful.</h1>
+        <p class="lede">The address may have been updated, relocated or retired as our thinking and codebase evolve. Return to the homepage or search our published Insights library.</p>
+        <div class="button-row">
+          <Button href="/" variant="primary">Return to homepage</Button>
+          <Button href="/search" variant="secondary">Search the site</Button>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
 
-<style>.not-found { min-height: 72vh; display: grid; align-items: center; padding-block: 5rem; }</style>
+<style>
+  .not-found {
+    min-height: 75vh;
+    display: grid;
+    align-items: center;
+    padding-block: clamp(4rem, 8vw, 7rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .not-found__grid {
+    display: grid;
+    grid-template-columns: minmax(12rem, 1fr) minmax(0, 1.6fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .not-found__code-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid var(--line);
+    padding-right: clamp(2rem, 4vw, 4rem);
+  }
+
+  .not-found__code {
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 12vw, 11rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+    opacity: 0.85;
+  }
+
+  .not-found__content {
+    max-width: 38rem;
+  }
+
+  .not-found__content h1 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.2;
+    margin: 0.5rem 0 1.25rem;
+  }
+
+  .not-found__content .lede {
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 760px) {
+    .not-found__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .not-found__code-wrap {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding-right: 0;
+      padding-bottom: 1.5rem;
+      justify-content: flex-start;
+    }
+  }
+</style>

@@ -170,6 +170,7 @@ const heroCreditUrl = typeof post.mainImage?.creditUrl === "string" && /^https?:
   authorName={post.author?.name}
   structuredData={structuredData}
 >
+  <div class="reading-progress-bar" id="reading-progress" aria-hidden="true"></div>
   <header class="article-hero">
     <div class="container--narrow">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/insights">Insights</a></nav>
@@ -197,17 +198,30 @@ const heroCreditUrl = typeof post.mainImage?.creditUrl === "string" && /^https?:
   </section>
 
   {faqs.length > 0 && (
-    <section class="section--compact border-top"><div class="article"><p class="eyebrow">Questions answered</p><h2>Frequently asked questions</h2><div class="faq-list">{faqs.map((faq) => <section class="faq-item"><h3>{faq.question}</h3><p>{faq.answer}</p></section>)}</div></div></section>
+    <section class="section--compact border-top">
+      <div class="article">
+        <p class="eyebrow">Questions answered</p>
+        <h2>Frequently asked questions</h2>
+        <div class="faq-list">
+          {faqs.map((faq) => (
+            <article class="faq-item">
+              <h3>{faq.question}</h3>
+              <p>{faq.answer}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   )}
 
   {sources.length > 0 && (
-    <section class="section--compact border-top"><div class="article"><h2>Sources</h2><ol class="sources">{sources.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>{source.publisher && <span> — {source.publisher}</span>}</li>)}</ol></div></section>
+    <section class="section--compact border-top"><div class="article"><h2>Sources</h2><ol class="sources">{sources.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>{source.publisher && <span>, {source.publisher}</span>}</li>)}</ol></div></section>
   )}
   <CTA title="Turn the insight into a clearer next step." />
 </Layout>
 
 <style>
-  .article-hero { padding-block: clamp(6rem, 12vw, 10rem) 4rem; }
+  .article-hero { padding-block: clamp(4rem, 7vw, 6.5rem) clamp(2.5rem, 4vw, 4rem); }
   .article-hero h1 { font-size: var(--text-h1); font-weight: 600; line-height: var(--leading-display); letter-spacing: var(--tracking-display); max-width: 24ch; margin-bottom: 1.4rem; }
   .breadcrumbs { display: flex; gap: .6rem; margin-bottom: 2rem; color: var(--text-muted); font-size: .84rem; }
   .breadcrumbs a:hover { color: var(--text); }
@@ -226,13 +240,41 @@ const heroCreditUrl = typeof post.mainImage?.creditUrl === "string" && /^https?:
   .hero-media--right { margin-left: auto; }
   .hero-image { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-lg); }
   .insight-box, .summary-box { margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--ink-soft); }
-  .insight-box { border-color: rgba(97,125,255,.55); }
+  .insight-box { border-color: var(--accent); }
   .insight-box p:last-child, .summary-box p:last-child { margin: .6rem 0 0; color: var(--text); font-size: var(--text-body-lg); line-height: var(--leading-body-lg); }
-  .faq-list { display: grid; gap: 1rem; }
-  .faq-item { padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--ink-soft); }
-  .faq-item h3 { margin: 0 0 .65rem; font-size: var(--text-h4); font-weight: 500; line-height: 1.38; }
-  .faq-item p { margin: 0; }
+  .faq-list { display: grid; margin-top: 1.5rem; }
+  .faq-item { padding-block: 1.5rem; border-top: 1px solid var(--line); }
+  .faq-item:last-child { border-bottom: 1px solid var(--line); }
+  .faq-item h3 { margin: 0 0 .65rem; color: var(--text); font-size: 1.15rem; font-weight: 600; line-height: 1.4; }
+  .faq-item p { margin: 0; color: #d0cfca; font-size: 1.0625rem; line-height: 1.65; }
   .sources { padding-left: 1.3rem; }
   .sources li { margin-bottom: .8rem; color: var(--text-muted); }
   .sources a { color: var(--accent-soft); text-decoration: underline; }
+
+  .reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--accent);
+    z-index: 1000;
+    pointer-events: none;
+    transition: width 80ms linear;
+  }
 </style>
+
+<script>
+  const bar = document.getElementById("reading-progress");
+  if (bar && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const updateProgress = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        const scrolled = (window.scrollY / totalScroll) * 100;
+        bar.style.width = `${Math.min(100, Math.max(0, scrolled))}%`;
+      }
+    };
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+  }
+</script>

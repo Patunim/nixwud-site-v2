@@ -2,24 +2,194 @@
 import Layout from "../../layouts/Layout.astro";
 import InsightCard from "../../components/cards/InsightCard.astro";
 import CTA from "../../components/sections/CTA.astro";
-import { safeFetch } from "../../lib/sanity.js";
+import { safeFetch, toValidDate } from "../../lib/sanity.js";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../../lib/seo.js";
+
+const canonicalUrl = getCanonicalUrl("/insights");
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Insights", url: "/insights" }
+]);
 
 const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && defined(title) && defined(slug.current)] | order(publishedAt desc){
   title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title
 }`, {}, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
+
+const [featuredPost, ...secondaryPosts] = insights;
+const featuredDate = featuredPost ? toValidDate(featuredPost.publishedAt) : null;
+const formattedFeaturedDate = featuredDate
+  ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(featuredDate)
+  : "Featured";
 ---
 
-<Layout title="Insights" description="Practical business and technology insights, frameworks and guides from Nixwud Consultancy.">
-  <header class="page-hero"><div class="container--wide"><p class="eyebrow">Insights</p><h1>Useful thinking for better business and technology decisions.</h1><p class="lede">Clear, practical perspectives designed to improve understanding—not inflate complexity.</p></div></header>
-  <section class="section"><div class="container--wide">
-    {insights.length ? <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div> : <div class="empty-state"><h3>No published Insights yet.</h3><p>Publish an Insight in Sanity and it will appear here after the site refreshes or rebuilds.</p></div>}
-  </div></section>
-  <section class="section section--paper"><div class="container split"><div><p class="eyebrow paper-eyebrow">Editorial standard</p><h2>Knowledge first, not academic theatre.</h2></div><div><p class="lede">Nixwud Insights should be practical, evidence-aware, easy to understand and useful enough to act on.</p><ul class="list-clean standards"><li>Clear answer before background</li><li>Evidence separated from opinion</li><li>Useful frameworks and next steps</li><li>Sources where verification matters</li></ul></div></div></section>
+<Layout
+  title="Business & Technology Insights Journal"
+  description="Explore practical perspectives, decision frameworks and technical strategy insights published by Nixwud Consultancy."
+  canonical={canonicalUrl}
+  structuredData={breadcrumbs}
+>
+  <header class="page-hero">
+    <div class="container--wide">
+      <p class="eyebrow">Insights journal</p>
+      <h1>Useful thinking for better business and technology decisions.</h1>
+      <p class="lede">Clear, practical perspectives designed to improve executive understanding, not inflate technical complexity.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container--wide">
+      {insights.length > 0 ? (
+        <div class="insights-publication">
+          {featuredPost && (
+            <article class="featured-insight">
+              <div class="featured-insight__meta">
+                <span class="featured-tag">LEAD ANALYSIS</span>
+                <span class="featured-category">{featuredPost.categories?.[0] || "Strategic Analysis"}</span>
+                <span class="featured-date">{formattedFeaturedDate}</span>
+              </div>
+              <div class="featured-insight__body">
+                <h2><a href={`/insights/${featuredPost.slug}`}>{featuredPost.title}</a></h2>
+                <p>{featuredPost.excerpt || "A practical perspective to support clearer business and technology decisions."}</p>
+                <a class="featured-insight__link" href={`/insights/${featuredPost.slug}`}>Read the complete analysis ↗</a>
+              </div>
+            </article>
+          )}
+
+          {secondaryPosts.length > 0 && (
+            <div class="secondary-insights">
+              <span class="secondary-heading">Additional Perspectives</span>
+              <div class="grid grid--2">
+                {secondaryPosts.map((insight) => <InsightCard insight={insight} />)}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div class="empty-state">
+          <h3>No published Insights yet.</h3>
+          <p>Publish an Insight in Sanity and it will appear here after the site refreshes or rebuilds.</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container split">
+      <div>
+        <p class="eyebrow paper-eyebrow">Editorial standard</p>
+        <h2>Knowledge first, not academic theatre.</h2>
+      </div>
+      <div>
+        <p class="lede">Nixwud Insights are written to be practical, evidence-aware, easy to understand and directly applicable.</p>
+        <ul class="list-clean standards">
+          <li>Clear answers before background context</li>
+          <li>Evidence clearly separated from opinion</li>
+          <li>Applicable frameworks and practical next steps</li>
+          <li>Verified source citations where verification matters</li>
+        </ul>
+      </div>
+    </div>
+  </section>
   <CTA title="Have a decision that deserves clearer thinking?" />
 </Layout>
 
 <style>
-  .paper-eyebrow { color: #3554d8; }
-  .standards li { padding: .8rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); }
+  .insights-publication {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .featured-insight {
+    padding: clamp(2rem, 5vw, 4rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    transition: border-color var(--transition);
+  }
+
+  .featured-insight:hover {
+    border-color: rgba(83, 109, 206, 0.4);
+  }
+
+  .featured-insight__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .featured-tag {
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .featured-category {
+    color: var(--accent-soft);
+  }
+
+  .featured-date {
+    color: var(--text-muted);
+  }
+
+  .featured-insight__body h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+    line-height: 1.2;
+    margin: 0 0 1.25rem;
+    max-width: 26ch;
+  }
+
+  .featured-insight__body h2 a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .featured-insight__body h2 a:hover {
+    color: var(--accent-soft);
+  }
+
+  .featured-insight__body p {
+    color: var(--text-muted);
+    font-size: 1.125rem;
+    line-height: var(--leading-body);
+    max-width: 44rem;
+    margin-bottom: 2rem;
+  }
+
+  .featured-insight__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--accent-soft);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition), transform var(--transition);
+  }
+
+  .featured-insight__link:hover {
+    color: var(--text);
+    transform: translateX(4px);
+  }
+
+  .secondary-heading {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.75rem;
+  }
+
+  .paper-eyebrow { color: var(--accent); }
+  .standards li { padding: .8rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 500; }
   .standards li:last-child { border-bottom: 1px solid var(--line-dark); }
 </style>

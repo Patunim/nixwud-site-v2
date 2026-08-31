@@ -19,8 +19,49 @@ const {
 </section>
 
 <style>
-  .cta-section__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3rem; align-items: end; }
-  .cta-section h2 { max-width: 55rem; margin-bottom: 1.2rem; }
-  .cta-section .lede { margin-bottom: 0; }
-  @media (max-width: 760px) { .cta-section__inner { grid-template-columns: 1fr; align-items: start; } }
+  .cta-section {
+    padding-block: clamp(6rem, 11vw, 10rem);
+  }
+
+  .cta-section__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: end;
+  }
+
+  .cta-section h2 {
+    max-width: 18ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-section .lede {
+    max-width: 38rem;
+    margin-bottom: 0;
+  }
+
+  .cta-section__inner > .button {
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 760px) {
+    .cta-section {
+      padding-block: 5rem;
+    }
+
+    .cta-section__inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .cta-section h2 {
+      max-width: none;
+    }
+
+    .cta-section__inner > .button {
+      width: fit-content;
+    }
+  }
 </style>

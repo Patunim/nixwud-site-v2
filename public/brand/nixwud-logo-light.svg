@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 56" role="img" aria-label="Nixwud Consultancy">
+  <rect x="2" y="2" width="52" height="52" rx="12" fill="#090b0f"/>
+  <rect x="7" y="7" width="42" height="42" rx="8" fill="none" stroke="#617dff" stroke-width="1.8"/>
+  <path d="M18 39V17h5.2l11.8 14.8V17h5v22h-5.2L23 24.2V39z" fill="#f4f3ef"/>
+  <text x="68" y="31" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="22" font-weight="600" fill="#090b0f" letter-spacing="-0.03em">Nixwud</text>
+  <text x="69" y="45" font-family="-apple-system, BlinkMacSystemFont, 'IBM Plex Sans', sans-serif" font-size="10" font-weight="500" fill="#525966" letter-spacing="0.16em">CONSULTANCY</text>
+</svg>

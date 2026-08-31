@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import CTA from "../../components/sections/CTA.astro";
 import { serviceDetails, services } from "../../lib/siteConfig.js";
+import { buildBreadcrumbSchema, buildServiceSchema, getCanonicalUrl } from "../../lib/seo.js";
 
 export function getStaticPaths() {
   const details = serviceDetails as Record<string, Record<string, any>>;
@@ -9,9 +10,27 @@ export function getStaticPaths() {
 }
 
 const { service, detail } = Astro.props as { service: Record<string, any>; detail: Record<string, any> };
+const serviceUrl = getCanonicalUrl(`/services/${service.slug}`);
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Services", url: "/services" },
+  { name: service.title, url: `/services/${service.slug}` }
+]);
+
+const serviceSchema = buildServiceSchema({
+  name: service.title,
+  description: detail.description,
+  url: serviceUrl
+});
 ---
 
-<Layout title={service.title} description={detail.description}>
+<Layout
+  title={`${service.title} Consulting`}
+  description={detail.description}
+  canonical={serviceUrl}
+  structuredData={[breadcrumbSchema, serviceSchema]}
+>
   <header class="page-hero">
     <div class="container--wide">
       <p class="eyebrow">{detail.eyebrow}</p>
@@ -20,17 +39,160 @@ const { service, detail } = Astro.props as { service: Record<string, any>; detai
     </div>
   </header>
 
+  <!-- Distinct Practice Architectural System Diagram -->
+  <section class="section border-bottom practice-system">
+    <div class="container--wide">
+      <div class="system-box">
+        <div class="system-box__header">
+          <span class="system-box__tag">Consulting Architecture</span>
+          <h2>How we structure {service.title}</h2>
+        </div>
+
+        {service.slug === "strategy-business-analysis" && (
+          <div class="arch-flow arch-flow--strategy">
+            <div class="arch-node">
+              <span class="arch-node__step">01</span>
+              <strong>Problem Definition</strong>
+              <p>Isolate underlying commercial friction from software tool requests.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node">
+              <span class="arch-node__step">02</span>
+              <strong>Stakeholder Evidence</strong>
+              <p>Gather operational realities, workflow data and real constraints.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node">
+              <span class="arch-node__step">03</span>
+              <strong>Option Comparison</strong>
+              <p>Evaluate trade-offs between custom build, SaaS and operational redesign.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node arch-node--accent">
+              <span class="arch-node__step">04</span>
+              <strong>Decision Roadmap</strong>
+              <p>Deliver an executive business case with clear success metrics.</p>
+            </div>
+          </div>
+        )}
+
+        {service.slug === "digital-platforms" && (
+          <div class="arch-layers">
+            <div class="layer-item">
+              <div class="layer-head">
+                <span class="layer-num">01</span>
+                <strong>Experience & Interface Layer</strong>
+              </div>
+              <p>Accessible, responsive frontend typography, design tokens and semantic HTML.</p>
+            </div>
+            <div class="layer-item">
+              <div class="layer-head">
+                <span class="layer-num">02</span>
+                <strong>Content Architecture Layer</strong>
+              </div>
+              <p>Structured CMS schemas, reusable component models and editorial workflows.</p>
+            </div>
+            <div class="layer-item">
+              <div class="layer-head">
+                <span class="layer-num">03</span>
+                <strong>Platform Engineering Layer</strong>
+              </div>
+              <p>Modern static site generation, API integrations and maintainable codebases.</p>
+            </div>
+            <div class="layer-item layer-item--accent">
+              <div class="layer-head">
+                <span class="layer-num">04</span>
+                <strong>Performance & Governance Layer</strong>
+              </div>
+              <p>Fast global CDN delivery, security hygiene and search discoverability standards.</p>
+            </div>
+          </div>
+        )}
+
+        {service.slug === "ai-crm-business-automation" && (
+          <div class="arch-flow arch-flow--automation">
+            <div class="arch-node">
+              <span class="arch-node__step">01</span>
+              <strong>Signal Ingestion</strong>
+              <p>Capture customer inquiries, operational events and form submissions.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node">
+              <span class="arch-node__step">02</span>
+              <strong>Data Qualification</strong>
+              <p>Validate data integrity, enrich records and route through CRM pipelines.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node">
+              <span class="arch-node__step">03</span>
+              <strong>Automated Routing</strong>
+              <p>Trigger structured multi-step actions without manual human re-entry.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node arch-node--accent">
+              <span class="arch-node__step">04</span>
+              <strong>Human Action & Value</strong>
+              <p>Equip teams with qualified context so high-value work happens faster.</p>
+            </div>
+          </div>
+        )}
+
+        {service.slug === "growth-discoverability" && (
+          <div class="arch-flow arch-flow--growth">
+            <div class="arch-node">
+              <span class="arch-node__step">01</span>
+              <strong>Core Authority</strong>
+              <p>Publish original, evidence-backed insights addressing real executive questions.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node">
+              <span class="arch-node__step">02</span>
+              <strong>Search Architecture</strong>
+              <p>Structure clean metadata, semantic schemas and discoverability indexing.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node">
+              <span class="arch-node__step">03</span>
+              <strong>Qualified Engagement</strong>
+              <p>Attract high-intent decision-makers looking for genuine consulting judgment.</p>
+            </div>
+            <span class="arch-arrow" aria-hidden="true">→</span>
+            <div class="arch-node arch-node--accent">
+              <span class="arch-node__step">04</span>
+              <strong>Sustained Demand</strong>
+              <p>Turn reputation and technical rigor into durable inbound commercial growth.</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container split">
-      <div><p class="eyebrow">When this helps</p><h2>Recognize the decision behind the request.</h2></div>
+      <div>
+        <p class="eyebrow">When this helps</p>
+        <h2>Recognize the decision behind the request.</h2>
+      </div>
       <ul class="list-clean list-lines">{(detail.challenges as string[]).map((item) => <li>{item}</li>)}</ul>
     </div>
   </section>
 
   <section class="section section--paper">
-    <div class="container split">
-      <div><p class="eyebrow paper-eyebrow">Typical outputs</p><h2>Practical work your team can use.</h2></div>
-      <ul class="list-clean deliverables">{(detail.deliverables as string[]).map((item, index) => <li><span>0{index + 1}</span>{item}</li>)}</ul>
+    <div class="container--wide">
+      <header class="deliverables-header">
+        <p class="eyebrow paper-eyebrow">Typical outputs</p>
+        <h2>Practical work your team can use.</h2>
+        <p class="lede">Tangible deliverables designed to support decision-making, team alignment and execution.</p>
+      </header>
+      <ul class="deliverables grid grid--2 list-clean">
+        {(detail.deliverables as string[]).map((item, index) => (
+          <li class="deliverable-item">
+            <span class="deliverable-num">0{index + 1}</span>
+            <p class="deliverable-text">{item}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -45,9 +207,206 @@ const { service, detail } = Astro.props as { service: Record<string, any>; detai
 </Layout>
 
 <style>
-  .list-lines { margin-top: .5rem; }
-  .paper-eyebrow { color: #3554d8; }
-  .deliverables li { display: grid; grid-template-columns: 3rem 1fr; padding: 1.2rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 650; }
-  .deliverables li:last-child { border-bottom: 1px solid var(--line-dark); }
-  .deliverables span { color: #3554d8; font-size: .8rem; }
+  .practice-system {
+    padding-block: clamp(3rem, 5vw, 5rem);
+    background-image: radial-gradient(circle at 10% 50%, rgba(83, 109, 206, 0.04) 0%, transparent 60%);
+  }
+
+  .system-box {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .system-box__header {
+    max-width: 44rem;
+    margin-bottom: 3rem;
+  }
+
+  .system-box__tag {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .system-box__header h2 {
+    margin: 0;
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+  }
+
+  .arch-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .arch-node {
+    padding: 1.5rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    min-height: 10rem;
+  }
+
+  .arch-node--accent {
+    border-color: rgba(83, 109, 206, 0.4);
+    background: rgba(83, 109, 206, 0.06);
+  }
+
+  .arch-node__step {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .arch-node strong {
+    color: var(--text);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .arch-node p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .arch-arrow {
+    color: var(--accent);
+    font-size: 1.1rem;
+    opacity: 0.7;
+    text-align: center;
+  }
+
+  .arch-layers {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .layer-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .layer-item--accent {
+    border-left: 3px solid var(--accent);
+  }
+
+  .layer-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .layer-num {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .layer-head strong {
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  .layer-item p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .list-lines {
+    margin-top: .5rem;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .deliverables-header {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .deliverables-header h2 {
+    max-width: 22ch;
+    margin-bottom: 1rem;
+  }
+
+  .deliverables-header .lede {
+    margin-bottom: 0;
+  }
+
+  .deliverables {
+    gap: 0 3.5rem;
+  }
+
+  .deliverable-item {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .deliverable-num {
+    color: var(--accent);
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .deliverable-text {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .arch-flow {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .arch-arrow {
+      transform: rotate(90deg);
+      padding: 0.25rem 0;
+    }
+
+    .arch-node {
+      min-height: auto;
+    }
+
+    .layer-item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .deliverables {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

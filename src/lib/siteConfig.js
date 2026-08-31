@@ -26,7 +26,7 @@ export const services = [
     number: "03",
     title: "AI, CRM & Business Automation",
     summary: "Improve how work moves through your business by connecting AI workflows, CRM pipelines and operational automation.",
-    outcomes: ["Intelligent workflow automation", "Cleaner CRM pipelines & lead routing", "Reduced manual operational friction"]
+    outcomes: ["Intelligent workflow automation", "Cleaner CRM pipelines and lead routing", "Reduced manual operational friction"]
   },
   {
     slug: "growth-discoverability",
@@ -37,18 +37,9 @@ export const services = [
   }
 ];
 
-/**
- * Fixed website content is kept in source control instead of Sanity.
- * Add approved industry profiles here when they are ready to publish.
- * @type {Array<{title: string; summary: string; challenges: string[]}>}
- */
 export const industries = [];
-
-/**
- * Add approved case studies here. Do not publish client details without permission.
- * @type {Array<{title: string; client?: string; challenge: string; outcome?: string}>}
- */
 export const caseStudies = [];
+export const testimonials = [];
 
 export const navigation = [
   { label: "Insights", href: "/insights" },
@@ -70,7 +61,14 @@ export const navigation = [
     ]
   },
   { label: "Resources", href: "/resources" },
-  { label: "About", href: "/about" }
+  {
+    label: "About",
+    href: "/about",
+    children: [
+      { label: "About Nixwud", href: "/about" },
+      { label: "Testimonials", href: "/testimonials" }
+    ]
+  }
 ];
 
 export const resources = [
@@ -98,49 +96,64 @@ export const serviceDetails = {
     title: "Make the decision clearer before making the investment.",
     description: "We help leadership teams understand the real business problem, align stakeholders and translate priorities into an evidence-based course of action.",
     challenges: [
-      "The team is discussing solutions before agreeing on the problem.",
-      "Requirements are fragmented across people, documents and assumptions.",
-      "A technology investment needs a stronger business case."
+      "The team is discussing software solutions before agreeing on the underlying business problem.",
+      "Requirements are fragmented across multiple teams, contradictory documents and unspoken assumptions.",
+      "A proposed technology investment lacks a defensible business case and clear success metrics."
     ],
-    deliverables: ["Discovery and stakeholder analysis", "Current-state and gap assessment", "Requirements and decision criteria", "Prioritized transformation roadmap"]
+    deliverables: [
+      "Discovery and stakeholder alignment review",
+      "Current-state operations and technical gap assessment",
+      "Functional requirements and vendor decision criteria",
+      "Prioritized delivery roadmap and investment schedule"
+    ]
   },
   "digital-platforms": {
     eyebrow: "Digital Platforms",
     title: "Build a digital foundation that supports the business behind it.",
-    description: "We design and deliver websites and content platforms that are fast, accessible, understandable and practical to operate.",
+    description: "We design and deliver websites and digital platforms that are fast, accessible, understandable and practical for internal teams to operate.",
     challenges: [
-      "The current website no longer reflects the quality of the organization.",
-      "Content is difficult to manage, reuse or discover.",
-      "Technical debt is slowing down change."
+      "The current website or digital platform no longer reflects the maturity and scale of the business.",
+      "Content is difficult for non-technical teams to manage, publish, update or structure.",
+      "Accumulated technical debt and legacy architecture are slowing down commercial changes."
     ],
-    deliverables: ["Digital experience strategy", "Information architecture and UX", "Website and platform delivery", "Content systems and technical governance"]
+    deliverables: [
+      "Digital platform strategy and technical architecture",
+      "User research, information architecture and UX structure",
+      "Accessible front-end and robust platform delivery",
+      "Content management workflows and governance models"
+    ]
   },
   "ai-crm-business-automation": {
     eyebrow: "AI, CRM & Business Automation",
     title: "Connect how work, leads and data move through your systems.",
-    description: "We help organizations design and implement practical automation across AI workflows, CRM lifecycle management, and core business systems—reducing friction without introducing unnecessary operational complexity.",
+    description: "We help organizations design and implement practical automation across AI workflows, CRM lifecycle management, and core business systems, reducing operational friction without introducing fragile technical complexity.",
     challenges: [
-      "Manual, repetitive tasks and data entry are consuming valuable team time.",
-      "Leads and prospect data fall through cracks due to fragmented CRM workflows and inconsistent pipeline routing.",
-      "Teams are under pressure to adopt AI or automation without a clear business use case or integration plan.",
-      "Disparate software tools and business platforms operate in silos, creating operational bottlenecks."
+      "Manual, repetitive tasks and manual data entry are consuming valuable internal team time.",
+      "Commercial leads fall through operational gaps due to disconnected CRM pipelines and manual handoffs.",
+      "The leadership team is under pressure to adopt AI tools without a clear business use case or integration roadmap.",
+      "Disparate software tools and databases operate in isolation, creating data silos and reporting delays."
     ],
     deliverables: [
-      "AI workflow and repetitive task automation",
-      "CRM architecture, pipeline management and lead routing",
-      "End-to-end system integration and data synchronization",
-      "Process optimization and operational automation roadmap"
+      "AI workflow design and repetitive process automation",
+      "CRM architecture, pipeline structure and automated lead routing",
+      "System integration, webhook connections and data synchronization",
+      "Operational efficiency assessment and automation roadmap"
     ]
   },
   "growth-discoverability": {
     eyebrow: "Growth & Discoverability",
     title: "Turn useful expertise into sustained visibility and demand.",
-    description: "We build discoverability systems that connect search, content, digital marketing and measurement to commercial priorities.",
+    description: "We build discoverability systems that connect search performance, technical SEO, authoritative content and measurement to commercial priorities.",
     challenges: [
-      "The organization has expertise but is difficult to find online.",
-      "Marketing activity is disconnected from business outcomes.",
-      "Teams cannot clearly explain what is driving enquiries."
+      "The organization has genuine subject-matter expertise but remains difficult for prospective clients to find online.",
+      "Marketing and content publishing activity is disconnected from commercial enquiries and revenue outcomes.",
+      "Leadership cannot clearly identify which channels, pages or campaigns are generating qualified demand."
     ],
-    deliverables: ["SEO and GEO strategy", "Content and information architecture", "Campaign and channel planning", "Measurement framework"]
+    deliverables: [
+      "Technical SEO, semantic architecture and discoverability strategy",
+      "Editorial content structure and subject-matter topic modeling",
+      "Channel strategy and qualified demand capture planning",
+      "Conversion tracking and executive analytics framework"
+    ]
   }
 };
