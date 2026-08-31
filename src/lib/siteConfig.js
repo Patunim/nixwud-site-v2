@@ -37,7 +37,22 @@ export const services = [
   }
 ];
 
-export const industries = [];
+export const industries = [
+  {
+    slug: "smes-growing-businesses",
+    number: "01",
+    title: "SMEs & Growing Businesses",
+    tagline: "Growth creates pressure. Better systems create leverage.",
+    summary: "Growth is useful. Complexity isn't. We help growing businesses simplify operations, connect data and make sound technology investments."
+  },
+  {
+    slug: "educational-career-services",
+    number: "02",
+    title: "Educational & Career Services",
+    tagline: "When the service depends on people, the systems behind it matter.",
+    summary: "Education and career services are people businesses. The systems behind them should make the experience easier, not harder."
+  }
+];
 export const caseStudies = [];
 export const testimonials = [];
 

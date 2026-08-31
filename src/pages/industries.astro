@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CTA from "../components/sections/CTA.astro";
-import { industries } from "../lib/siteConfig.js";
 import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
 
 const canonicalUrl = getCanonicalUrl("/industries");
@@ -10,135 +9,715 @@ const breadcrumbs = buildBreadcrumbSchema([
   { name: "Industries", url: "/industries" }
 ]);
 
-const contextDimensions = [
-  { label: "MARKET DYNAMICS", title: "Commercial Realities", desc: "Competitive pressure, customer expectations, margin profiles and unit economics." },
-  { label: "OPERATING WORKFLOWS", title: "Human Processes", desc: "Core workflows, cross-functional handoffs, manual friction and delivery bottlenecks." },
-  { label: "SYSTEM ARCHITECTURE", title: "Technology Footprint", desc: "Legacy databases, software dependencies, integrations and data governance." },
-  { label: "TEAM CAPABILITY", title: "Organizational Bandwidth", desc: "Internal skills, leadership ownership, operating models and change adoption." },
-  { label: "REGULATION & RISK", title: "Governance Boundaries", desc: "Compliance mandates, security controls, privacy rules and liability parameters." }
+const smeProgression = [
+  { step: "01", label: "Growth", desc: "Commercial demand increases" },
+  { step: "02", label: "More Customers", desc: "Volume expands across channels" },
+  { step: "03", label: "More Information", desc: "Records fragment across tools" },
+  { step: "04", label: "More Processes", desc: "Workflows multiply informally" },
+  { step: "05", label: "More Tools", desc: "Software adopted ad-hoc" },
+  { step: "06", label: "Compounded Complexity", desc: "Systems slow execution down" }
+];
+
+const smeLenses = [
+  {
+    num: "01",
+    title: "Operational Complexity",
+    summary: "Processes that once worked informally around a small table become difficult to manage consistently as team size and customer volume expand."
+  },
+  {
+    num: "02",
+    title: "Information Fragmentation",
+    summary: "Important customer, operational and financial information becomes scattered across separate spreadsheets, inboxes and disconnected SaaS tools."
+  },
+  {
+    num: "03",
+    title: "Customer Management",
+    summary: "New enquiries, active prospects and existing clients require structured pipelines and predictable follow-up rather than ad-hoc email threads."
+  },
+  {
+    num: "04",
+    title: "Automation Opportunities",
+    summary: "Manual data entry, status chasing and repetitive handoffs begin consuming hours that should be invested in high-value client advisory work."
+  },
+  {
+    num: "05",
+    title: "Technology Decisions",
+    summary: "The financial and operational cost of choosing the wrong system increases rapidly as organizational interdependencies multiply."
+  }
+];
+
+const smeCapabilities = [
+  {
+    title: "Business & Strategy",
+    slug: "strategy-business-analysis",
+    focus: "Process understanding, requirements definition, decision support and operating model design."
+  },
+  {
+    title: "Digital Platforms",
+    slug: "digital-platforms",
+    focus: "Websites, customer portals and digital foundations built around clarity, speed and conversion."
+  },
+  {
+    title: "CRM & Business Systems",
+    slug: "ai-crm-business-automation",
+    focus: "Customer records, structured pipeline tracking, handoffs and cross-team operational visibility."
+  },
+  {
+    title: "AI & Automation",
+    slug: "ai-automation",
+    focus: "Workflow automation, document triage and AI-assisted tasks to eliminate operational bottlenecks."
+  },
+  {
+    title: "Growth & Discoverability",
+    slug: "growth-discoverability",
+    focus: "Search discoverability, clear positioning and structured pathways from first visit to enquiry."
+  }
+];
+
+const eduJourney = [
+  { stage: "Discover", role: "Search, reputation, course directories", friction: "Unclear programme options and scattered requirement details" },
+  { stage: "Enquire", role: "High-volume inbound questions and forms", friction: "Delayed responses, lost leads and manual inbox triage" },
+  { stage: "Qualify", role: "Eligibility checks and goal alignment", friction: "Repetitive document chasing and disconnected advisor notes" },
+  { stage: "Engage", role: "Admissions, onboarding and scheduling", friction: "Friction-heavy onboarding and missed administrative handoffs" },
+  { stage: "Deliver", role: "Coaching, teaching, training and mentoring", friction: "Advisors buried in paperwork rather than human delivery" },
+  { stage: "Follow Up", role: "Retention, outcomes, progression and alumni", friction: "Incomplete outcome tracking and lack of longitudinal data" }
+];
+
+const eduEcosystem = [
+  { label: "People", role: "Students, candidates, advisors, coaches, administrators" },
+  { label: "Information", role: "Enquiries, assessments, academic progress, placement records" },
+  { label: "Processes", role: "Onboarding, qualification, scheduling, feedback, verification" },
+  { label: "Communication", role: "Multichannel outreach, advisory sessions, automated alerts" },
+  { label: "Technology", role: "CRMs, portals, forms, knowledge bases, analytics" },
+  { label: "Outcomes", role: "Successful completions, career placements, operational leverage" }
+];
+
+const eduCapabilities = [
+  {
+    title: "Operations & Business Analysis",
+    slug: "strategy-business-analysis",
+    focus: "Map candidate and advisor workflows, uncover bottlenecks, and design clean operational handoffs."
+  },
+  {
+    title: "CRM & Relationship Management",
+    slug: "ai-crm-business-automation",
+    focus: "Organize enquiries, applicants, cohorts and alumni into unified, structured relationship records."
+  },
+  {
+    title: "Workflow Automation",
+    slug: "ai-automation",
+    focus: "Automate appointment reminders, status updates, document intake and recurring administration."
+  },
+  {
+    title: "Digital Platforms",
+    slug: "digital-platforms",
+    focus: "Build intuitive course directories, self-service portals and accessible registration journeys."
+  },
+  {
+    title: "AI & Knowledge Systems",
+    slug: "ai-automation",
+    focus: "Equip advisors and candidates with instant, verified access to programme curricula and policies."
+  },
+  {
+    title: "Growth & Discoverability",
+    slug: "growth-discoverability",
+    focus: "Position specialized educational and career programmes in front of high-intent learners."
+  }
+];
+
+const decisionLensSteps = [
+  { num: "01", question: "What is actually happening?", detail: "Separate observed operational behavior from stated management assumptions." },
+  { num: "02", question: "Where is the friction?", detail: "Pinpoint where handoffs, delays, rework and data loss occur across the workflow." },
+  { num: "03", question: "What constraint matters most?", detail: "Determine which regulatory, legacy or human capacity boundaries cannot be moved." },
+  { num: "04", question: "What needs to change?", detail: "Define the operating process and governance requirements before evaluating tools." },
+  { num: "05", question: "What technology actually helps?", detail: "Select the most maintainable, cost-effective system that solves the core problem." }
 ];
 ---
 
 <Layout
   title="Industry Context & Sector Analysis"
-  description="Discover how Nixwud evaluates sector dynamics, regulatory constraints and technical architecture to make sound business technology decisions."
+  description="How industry context changes business, technology and operational decisions across SMEs, growing businesses, educational services and career-focused organizations."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
+  <!-- Hero Section -->
   <header class="page-hero">
     <div class="container--wide">
-      <p class="eyebrow">Industries</p>
-      <h1>Context changes the quality of every technology decision.</h1>
-      <p class="lede">We bring a structured methodology to each engagement, adapting our analysis to the commercial, regulatory and technical realities of your sector.</p>
+      <p class="eyebrow">Industry Context</p>
+      <h1>Industry context changes the decision.</h1>
+      <p class="lede">
+        The right business and technology decision depends on the environment in which an organization operates. We look at the pressures, constraints and workflows around the problem before deciding what should change.
+      </p>
+
+      <div class="hero-context-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span>Two primary operating environments: SMEs & Growing Businesses and Educational & Career Services</span>
+      </div>
     </div>
   </header>
 
-  <section class="section">
+  <!-- Interactive Context Selector Rail -->
+  <section class="section border-bottom context-selector-section">
     <div class="container--wide">
-      {industries.length ? (
-        <div class="grid grid--3">
-          {industries.map((industry, index) => (
-            <article class="card">
-              <span class="card__number">0{index + 1}</span>
-              <h3>{industry.title}</h3>
-              <p>{industry.summary}</p>
-              {industry.challenges?.length && (
-                <ul class="tag-list">
-                  {(industry.challenges as string[]).slice(0, 3).map((item: string) => <li class="tag">{item}</li>)}
-                </ul>
-              )}
-            </article>
+      <div class="context-selector-rail" role="region" aria-label="Sector selector">
+        <a href="#sme-context" class="context-select-card" data-target="sme-context">
+          <div class="context-select-card__header">
+            <span class="context-select-card__num">01</span>
+            <span class="context-select-card__tag">Operating Environment</span>
+          </div>
+          <h2>SMEs & Growing Businesses</h2>
+          <p class="context-select-card__quote">"Growth creates pressure. Better systems create leverage."</p>
+          <div class="context-select-card__action">
+            <span>Explore SME Context</span>
+            <span class="arrow" aria-hidden="true">↓</span>
+          </div>
+        </a>
+
+        <a href="#education-context" class="context-select-card" data-target="education-context">
+          <div class="context-select-card__header">
+            <span class="context-select-card__num">02</span>
+            <span class="context-select-card__tag">Operating Environment</span>
+          </div>
+          <h2>Educational & Career Services</h2>
+          <p class="context-select-card__quote">"When the service depends on people, the systems behind it matter."</p>
+          <div class="context-select-card__action">
+            <span>Explore Education Context</span>
+            <span class="arrow" aria-hidden="true">↓</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01: SME Context Experience -->
+  <section id="sme-context" class="section border-bottom sector-deep-dive">
+    <div class="container--wide">
+      <div class="sector-header">
+        <span class="sector-kicker">Context 01</span>
+        <h2 class="sector-title">SMEs & Growing Businesses</h2>
+        <p class="sector-tagline">Growth is useful. Complexity isn't.</p>
+      </div>
+
+      <!-- The Growth Complexity Cycle Diagram -->
+      <div class="complexity-cycle-box">
+        <div class="complexity-cycle-box__intro">
+          <span class="diagram-kicker">Diagnostic Progression</span>
+          <h3>How operational friction compounds with scale</h3>
+          <p>
+            When a business expands, processes that functioned informally begin to fray. Adding tools without an underlying operating architecture creates disconnected data silos and administrative drag.
+          </p>
+        </div>
+
+        <div class="progression-track" role="list" aria-label="Growth to complexity progression">
+          {smeProgression.map((item, idx) => (
+            <div class="progression-node" role="listitem">
+              <span class="progression-node__step">{item.step}</span>
+              <h4 class="progression-node__label">{item.label}</h4>
+              <p class="progression-node__desc">{item.desc}</p>
+              {idx < smeProgression.length - 1 && <span class="progression-node__arrow" aria-hidden="true">→</span>}
+            </div>
           ))}
         </div>
-      ) : (
-        <div class="context-map">
-          <div class="context-map__header">
-            <span class="context-map__kicker">Sector Context Matrix</span>
-            <h2>How industry variables shape technology decisions.</h2>
-            <p class="lede">Rather than publishing superficial industry marketing pages, we analyze how five intersecting sector constraints dictate what solutions will actually work.</p>
-          </div>
 
-          <div class="context-matrix">
-            {contextDimensions.map((dim, idx) => (
-              <div class="context-node">
-                <span class="context-node__num">0{idx + 1}</span>
-                <span class="context-node__tag">{dim.label}</span>
-                <h3>{dim.title}</h3>
-                <p>{dim.desc}</p>
-              </div>
-            ))}
+        <div class="strategic-pivot-banner">
+          <div class="strategic-pivot-banner__inner">
+            <span class="pivot-label">The Core Consulting Question</span>
+            <p class="pivot-from">The question is not: <em>"What software do we need?"</em></p>
+            <p class="pivot-to">The question is: <strong>"What needs to work better?"</strong></p>
           </div>
         </div>
-      )}
+      </div>
+
+      <!-- SME Decision Lens: What Changes as a Business Grows -->
+      <div class="sector-lens-block">
+        <div class="sector-lens-header">
+          <span class="diagram-kicker">Operating Dimensions</span>
+          <h3>What changes as a business grows?</h3>
+          <p>Five structural shifts that dictate whether technology creates leverage or unnecessary overhead.</p>
+        </div>
+
+        <div class="lens-grid">
+          {smeLenses.map((lens) => (
+            <div class="lens-card">
+              <span class="lens-card__num">{lens.num}</span>
+              <h4>{lens.title}</h4>
+              <p>{lens.summary}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Where Nixwud Helps SMEs -->
+      <div class="sector-capabilities-block">
+        <div class="sector-capabilities-header">
+          <span class="diagram-kicker">Capability Alignment</span>
+          <h3>Where Nixwud helps growing businesses</h3>
+          <p>We connect industry context directly to practical, measurable consulting capabilities.</p>
+        </div>
+
+        <div class="capabilities-matrix">
+          {smeCapabilities.map((cap) => (
+            <a href={`/services/${cap.slug}`} class="capability-item">
+              <div class="capability-item__top">
+                <h4>{cap.title}</h4>
+                <span class="capability-item__link-icon" aria-hidden="true">↗</span>
+              </div>
+              <p>{cap.focus}</p>
+              <span class="capability-item__cta">View {cap.title} service</span>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section section--paper">
-    <div class="container split">
-      <div>
-        <p class="eyebrow paper-eyebrow">Across sectors</p>
-        <h2>The core strategic questions remain constant.</h2>
+  <!-- 02: Educational & Career Services Context Experience -->
+  <section id="education-context" class="section border-bottom sector-deep-dive sector-deep-dive--alt">
+    <div class="container--wide">
+      <div class="sector-header">
+        <span class="sector-kicker">Context 02</span>
+        <h2 class="sector-title">Educational & Career Services</h2>
+        <p class="sector-tagline">
+          Education and career services are people businesses. The systems behind them should make the experience easier, not harder.
+        </p>
       </div>
-      <ul class="list-clean sector-list">
-        <li>Where is commercial value created, delayed or lost across the current workflow?</li>
-        <li>Which technical or regulatory constraints are fixed, and which can be improved?</li>
-        <li>What specific capabilities must internal teams and customers possess?</li>
-        <li>How will leadership measure progress, performance and return on investment?</li>
-      </ul>
+
+      <!-- Context Scope Badges -->
+      <div class="sector-scope-bar">
+        <span class="scope-label">Operating Environments:</span>
+        <ul class="list-clean scope-tag-list">
+          <li class="scope-tag">Educational Service Providers</li>
+          <li class="scope-tag">Career Development Firms</li>
+          <li class="scope-tag">Employability Organizations</li>
+          <li class="scope-tag">Student Support Services</li>
+          <li class="scope-tag">Professional Training Businesses</li>
+        </ul>
+      </div>
+
+      <!-- Candidate & Student Journey Friction Map -->
+      <div class="journey-friction-box">
+        <div class="journey-friction-box__intro">
+          <span class="diagram-kicker">Journey Architecture</span>
+          <h3>The Candidate & Student Journey</h3>
+          <p>
+            In people-driven services, a single learner or candidate passes through distinct operational phases. Friction occurs when data and communication break down between stages.
+          </p>
+        </div>
+
+        <div class="journey-track" role="list" aria-label="Educational candidate journey stages">
+          {eduJourney.map((item, idx) => (
+            <div class="journey-card" role="listitem">
+              <div class="journey-card__header">
+                <span class="journey-card__step">0{idx + 1}</span>
+                <h4 class="journey-card__stage">{item.stage}</h4>
+              </div>
+              <div class="journey-card__body">
+                <span class="journey-card__sublabel">Operational Role</span>
+                <p class="journey-card__role">{item.role}</p>
+                <span class="journey-card__sublabel journey-card__sublabel--friction">Friction Point</span>
+                <p class="journey-card__friction">{item.friction}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- The System Behind the Service Lens -->
+      <div class="system-ecosystem-box">
+        <div class="system-ecosystem-header">
+          <span class="diagram-kicker">Human-Centered Systems</span>
+          <h3>The system behind the service</h3>
+          <p class="lede-compact">
+            Better systems should reduce friction for the people delivering the service and the people receiving it.
+          </p>
+        </div>
+
+        <div class="ecosystem-flow" role="list" aria-label="Ecosystem flow">
+          {eduEcosystem.map((eco, idx) => (
+            <div class="ecosystem-node" role="listitem">
+              <span class="ecosystem-node__idx">0{idx + 1}</span>
+              <h4>{eco.label}</h4>
+              <p>{eco.role}</p>
+              {idx < eduEcosystem.length - 1 && <span class="ecosystem-node__connector" aria-hidden="true">↔</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Where Nixwud Helps Educational & Career Services -->
+      <div class="sector-capabilities-block">
+        <div class="sector-capabilities-header">
+          <span class="diagram-kicker">Capability Alignment</span>
+          <h3>Where Nixwud helps education and career organizations</h3>
+          <p>Targeted consulting to streamline advisor workflows, candidate data and institutional delivery.</p>
+        </div>
+
+        <div class="capabilities-matrix">
+          {eduCapabilities.map((cap) => (
+            <a href={`/services/${cap.slug}`} class="capability-item">
+              <div class="capability-item__top">
+                <h4>{cap.title}</h4>
+                <span class="capability-item__link-icon" aria-hidden="true">↗</span>
+              </div>
+              <p>{cap.focus}</p>
+              <span class="capability-item__cta">View {cap.title} service</span>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   </section>
-  <CTA />
+
+  <!-- Signature Nixwud Section: The Decision Lens -->
+  <section class="section border-bottom section--paper decision-lens-section">
+    <div class="container--wide">
+      <div class="decision-lens-intro">
+        <p class="eyebrow paper-eyebrow">Signature Methodology</p>
+        <h2>The Decision Lens</h2>
+        <p class="lede paper-lede">
+          Across every industry context, Nixwud follows a rigorous sequence. We never start with software recommendations; we start with the operational reality.
+        </p>
+      </div>
+
+      <div class="decision-lens-timeline" role="list" aria-label="The Decision Lens 5-step sequence">
+        {decisionLensSteps.map((step) => (
+          <div class="timeline-step" role="listitem">
+            <span class="timeline-step__num">{step.num}</span>
+            <div class="timeline-step__content">
+              <h3>{step.question}</h3>
+              <p>{step.detail}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Context to Resources Toolkit Bridge -->
+  <section class="section border-bottom toolkit-bridge-section">
+    <div class="container--wide">
+      <div class="toolkit-bridge-grid">
+        <div class="toolkit-bridge-card">
+          <span class="toolkit-tag">Diagnostic Tool</span>
+          <h3>Decision Readiness Scorecard</h3>
+          <p>
+            Evaluate your organization's clarity across business alignment, requirements, technical feasibility and operational readiness before committing budget.
+          </p>
+          <a href="/resources/decision-readiness-scorecard/" class="button button--secondary">
+            Launch Scorecard
+          </a>
+        </div>
+
+        <div class="toolkit-bridge-card">
+          <span class="toolkit-tag">Core Practices</span>
+          <h3>Consulting Capabilities</h3>
+          <p>
+            Explore how our Strategy, Digital Platforms, AI Automation, CRM and Discoverability practices connect to address complex operational challenges.
+          </p>
+          <a href="/services/" class="button button--secondary">
+            Explore All Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <CTA
+    title="Have a decision you need to make?"
+    description="Tell us what you're trying to improve, where the uncertainty sits, and what you've already considered."
+  />
 </Layout>
 
 <style>
-  .card h3 { margin: 3rem 0 1rem; }
-  .paper-eyebrow { color: var(--accent); }
-  .sector-list li { padding: 1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 500; }
-  .sector-list li:last-child { border-bottom: 1px solid var(--line-dark); }
+  /* Hero contextual badge */
+  .hero-context-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-top: 1.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--ink-soft);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
 
-  .context-map {
-    padding: clamp(2rem, 4vw, 3.5rem);
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Context Selector Rail */
+  .context-selector-section {
+    padding: 2.5rem 0;
+    background: var(--bg-alt, rgba(14, 17, 24, 0.6));
+  }
+
+  .context-selector-rail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .context-select-card {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2.25rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     background: var(--ink-soft);
+    text-decoration: none;
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
   }
 
-  .context-map__header {
-    max-width: 44rem;
+  .context-select-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(97, 125, 255, 0.45);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .context-select-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .context-select-card__num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .context-select-card__tag {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .context-select-card h2 {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    color: var(--text);
+    margin: 0 0 0.75rem;
+  }
+
+  .context-select-card__quote {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
+    flex-grow: 1;
+  }
+
+  .context-select-card__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-soft);
+  }
+
+  .context-select-card__action .arrow {
+    transition: transform 200ms ease;
+  }
+
+  .context-select-card:hover .arrow {
+    transform: translateY(3px);
+  }
+
+  /* Sector Deep Dive Sections */
+  .sector-deep-dive {
+    padding: clamp(3rem, 6vw, 5.5rem) 0;
+  }
+
+  .sector-deep-dive--alt {
+    background: rgba(14, 17, 26, 0.4);
+  }
+
+  .sector-header {
+    max-width: 48rem;
     margin-bottom: 3rem;
   }
 
-  .context-map__kicker {
+  .sector-kicker {
+    display: inline-block;
+    color: var(--accent-soft);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .sector-title {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    margin: 0 0 0.75rem;
+    color: var(--text);
+  }
+
+  .sector-tagline {
+    font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* Complexity Cycle Progression */
+  .complexity-cycle-box {
+    padding: clamp(2rem, 4vw, 3rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    margin-bottom: 3.5rem;
+  }
+
+  .diagram-kicker {
     display: block;
     color: var(--accent-soft);
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
-  .context-map__header h2 {
-    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
-    margin-bottom: 0.75rem;
+  .complexity-cycle-box__intro h3 {
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+    margin: 0 0 0.75rem;
   }
 
-  .context-matrix {
+  .complexity-cycle-box__intro p {
+    color: var(--text-muted);
+    max-width: 42rem;
+    line-height: var(--leading-body);
+    margin: 0 0 2rem;
+  }
+
+  .progression-track {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
   }
 
-  .context-node {
-    padding: 1.5rem;
+  .progression-node {
+    position: relative;
+    padding: 1.25rem 1rem;
+    background: rgba(0, 0, 0, 0.25);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    background: rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
   }
 
-  .context-node__num {
+  .progression-node__step {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .progression-node__label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 0.35rem;
+    line-height: 1.3;
+  }
+
+  .progression-node__desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .progression-node__arrow {
+    position: absolute;
+    right: -0.65rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1rem;
+    z-index: 2;
+  }
+
+  .strategic-pivot-banner {
+    padding: 1.5rem 1.75rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(97, 125, 255, 0.08);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .pivot-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .pivot-from {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0 0 0.25rem;
+  }
+
+  .pivot-to {
+    color: var(--text);
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  /* Sector Lens Grid */
+  .sector-lens-block {
+    margin-bottom: 3.5rem;
+  }
+
+  .sector-lens-header {
+    max-width: 42rem;
+    margin-bottom: 2rem;
+  }
+
+  .sector-lens-header h3 {
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+    margin: 0 0 0.5rem;
+  }
+
+  .sector-lens-header p {
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .lens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .lens-card {
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--ink-soft);
+  }
+
+  .lens-card__num {
+    display: block;
     font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: 700;
@@ -146,30 +725,420 @@ const contextDimensions = [
     margin-bottom: 0.5rem;
   }
 
-  .context-node__tag {
-    display: block;
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
+  .lens-card h4 {
+    font-size: 1.0625rem;
+    color: var(--text);
+    margin: 0 0 0.5rem;
   }
 
-  .context-node h3 {
+  .lens-card p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Capability Alignment Matrix */
+  .sector-capabilities-block {
+    margin-top: 2rem;
+  }
+
+  .sector-capabilities-header {
+    max-width: 44rem;
+    margin-bottom: 2rem;
+  }
+
+  .sector-capabilities-header h3 {
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
     margin: 0 0 0.5rem;
-    font-size: 1.05rem;
+  }
+
+  .sector-capabilities-header p {
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .capabilities-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .capability-item {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--ink-soft);
+    text-decoration: none;
+    transition: transform 200ms ease, border-color 200ms ease;
+  }
+
+  .capability-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(97, 125, 255, 0.4);
+  }
+
+  .capability-item__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .capability-item h4 {
+    font-size: 1.0625rem;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .capability-item__link-icon {
+    color: var(--accent-soft);
+    font-size: 1.1rem;
+    transition: transform 200ms ease;
+  }
+
+  .capability-item:hover .capability-item__link-icon {
+    transform: translate(2px, -2px);
+  }
+
+  .capability-item p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0 0 1.25rem;
+    flex-grow: 1;
+  }
+
+  .capability-item__cta {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-soft);
+  }
+
+  /* Educational Scope Bar */
+  .sector-scope-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--ink-soft);
+    margin-bottom: 3rem;
+  }
+
+  .scope-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .scope-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .scope-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(97, 125, 255, 0.08);
+    border: 1px solid rgba(97, 125, 255, 0.25);
+    border-radius: var(--radius-xs);
     color: var(--text);
   }
 
-  .context-node p {
-    margin: 0;
+  /* Journey Friction Box */
+  .journey-friction-box {
+    padding: clamp(2rem, 4vw, 3rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    margin-bottom: 3.5rem;
+  }
+
+  .journey-friction-box__intro h3 {
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+    margin: 0 0 0.75rem;
+  }
+
+  .journey-friction-box__intro p {
     color: var(--text-muted);
-    font-size: 0.85rem;
+    max-width: 44rem;
+    line-height: var(--leading-body);
+    margin: 0 0 2rem;
+  }
+
+  .journey-track {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1rem;
+  }
+
+  .journey-card {
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .journey-card__header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.5rem;
+  }
+
+  .journey-card__step {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .journey-card__stage {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .journey-card__sublabel {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  .journey-card__sublabel--friction {
+    color: #ff9b71;
+    margin-top: 0.75rem;
+  }
+
+  .journey-card__role {
+    font-size: 0.8125rem;
+    color: var(--text);
+    line-height: 1.45;
+    margin: 0.2rem 0 0;
+  }
+
+  .journey-card__friction {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0.2rem 0 0;
+  }
+
+  /* Ecosystem Flow */
+  .system-ecosystem-box {
+    padding: clamp(2rem, 4vw, 3rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    margin-bottom: 3.5rem;
+  }
+
+  .system-ecosystem-header {
+    max-width: 44rem;
+    margin-bottom: 2rem;
+  }
+
+  .system-ecosystem-header h3 {
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+    margin: 0 0 0.5rem;
+  }
+
+  .lede-compact {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
     line-height: 1.5;
   }
 
-  @media (max-width: 760px) {
-    .context-matrix {
+  .ecosystem-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 0.85rem;
+  }
+
+  .ecosystem-node {
+    position: relative;
+    padding: 1.25rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .ecosystem-node__idx {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 0.4rem;
+  }
+
+  .ecosystem-node h4 {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin: 0 0 0.35rem;
+  }
+
+  .ecosystem-node p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .ecosystem-node__connector {
+    display: none;
+  }
+
+  /* Decision Lens Timeline */
+  .decision-lens-section {
+    padding: clamp(3.5rem, 6vw, 6rem) 0;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .decision-lens-intro {
+    max-width: 46rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .decision-lens-intro h2 {
+    font-size: clamp(2rem, 3.5vw, 2.85rem);
+    color: var(--ink);
+    margin: 0 0 0.75rem;
+  }
+
+  .paper-lede {
+    color: var(--ink-muted, #333d4b);
+  }
+
+  .decision-lens-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .timeline-step {
+    padding: 1.75rem 1.5rem;
+    border: 1px solid var(--line-dark, rgba(0, 0, 0, 0.12));
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .timeline-step__num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-step__content h3 {
+    font-size: 1.0625rem;
+    color: var(--ink);
+    margin: 0 0 0.5rem;
+    line-height: 1.35;
+  }
+
+  .timeline-step__content p {
+    color: var(--ink-muted, #4b5563);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Toolkit Bridge Grid */
+  .toolkit-bridge-section {
+    padding: 3.5rem 0;
+  }
+
+  .toolkit-bridge-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .toolkit-bridge-card {
+    padding: 2.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+  }
+
+  .toolkit-tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    margin-bottom: 0.75rem;
+  }
+
+  .toolkit-bridge-card h3 {
+    font-size: 1.4rem;
+    color: var(--text);
+    margin: 0 0 0.75rem;
+  }
+
+  .toolkit-bridge-card p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    line-height: var(--leading-body);
+    margin: 0 0 1.5rem;
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1024px) {
+    .progression-track {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .progression-node__arrow {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .context-selector-rail {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .progression-track {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .toolkit-bridge-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lens-grid,
+    .capabilities-matrix,
+    .journey-track,
+    .ecosystem-flow,
+    .decision-lens-timeline {
       grid-template-columns: 1fr;
     }
   }
