@@ -135,8 +135,8 @@ const decisionLensSteps = [
 ---
 
 <Layout
-  title="Industry Context & Sector Analysis"
-  description="How industry context changes business, technology and operational decisions across SMEs, growing businesses, educational services and career-focused organizations."
+  title="Industry Context & Sector Analysis | Nixwud Consultancy"
+  description="How industry context shapes business, technology and operational decisions across sectors, featuring in-depth perspectives on growing businesses and educational services."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
@@ -146,12 +146,12 @@ const decisionLensSteps = [
       <p class="eyebrow">Industry Context</p>
       <h1>Industry context changes the decision.</h1>
       <p class="lede">
-        The right business and technology decision depends on the environment in which an organization operates. We look at the pressures, constraints and workflows around the problem before deciding what should change.
+        We work across sectors, adapting our approach to the operational and commercial realities of each organization. We are currently developing deeper published perspectives around SMEs, growing businesses, and educational and career services.
       </p>
 
       <div class="hero-context-badge">
         <span class="badge-dot" aria-hidden="true"></span>
-        <span>Two primary operating environments: SMEs & Growing Businesses and Educational & Career Services</span>
+        <span>Featured Perspectives: 01 SMEs & Growing Businesses | 02 Educational & Career Services</span>
       </div>
     </div>
   </header>
@@ -159,16 +159,24 @@ const decisionLensSteps = [
   <!-- Interactive Context Selector Rail -->
   <section class="section border-bottom context-selector-section">
     <div class="container--wide">
-      <div class="context-selector-rail" role="region" aria-label="Sector selector">
+      <div class="context-selector-header">
+        <span class="diagram-kicker">Sector Focus</span>
+        <h2 class="context-selector-title">Featured industry perspectives</h2>
+        <p class="context-selector-sub">
+          Explore how our consulting approach adapts across different operating environments. More industry perspectives will be developed as Nixwud's published body of work grows.
+        </p>
+      </div>
+
+      <div class="context-selector-rail" role="region" aria-label="Featured sector perspectives">
         <a href="#sme-context" class="context-select-card" data-target="sme-context">
           <div class="context-select-card__header">
             <span class="context-select-card__num">01</span>
-            <span class="context-select-card__tag">Operating Environment</span>
+            <span class="context-select-card__tag">Featured Perspective</span>
           </div>
-          <h2>SMEs & Growing Businesses</h2>
+          <h3>SMEs & Growing Businesses</h3>
           <p class="context-select-card__quote">"Growth creates pressure. Better systems create leverage."</p>
           <div class="context-select-card__action">
-            <span>Explore SME Context</span>
+            <span>Explore SME Perspective</span>
             <span class="arrow" aria-hidden="true">↓</span>
           </div>
         </a>
@@ -176,12 +184,12 @@ const decisionLensSteps = [
         <a href="#education-context" class="context-select-card" data-target="education-context">
           <div class="context-select-card__header">
             <span class="context-select-card__num">02</span>
-            <span class="context-select-card__tag">Operating Environment</span>
+            <span class="context-select-card__tag">Featured Perspective</span>
           </div>
-          <h2>Educational & Career Services</h2>
+          <h3>Educational & Career Services</h3>
           <p class="context-select-card__quote">"When the service depends on people, the systems behind it matter."</p>
           <div class="context-select-card__action">
-            <span>Explore Education Context</span>
+            <span>Explore Education Perspective</span>
             <span class="arrow" aria-hidden="true">↓</span>
           </div>
         </a>
@@ -454,8 +462,26 @@ const decisionLensSteps = [
 
   /* Context Selector Rail */
   .context-selector-section {
-    padding: 2.5rem 0;
+    padding: 3rem 0;
     background: var(--bg-alt, rgba(14, 17, 24, 0.6));
+  }
+
+  .context-selector-header {
+    max-width: 46rem;
+    margin-bottom: 2rem;
+  }
+
+  .context-selector-title {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    color: var(--text);
+    margin: 0 0 0.5rem;
+  }
+
+  .context-selector-sub {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+    margin: 0;
   }
 
   .context-selector-rail {
@@ -503,7 +529,7 @@ const decisionLensSteps = [
     color: var(--text-muted);
   }
 
-  .context-select-card h2 {
+  .context-select-card h3 {
     font-size: clamp(1.35rem, 2vw, 1.75rem);
     color: var(--text);
     margin: 0 0 0.75rem;
