@@ -16,10 +16,45 @@ const { eyebrow, title, description, align = "left" } = Astro.props;
 </header>
 
 <style>
-  .section-heading { max-width: 54rem; margin-bottom: 2.5rem; }
-  .section-heading h2 { margin-bottom: 1.1rem; }
-  .section-heading .lede { margin-bottom: 0; }
-  .section-heading--center { margin-inline: auto; text-align: center; }
-  .section-heading--center .eyebrow { justify-content: center; }
-  .section-heading--center .lede { margin-inline: auto; }
+  .section-heading {
+    max-width: 48rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-heading h2 {
+    max-width: 15ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-heading .lede {
+    max-width: 42rem;
+    margin-bottom: 0;
+  }
+
+  .section-heading--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section-heading--center h2 {
+    margin-inline: auto;
+  }
+
+  .section-heading--center .eyebrow {
+    justify-content: center;
+  }
+
+  .section-heading--center .lede {
+    margin-inline: auto;
+  }
+
+  @media (max-width: 700px) {
+    .section-heading {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-heading h2 {
+      max-width: none;
+    }
+  }
 </style>

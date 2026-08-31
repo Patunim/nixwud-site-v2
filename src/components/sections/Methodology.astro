@@ -24,9 +24,55 @@ const steps = [
 </section>
 
 <style>
-  .method { list-style: none; padding: 0; margin: 0; }
-  .method li { padding-top: 1.2rem; border-top: 1px solid var(--line-dark); }
-  .method span { color: #3554d8; font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
-  .method h3 { margin: 2.5rem 0 .8rem; }
-  .method p { margin-bottom: 0; }
+  .method {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .method li {
+    min-width: 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .method span {
+    display: block;
+    color: #3554d8;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+
+  .method h3 {
+    margin: 3.25rem 0 0.75rem;
+    font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+  }
+
+  .method p {
+    max-width: 18rem;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 900px) {
+    .method {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 3rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .method {
+      grid-template-columns: 1fr;
+      row-gap: 2.5rem;
+    }
+
+    .method h3 {
+      margin-top: 2rem;
+    }
+
+    .method p {
+      max-width: 32rem;
+    }
+  }
 </style>
