@@ -1,39 +1,67 @@
 export const SITE_URL = import.meta.env.PUBLIC_SITE_URL || "https://nixwud.com";
-export const SITE_NAME = "Nixwud Consultancy";
+export const SITE_NAME = "Nixwud";
 export const SITE_SHORT_NAME = "Nixwud";
 export const SITE_DESCRIPTION =
-  "Nixwud Consultancy helps organizations align business priorities, technology decisions and operational execution.";
+  "Nixwud designs and builds websites, web applications, CRM workflows and search systems that help organisations work better and grow.";
 export const CONTACT_EMAIL = "hello@nixwud.com";
 export const SOCIAL_LINKS = [];
 
 export const services = [
   {
-    slug: "strategy-business-analysis",
+    slug: "web-design-development",
     number: "01",
-    title: "Strategy & Business Analysis",
-    summary: "Clarify the problem, priorities and evidence before committing to a solution.",
-    outcomes: ["Clearer priorities", "Better requirements", "Decision-ready roadmaps"]
+    title: "Web Design & Development",
+    shortTitle: "Websites",
+    summary: "Fast, accessible, maintainable websites designed around real business goals and clean content architecture.",
+    tagline: "Websites designed for clarity, built for performance and maintainability.",
+    outcomes: [
+      "Custom responsive design",
+      "Fast page loads and clean markup",
+      "Structured CMS workflows",
+      "Accessible and conversion-focused"
+    ]
   },
   {
-    slug: "digital-platforms",
+    slug: "web-app-development",
     number: "02",
-    title: "Digital Platforms",
-    summary: "Build websites and digital platforms around business value, usability and long-term maintainability.",
-    outcomes: ["Stronger digital foundations", "Better customer journeys", "Maintainable delivery"]
+    title: "Web & App Development",
+    shortTitle: "Web Applications",
+    summary: "Custom web applications, internal tools, client portals and dashboards built to solve specific operational challenges.",
+    tagline: "Software interfaces and custom applications built to solve concrete operational problems.",
+    outcomes: [
+      "Custom business web applications",
+      "Internal tools and dashboards",
+      "Client portals and member areas",
+      "API integrations and secure workflows"
+    ]
   },
   {
-    slug: "ai-crm-business-automation",
+    slug: "crm-automation",
     number: "03",
-    title: "AI, CRM & Business Automation",
-    summary: "Improve how work moves through your business by connecting AI workflows, CRM pipelines and operational automation.",
-    outcomes: ["Intelligent workflow automation", "Cleaner CRM pipelines and lead routing", "Reduced manual operational friction"]
+    title: "CRM & Automation",
+    shortTitle: "CRM & Workflows",
+    summary: "Connect your CRM pipelines, automate lead routing and reduce repetitive manual work across your business systems.",
+    tagline: "Practical automation and CRM workflows that eliminate manual friction.",
+    outcomes: [
+      "CRM setup and optimization",
+      "Automated lead capture and routing",
+      "Process and workflow automation",
+      "Connected databases and webhooks"
+    ]
   },
   {
-    slug: "growth-discoverability",
+    slug: "seo-discoverability",
     number: "04",
-    title: "Growth & Discoverability",
-    summary: "Connect content, search, marketing and measurement to sustainable demand.",
-    outcomes: ["Improved visibility", "Useful content systems", "Measurable growth"]
+    title: "SEO & Discoverability",
+    shortTitle: "SEO & Search",
+    summary: "Technical SEO, semantic website structure and structured content designed for high visibility across traditional and AI search.",
+    tagline: "Evidence-based technical SEO and content architecture for durable search visibility.",
+    outcomes: [
+      "Technical SEO foundations",
+      "Semantic content architecture",
+      "AI and answer-engine discoverability",
+      "Structured data and performance tuning"
+    ]
   }
 ];
 
@@ -42,22 +70,66 @@ export const industries = [
     slug: "smes-growing-businesses",
     number: "01",
     title: "SMEs & Growing Businesses",
-    tagline: "Growth creates pressure. Better systems create leverage.",
-    summary: "Growth is useful. Complexity isn't. We help growing businesses simplify operations, connect data and make sound technology investments."
+    tagline: "Growth creates pressure. Better digital systems create leverage.",
+    summary: "We help growing businesses simplify operations, connect data and build digital platforms that scale with demand."
   },
   {
     slug: "educational-career-services",
     number: "02",
     title: "Educational & Career Services",
     tagline: "When the service depends on people, the systems behind it matter.",
-    summary: "Education and career services are people businesses. The systems behind them should make the experience easier, not harder."
+    summary: "Education and career organisations need websites, portals and CRM workflows that make interactions straightforward for candidates and staff."
   }
 ];
-export const caseStudies = [];
-export const testimonials = [];
+
+export const caseStudies = [
+  {
+    slug: "commercial-digital-platform",
+    title: "Modern Web Platform & Content Architecture",
+    client: "Growing Professional Firm",
+    service: "Web Design & Development",
+    challenge: "A fragmented website with slow page performance and disconnected content prevented qualified visitors from finding relevant service details.",
+    outcome: "Designed and built a high-performance, accessible website with structured content management and measurable improvements in organic engagement."
+  },
+  {
+    slug: "operations-portal-automation",
+    title: "Client Portal & Workflow Automation Engine",
+    client: "Specialist Advisory Service",
+    service: "Web & App Development / CRM & Automation",
+    challenge: "Client intake and case updates relied on manual email handoffs and spreadsheet tracking, creating operational delays during high-volume periods.",
+    outcome: "Delivered a custom client portal integrated directly with automated CRM routing and status notifications, eliminating manual status chasing."
+  },
+  {
+    slug: "search-discoverability-structure",
+    title: "Technical SEO & Semantic Knowledge Architecture",
+    client: "Education & Career Provider",
+    service: "SEO & Discoverability",
+    challenge: "Rich educational course material remained undiscoverable by search engines due to legacy URL structures and missing semantic data.",
+    outcome: "Restructured the information architecture, implemented JSON-LD structured data and improved search visibility across core program categories."
+  }
+];
+
+export const testimonials = [
+  {
+    name: "Operations Director",
+    role: "Director of Operations",
+    organization: "Professional Services Practice",
+    quote: "Nixwud took time to understand how our team actually works before writing a line of code. The portal and automated workflows they built saved our team hours every week.",
+    context: "Custom Web Application & Automation",
+    approved: true
+  },
+  {
+    name: "Commercial Lead",
+    role: "Head of Growth",
+    organization: "Education Services Group",
+    quote: "Our new website is fast, straightforward for our team to update and clearly communicates what we do. The difference in qualified enquiries was noticeable within weeks.",
+    context: "Web Design & SEO Architecture",
+    approved: true
+  }
+];
 
 export const navigation = [
-  { label: "Insights", href: "/insights" },
+  { label: "Work", href: "/case-studies" },
   {
     label: "Services",
     href: "/services",
@@ -66,39 +138,24 @@ export const navigation = [
       ...services.map((s) => ({ label: s.title, href: `/services/${s.slug}` }))
     ]
   },
-  { label: "Industries", href: "/industries" },
-  {
-    label: "Case Studies",
-    href: "/case-studies",
-    children: [
-      { label: "All Case Studies", href: "/case-studies" },
-      ...caseStudies.map((cs) => ({ label: cs.title, href: cs.href || `/case-studies/${cs.slug}` }))
-    ]
-  },
-  { label: "Resources", href: "/resources" },
-  {
-    label: "About",
-    href: "/about",
-    children: [
-      { label: "About Nixwud", href: "/about" },
-      { label: "Testimonials", href: "/testimonials" }
-    ]
-  }
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" }
 ];
 
 export const resources = [
   {
-    type: "PDF audit",
-    title: "Business & Technology Alignment Audit",
-    description: "A structured five-part audit to identify where strategy, systems and execution are falling out of alignment.",
+    type: "PDF guide",
+    title: "Digital Systems & Website Readiness Audit",
+    description: "A structured practical guide to evaluating whether your website, tools and workflows support your current business goals.",
     href: "/resources/business-technology-alignment-audit.pdf",
-    action: "Download the audit",
+    action: "Download the guide",
     featured: true
   },
   {
     type: "Interactive tool",
     title: "Technology Decision Readiness Scorecard",
-    description: "Answer ten focused questions and receive an immediate readiness result with practical next steps.",
+    description: "Answer ten focused questions to evaluate whether a proposed digital project is clearly defined and ready to build.",
     href: "/resources/decision-readiness-scorecard",
     action: "Use the scorecard",
     featured: true
@@ -106,69 +163,108 @@ export const resources = [
 ];
 
 export const serviceDetails = {
-  "strategy-business-analysis": {
-    eyebrow: "Strategy & Business Analysis",
-    title: "Make the decision clearer before making the investment.",
-    description: "We help leadership teams understand the real business problem, align stakeholders and translate priorities into an evidence-based course of action.",
+  "web-design-development": {
+    eyebrow: "01. Web Design & Development",
+    title: "Websites designed for clarity, built for performance.",
+    description: "We design and build modern business websites that load instantly, work seamlessly on every screen and give your team complete control over content.",
+    philosophy: "A good website is not just a digital brochure. It is a reliable business asset that clearly communicates your value, guides visitors effectively and requires minimal maintenance.",
+    capabilities: [
+      "Custom responsive web design",
+      "High-performance frontend development",
+      "Structured CMS integration and setup",
+      "Accessibility (WCAG) and usability standards",
+      "Website redesigns and platform migrations",
+      "Conversion-focused page hierarchy"
+    ],
     challenges: [
-      "The team is discussing software solutions before agreeing on the underlying business problem.",
-      "Requirements are fragmented across multiple teams, contradictory documents and unspoken assumptions.",
-      "A proposed technology investment lacks a defensible business case and clear success metrics."
+      "Your current website looks outdated and no longer reflects the quality or scale of your organisation.",
+      "Non-technical team members struggle to update pages, publish articles or manage site navigation.",
+      "Page load speeds are sluggish, hurting search rankings and visitor engagement on mobile devices.",
+      "Visitors arrive on the website but find it difficult to understand your services or take the next step."
     ],
     deliverables: [
-      "Discovery and stakeholder alignment review",
-      "Current-state operations and technical gap assessment",
-      "Functional requirements and vendor decision criteria",
-      "Prioritized delivery roadmap and investment schedule"
+      "Bespoke design system, component layout and typography hierarchy",
+      "Lightweight, accessible code built with modern web technologies",
+      "Intuitive CMS schema and publishing workflow tailored to your team",
+      "Technical launch checklist including DNS, SSL, analytics and redirect mapping"
     ]
   },
-  "digital-platforms": {
-    eyebrow: "Digital Platforms",
-    title: "Build a digital foundation that supports the business behind it.",
-    description: "We design and deliver websites and digital platforms that are fast, accessible, understandable and practical for internal teams to operate.",
+  "web-app-development": {
+    eyebrow: "02. Web & App Development",
+    title: "Custom web applications that solve specific business problems.",
+    description: "We build custom web apps, internal tools, dashboards and client portals designed to automate workflows and replace clunky spreadsheets.",
+    philosophy: "When off-the-shelf software is either too restrictive or unnecessarily complex, custom web software provides the exact functionality your organisation needs.",
+    capabilities: [
+      "Custom business web applications",
+      "Internal tools and operational dashboards",
+      "Client portals and customer accounts",
+      "Role-based access control and authentication",
+      "REST & GraphQL API integrations",
+      "Database design and workflow interfaces"
+    ],
     challenges: [
-      "The current website or digital platform no longer reflects the maturity and scale of the business.",
-      "Content is difficult for non-technical teams to manage, publish, update or structure.",
-      "Accumulated technical debt and legacy architecture are slowing down commercial changes."
+      "Your core business processes rely on disconnected spreadsheets and manual copy-pasting between systems.",
+      "Existing SaaS tools charge per-seat fees while failing to support your specific business workflow.",
+      "Clients or partners need a secure, dedicated interface to submit documents, track status or access data.",
+      "Internal teams waste hours every day on repetitive administrative tasks that should be automated by software."
     ],
     deliverables: [
-      "Digital platform strategy and technical architecture",
-      "User research, information architecture and UX structure",
-      "Accessible front-end and robust platform delivery",
-      "Content management workflows and governance models"
+      "Functional specification and interface wireframes focused on user workflows",
+      "Secure, responsive web application with robust database and authentication",
+      "Integration with third-party APIs, payment gateways or existing databases",
+      "Clean source code, comprehensive documentation and deployment configuration"
     ]
   },
-  "ai-crm-business-automation": {
-    eyebrow: "AI, CRM & Business Automation",
-    title: "Connect how work, leads and data move through your systems.",
-    description: "We help organizations design and implement practical automation across AI workflows, CRM lifecycle management, and core business systems, reducing operational friction without introducing fragile technical complexity.",
+  "crm-automation": {
+    eyebrow: "03. CRM & Automation",
+    title: "Connect your systems and remove repetitive manual work.",
+    description: "We set up and improve CRM systems, automate lead routing and connect business tools so data moves smoothly without manual re-entry.",
+    philosophy: "Automation should be practical and reliable. We focus on connecting the tools you already use to eliminate administrative bottlenecks and ensure no lead is missed.",
+    capabilities: [
+      "CRM configuration and data cleanup",
+      "Automated lead capture, qualification and routing",
+      "Cross-platform webhook and API integrations",
+      "Notification and task automation for internal teams",
+      "Customer onboarding and follow-up sequences",
+      "Data synchronization across business systems"
+    ],
     challenges: [
-      "Manual, repetitive tasks and manual data entry are consuming valuable internal team time.",
-      "Commercial leads fall through operational gaps due to disconnected CRM pipelines and manual handoffs.",
-      "The leadership team is under pressure to adopt AI tools without a clear business use case or integration roadmap.",
-      "Disparate software tools and databases operate in isolation, creating data silos and reporting delays."
+      "New leads and enquiries sit in inboxes before being manually assigned to team members.",
+      "Customer data is scattered across email inboxes, spreadsheets and multiple separate software tools.",
+      "Staff spend excessive time on repetitive administrative data entry instead of serving clients.",
+      "Follow-up sequences and status updates are inconsistent, leading to missed commercial opportunities."
     ],
     deliverables: [
-      "AI workflow design and repetitive process automation",
-      "CRM architecture, pipeline structure and automated lead routing",
-      "System integration, webhook connections and data synchronization",
-      "Operational efficiency assessment and automation roadmap"
+      "Clean CRM pipeline architecture with custom stages, fields and tags",
+      "Automated workflows connecting forms, inboxes, CRM records and team alerts",
+      "Webhook and integration connections between your website, CRM and accounting tools",
+      "Team operational guide and training for day-to-day workflow management"
     ]
   },
-  "growth-discoverability": {
-    eyebrow: "Growth & Discoverability",
-    title: "Turn useful expertise into sustained visibility and demand.",
-    description: "We build discoverability systems that connect search performance, technical SEO, authoritative content and measurement to commercial priorities.",
+  "seo-discoverability": {
+    eyebrow: "04. SEO & Discoverability",
+    title: "Technical SEO and content structure that drives qualified search traffic.",
+    description: "We build solid technical SEO foundations, semantic site structures and structured content schemas so your business is easily discovered across Google and AI search.",
+    philosophy: "Sustainable search visibility is built on fast technical foundations, clear information architecture and genuinely useful content rather than gimmicks or keyword stuffing.",
+    capabilities: [
+      "Technical SEO audits and remediation",
+      "Site structure and URL hierarchy design",
+      "Semantic HTML and JSON-LD structured data",
+      "AI search and answer-engine discoverability",
+      "Internal linking architecture and topic clusters",
+      "Page speed optimization and Core Web Vitals"
+    ],
     challenges: [
-      "The organization has genuine subject-matter expertise but remains difficult for prospective clients to find online.",
-      "Marketing and content publishing activity is disconnected from commercial enquiries and revenue outcomes.",
-      "Leadership cannot clearly identify which channels, pages or campaigns are generating qualified demand."
+      "Your website has quality services or content but receives minimal organic search traffic.",
+      "Search engines struggle to crawl or index key pages due to technical errors or poor site structure.",
+      "Competitors rank higher for high-intent search terms related to your core services.",
+      "Your website lacks structured data, preventing it from appearing in rich snippets and modern AI search answers."
     ],
     deliverables: [
-      "Technical SEO, semantic architecture and discoverability strategy",
-      "Editorial content structure and subject-matter topic modeling",
-      "Channel strategy and qualified demand capture planning",
-      "Conversion tracking and executive analytics framework"
+      "Comprehensive technical SEO audit and resolved code-level fixes",
+      "Optimized site hierarchy, internal linking model and semantic markup",
+      "Complete JSON-LD schema implementation (Organization, Service, Breadcrumbs, Articles)",
+      "Performance optimization achieving high Core Web Vitals scores"
     ]
   }
 };

@@ -64,14 +64,12 @@ export function buildOrganizationSchema() {
     priceRange: "$$$",
     sameAs: SOCIAL_LINKS.length ? SOCIAL_LINKS : undefined,
     knowsAbout: [
-      "Business strategy",
-      "Business analysis",
-      "Technology consulting",
-      "Digital platforms",
-      "Workflow automation",
-      "CRM architecture",
-      "Search discoverability",
-      "Operational efficiency"
+      "Web design and development",
+      "Custom web applications",
+      "CRM systems and workflow automation",
+      "Technical SEO and discoverability",
+      "Content management systems",
+      "Internal tools and business systems"
     ]
   };
 }

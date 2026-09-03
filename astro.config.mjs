@@ -15,6 +15,12 @@ export default defineConfig({
     }
   })],
   redirects: {
+    "/work": "/case-studies",
+    "/services/digital-platforms": "/services/web-design-development",
+    "/services/strategy-business-analysis": "/services/web-design-development",
+    "/services/ai-crm-business-automation": "/services/crm-automation",
+    "/services/ai-automation": "/services/crm-automation",
+    "/services/growth-discoverability": "/services/seo-discoverability",
     "/free-resources": "/resources",
     "/downloads": "/resources"
   }

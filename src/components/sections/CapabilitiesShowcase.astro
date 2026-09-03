@@ -1,0 +1,598 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+---
+
+<section class="section border-bottom capabilities-section" id="capabilities">
+  <div class="container--wide">
+    <SectionHeading
+      eyebrow="What We Build"
+      title="Four core capabilities for modern digital operations."
+      description="We design and engineer websites, custom software, CRM workflows and discoverability systems that deliver concrete operational improvements."
+    />
+
+    <div class="capabilities-matrix">
+      <!-- 01. Web Design & Development -->
+      <article class="cap-card cap-card--primary">
+        <div class="cap-card__content">
+          <div class="cap-card__header">
+            <span class="cap-card__num">01</span>
+            <span class="cap-card__badge">Design & Frontend</span>
+          </div>
+          <h2 class="cap-card__title">
+            <a href="/services/web-design-development">Web Design & Development</a>
+          </h2>
+          <p class="cap-card__summary">
+            Fast, accessible, maintainable websites designed around real business goals and clean content architecture.
+          </p>
+          <ul class="cap-card__features list-clean">
+            <li>Custom responsive design systems</li>
+            <li>High-performance code & Core Web Vitals</li>
+            <li>Structured CMS workflows for your team</li>
+            <li>Conversion-focused page hierarchy</li>
+          </ul>
+          <div class="cap-card__action">
+            <a class="cap-card__link" href="/services/web-design-development">
+              Explore Web Design & Development <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="cap-card__visual cap-visual--web" aria-hidden="true">
+          <div class="visual-browser">
+            <div class="visual-browser__bar">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="visual-url">nixwud.com/fast-accessible-web</span>
+            </div>
+            <div class="visual-browser__body">
+              <div class="mock-nav">
+                <div class="mock-brand"></div>
+                <div class="mock-links"><span></span><span></span><span></span></div>
+              </div>
+              <div class="mock-hero">
+                <div class="mock-line mock-line--title"></div>
+                <div class="mock-line mock-line--sub"></div>
+                <div class="mock-btn"></div>
+              </div>
+              <div class="mock-grid">
+                <div class="mock-card"></div>
+                <div class="mock-card"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02. Web & App Development -->
+      <article class="cap-card cap-card--split">
+        <div class="cap-card__content">
+          <div class="cap-card__header">
+            <span class="cap-card__num">02</span>
+            <span class="cap-card__badge">Custom Software</span>
+          </div>
+          <h2 class="cap-card__title">
+            <a href="/services/web-app-development">Web & App Development</a>
+          </h2>
+          <p class="cap-card__summary">
+            Custom web applications, internal tools, dashboards and client portals built to solve specific operational problems.
+          </p>
+          <ul class="cap-card__features list-clean">
+            <li>Internal tools & operational dashboards</li>
+            <li>Client portals & authenticated areas</li>
+            <li>Custom workflow interfaces</li>
+            <li>API integrations & database design</li>
+          </ul>
+          <div class="cap-card__action">
+            <a class="cap-card__link" href="/services/web-app-development">
+              Explore Web & App Development <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="cap-card__visual cap-visual--app" aria-hidden="true">
+          <div class="visual-app-panel">
+            <div class="app-sidebar">
+              <span class="bar bar--active"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+            </div>
+            <div class="app-workspace">
+              <div class="app-header-row">
+                <div class="metric-pill"><span>PORTAL ACTIVE</span></div>
+                <div class="metric-pill metric-pill--accent"><span>API 200 OK</span></div>
+              </div>
+              <div class="app-chart">
+                <div class="chart-col" style="height: 40%;"></div>
+                <div class="chart-col" style="height: 65%;"></div>
+                <div class="chart-col" style="height: 85%;"></div>
+                <div class="chart-col chart-col--accent" style="height: 100%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03. CRM & Automation -->
+      <article class="cap-card cap-card--split">
+        <div class="cap-card__content">
+          <div class="cap-card__header">
+            <span class="cap-card__num">03</span>
+            <span class="cap-card__badge">Systems & Operations</span>
+          </div>
+          <h2 class="cap-card__title">
+            <a href="/services/crm-automation">CRM & Automation</a>
+          </h2>
+          <p class="cap-card__summary">
+            Connect your CRM pipelines, automate lead routing and eliminate repetitive manual work across your operations.
+          </p>
+          <ul class="cap-card__features list-clean">
+            <li>CRM setup, pipeline design & cleanup</li>
+            <li>Automated lead qualification & triage</li>
+            <li>Webhook & multi-system data sync</li>
+            <li>Follow-up & internal notification flows</li>
+          </ul>
+          <div class="cap-card__action">
+            <a class="cap-card__link" href="/services/crm-automation">
+              Explore CRM & Automation <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="cap-card__visual cap-visual--crm" aria-hidden="true">
+          <div class="pipeline-flow">
+            <div class="flow-node">
+              <span class="flow-tag">INGEST</span>
+              <strong>Lead Form</strong>
+            </div>
+            <span class="flow-connector">→</span>
+            <div class="flow-node">
+              <span class="flow-tag">PROCESS</span>
+              <strong>Qualify & Route</strong>
+            </div>
+            <span class="flow-connector">→</span>
+            <div class="flow-node flow-node--accent">
+              <span class="flow-tag">SYNC</span>
+              <strong>CRM & Alerts</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04. SEO & Discoverability -->
+      <article class="cap-card cap-card--primary">
+        <div class="cap-card__content">
+          <div class="cap-card__header">
+            <span class="cap-card__num">04</span>
+            <span class="cap-card__badge">Search & Architecture</span>
+          </div>
+          <h2 class="cap-card__title">
+            <a href="/services/seo-discoverability">SEO & Discoverability</a>
+          </h2>
+          <p class="cap-card__summary">
+            Technical SEO, semantic website structure and structured content designed for visibility across Google and AI search.
+          </p>
+          <ul class="cap-card__features list-clean">
+            <li>Technical SEO audits & remediation</li>
+            <li>Semantic HTML & JSON-LD schemas</li>
+            <li>AI search & answer-engine readiness</li>
+            <li>Internal linking & content hierarchies</li>
+          </ul>
+          <div class="cap-card__action">
+            <a class="cap-card__link" href="/services/seo-discoverability">
+              Explore SEO & Discoverability <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="cap-card__visual cap-visual--seo" aria-hidden="true">
+          <div class="seo-matrix">
+            <div class="seo-row">
+              <span class="seo-badge">JSON-LD</span>
+              <span class="seo-code">Schema.org / ProfessionalService</span>
+            </div>
+            <div class="seo-row">
+              <span class="seo-badge">CORE VITALS</span>
+              <span class="seo-code">LCP 0.8s - CLS 0.00 - INP 45ms</span>
+            </div>
+            <div class="seo-row">
+              <span class="seo-badge">AI DISCOVERY</span>
+              <span class="seo-code">Structured Entity Graph Verified</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .capabilities-section {
+    position: relative;
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .capabilities-matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .cap-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(2rem, 3.5vw, 3rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .cap-card:hover {
+    border-color: rgba(83, 109, 206, 0.4);
+  }
+
+  .cap-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .cap-card__num {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .cap-card__badge {
+    display: inline-block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cap-card__title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.4rem, 2vw, 1.85rem);
+    line-height: 1.25;
+  }
+
+  .cap-card__title a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .cap-card__title a:hover {
+    color: var(--accent-soft);
+  }
+
+  .cap-card__summary {
+    margin: 0 0 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+  }
+
+  .cap-card__features {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .cap-card__features li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--text);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .cap-card__features li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  .cap-card__action {
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .cap-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-soft);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition), transform var(--transition);
+  }
+
+  .cap-card__link:hover {
+    color: var(--text);
+    transform: translateX(4px);
+  }
+
+  /* Visual Artifacts */
+  .cap-card__visual {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  /* Visual 1: Web */
+  .visual-browser {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .visual-browser__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .visual-browser__bar .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+
+  .visual-url {
+    margin-left: 0.5rem;
+    font-family: monospace;
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+  }
+
+  .visual-browser__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mock-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mock-brand {
+    width: 3rem;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  .mock-links {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .mock-links span {
+    width: 1.5rem;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+
+  .mock-hero {
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-xs);
+  }
+
+  .mock-line {
+    height: 6px;
+    border-radius: 2px;
+    background: var(--line);
+    margin-bottom: 0.35rem;
+  }
+
+  .mock-line--title {
+    width: 70%;
+    background: var(--text-muted);
+  }
+
+  .mock-line--sub {
+    width: 45%;
+  }
+
+  .mock-btn {
+    width: 4rem;
+    height: 12px;
+    border-radius: 2px;
+    background: var(--accent);
+    margin-top: 0.5rem;
+  }
+
+  .mock-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .mock-card {
+    height: 2.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+  }
+
+  /* Visual 2: App */
+  .visual-app-panel {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 0.75rem;
+  }
+
+  .app-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.5rem;
+    border-right: 1px solid var(--line);
+  }
+
+  .app-sidebar .bar {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+
+  .app-sidebar .bar--active {
+    background: var(--accent-soft);
+  }
+
+  .app-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .app-header-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .metric-pill {
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-xs);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+
+  .metric-pill--accent {
+    background: rgba(83, 109, 206, 0.15);
+    border-color: rgba(83, 109, 206, 0.3);
+    color: var(--accent-soft);
+  }
+
+  .app-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    height: 4.5rem;
+    padding-top: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .chart-col {
+    flex: 1;
+    background: var(--line);
+    border-radius: 2px 2px 0 0;
+  }
+
+  .chart-col--accent {
+    background: var(--accent);
+  }
+
+  /* Visual 3: CRM */
+  .pipeline-flow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .flow-node {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    background: rgba(255, 255, 255, 0.02);
+    min-width: 0;
+  }
+
+  .flow-node--accent {
+    border-color: rgba(83, 109, 206, 0.4);
+    background: rgba(83, 109, 206, 0.08);
+  }
+
+  .flow-tag {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+  }
+
+  .flow-node strong {
+    font-size: 0.75rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .flow-connector {
+    color: var(--accent-soft);
+    font-weight: bold;
+    font-size: 0.85rem;
+  }
+
+  /* Visual 4: SEO */
+  .seo-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .seo-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.45rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .seo-badge {
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    background: rgba(83, 109, 206, 0.15);
+    color: var(--accent-soft);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .seo-code {
+    font-family: monospace;
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 900px) {
+    .capabilities-matrix {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

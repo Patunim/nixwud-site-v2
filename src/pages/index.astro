@@ -1,178 +1,331 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/sections/Hero.astro";
-import DecisionArchitecture from "../components/sections/DecisionArchitecture.astro";
+import CapabilitiesShowcase from "../components/sections/CapabilitiesShowcase.astro";
 import Methodology from "../components/sections/Methodology.astro";
 import Testimonials from "../components/sections/Testimonials.astro";
 import CTA from "../components/sections/CTA.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
-import ServiceCard from "../components/cards/ServiceCard.astro";
 import InsightCard from "../components/cards/InsightCard.astro";
-import { services } from "../lib/siteConfig.js";
+import { caseStudies } from "../lib/siteConfig.js";
 import { safeFetch } from "../lib/sanity.js";
 
 const insights = await safeFetch(`*[_type == "post" && !(_id in path("drafts.**")) && defined(title) && defined(slug.current) && (featured == true || featureOnWebsite == true)] | order(publishedAt desc)[0...3]{
   title, "slug": slug.current, excerpt, publishedAt, "categories": categories[]->title
 }`, {}, []) as Array<{ title: string; slug: string; excerpt?: string; publishedAt?: string; categories?: string[] }>;
+
+const practicalOutcomes = [
+  {
+    num: "01",
+    title: "Faster, Clearer Websites",
+    desc: "Modern responsive interfaces that load instantly and clearly communicate what your organisation does."
+  },
+  {
+    num: "02",
+    title: "Less Repetitive Manual Work",
+    desc: "Automated pipelines and webhook connections that remove tedious copy-pasting between separate apps."
+  },
+  {
+    num: "03",
+    title: "Better Lead Management",
+    desc: "Reliable CRM routing and follow-up triggers ensuring commercial enquiries are never missed or delayed."
+  },
+  {
+    num: "04",
+    title: "Useful Custom Internal Tools",
+    desc: "Dedicated portals and workflow dashboards tailored to your exact operational requirements."
+  },
+  {
+    num: "05",
+    title: "Clearer Customer Journeys",
+    desc: "Intuitive digital pathways that guide visitors effortlessly from first visit to confirmed action."
+  },
+  {
+    num: "06",
+    title: "Durable Search Visibility",
+    desc: "Semantic structure and technical SEO architecture that improves discovery across Google and AI search."
+  }
+];
 ---
 
-<Layout>
+<Layout
+  title="Digital Development, Design & Business Systems"
+  description="Nixwud designs and builds websites, web applications, CRM workflows and search systems that help organisations work better and grow."
+>
   <Hero />
 
-  <section class="section border-bottom">
-    <div class="container split">
-      <div>
-        <p class="eyebrow">The challenge</p>
-        <h2>Technology creates complexity when the business question is unclear.</h2>
-      </div>
-      <div>
-        <p class="lede">Many organizations begin with a platform, tool or vendor pitch. We begin by understanding the operational decision the business actually needs to make.</p>
-        <div class="challenge-items">
-          <div class="challenge-item">
-            <span class="challenge-tag">MISALIGNMENT</span>
-            <p>Strategic priorities become disconnected from day-to-day delivery.</p>
-          </div>
-          <div class="challenge-item">
-            <span class="challenge-tag">PREMATURE INVESTMENT</span>
-            <p>Organizations invest in software before defining measurable success criteria.</p>
-          </div>
-          <div class="challenge-item">
-            <span class="challenge-tag">OPERATIONAL FRICTION</span>
-            <p>System complexity expands faster than the team and operating model around it.</p>
-          </div>
+  <CapabilitiesShowcase />
+
+  <!-- Selected Work / Systems Showcase -->
+  <section class="section border-bottom work-showcase-section" id="work">
+    <div class="container--wide">
+      <div class="work-showcase__header">
+        <div>
+          <p class="eyebrow">Selected Work</p>
+          <h2>Real systems engineered for operational results.</h2>
         </div>
+        <p class="lede work-showcase__lede">
+          We build digital platforms and business tools designed around concrete requirements and measurable outcomes.
+        </p>
+      </div>
+
+      <div class="work-grid">
+        {caseStudies.map((study, index) => (
+          <article class="work-card">
+            <div class="work-card__meta">
+              <span class="work-card__num">0{index + 1}</span>
+              <span class="work-card__service">{study.service}</span>
+            </div>
+            <h3 class="work-card__title">{study.title}</h3>
+            <div class="work-card__body">
+              <div class="work-card__block">
+                <span class="work-card__label">Challenge</span>
+                <p>{study.challenge}</p>
+              </div>
+              <div class="work-card__block work-card__block--outcome">
+                <span class="work-card__label">Delivered Solution</span>
+                <p>{study.outcome}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="work-showcase__footer">
+        <a class="card__link" href="/case-studies">
+          Explore all project case studies <span aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   </section>
-
-  <DecisionArchitecture />
 
   <Methodology />
 
-  <section class="section border-bottom">
+  <!-- Practical Outcomes Section -->
+  <section class="section border-bottom outcomes-section">
     <div class="container--wide">
-      <SectionHeading eyebrow="Capabilities" title="Four connected ways to move from uncertainty to progress." description="Each engagement is shaped around a specific business outcome, not a predetermined software product." />
-      <div class="grid grid--2">{services.map((service) => <ServiceCard service={service} />)}</div>
-    </div>
-  </section>
+      <SectionHeading
+        eyebrow="Practical Outcomes"
+        title="What better digital systems improve."
+        description="We focus on concrete operational improvements that save team hours, streamline customer journeys and support sustainable growth."
+      />
 
-  <section class="section">
-    <div class="container--wide">
-      <SectionHeading eyebrow="Our thinking" title="Useful ideas before a sales conversation." description="Practical frameworks, analytical guides and operational perspectives designed to make complex decisions easier to understand." />
-      {insights.length > 0 ? (
-        <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div>
-      ) : (
-        <div class="empty-state">
-          <h3>New thinking is being prepared.</h3>
-          <p>Published Insights will appear here when they are ready. We do not use invented articles or placeholder posts to fill space.</p>
-        </div>
-      )}
-      <p class="section-link"><a class="card__link" href="/insights">Explore all Insights</a></p>
-    </div>
-  </section>
-
-  <section class="section section--paper">
-    <div class="container split">
-      <div>
-        <p class="eyebrow paper-eyebrow">What we value</p>
-        <h2>Business before technology.</h2>
-        <p class="lede">Four foundational principles that govern how we evaluate, advise and build.</p>
-      </div>
-      <div class="principles">
-        <div class="principle-item">
-          <span class="principle-num">01</span>
-          <p>Clarity over complexity.</p>
-        </div>
-        <div class="principle-item">
-          <span class="principle-num">02</span>
-          <p>Evidence before assumption.</p>
-        </div>
-        <div class="principle-item">
-          <span class="principle-num">03</span>
-          <p>Outcomes before output.</p>
-        </div>
-        <div class="principle-item">
-          <span class="principle-num">04</span>
-          <p>Long-term value before short-term novelty.</p>
-        </div>
+      <div class="outcomes-grid">
+        {practicalOutcomes.map((item) => (
+          <div class="outcome-card">
+            <span class="outcome-num">{item.num}</span>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
   <Testimonials />
 
+  <!-- Practical Insights -->
+  <section class="section">
+    <div class="container--wide">
+      <SectionHeading
+        eyebrow="Insights & Articles"
+        title="Practical thinking before you build."
+        description="Articles, architectural guides and operational perspectives addressing the real questions leaders face when planning digital systems."
+      />
+      {insights.length > 0 ? (
+        <div class="grid grid--3">{insights.map((insight) => <InsightCard insight={insight} />)}</div>
+      ) : (
+        <div class="empty-state">
+          <h3>Articles and guides are being prepared.</h3>
+          <p>Published Insights will appear here when ready. We publish evidence-based guides without placeholder fluff.</p>
+        </div>
+      )}
+      <p class="section-link"><a class="card__link" href="/insights">Explore all Insights <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
   <CTA />
 </Layout>
 
 <style>
-  .challenge-items {
+  /* Work Showcase */
+  .work-showcase-section {
+    padding-block: clamp(4.5rem, 7vw, 7rem);
+  }
+
+  .work-showcase__header {
     display: grid;
-    gap: 0.85rem;
-    margin-top: 2rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: end;
+    margin-bottom: 3.5rem;
   }
 
-  .challenge-item {
-    padding: 1.15rem 1.35rem;
+  .work-showcase__header h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3vw, 2.75rem);
+    line-height: var(--leading-h2);
+    letter-spacing: var(--tracking-h2);
+  }
+
+  .work-showcase__lede {
+    margin-bottom: 0;
+    color: var(--text-muted);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
     border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-md);
     background: var(--ink-soft);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    transition: border-color var(--transition), transform var(--transition);
   }
 
-  .challenge-tag {
-    display: block;
+  .work-card:hover {
+    border-color: rgba(83, 109, 206, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .work-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .work-card__num {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
     color: var(--accent-soft);
-    font-size: 0.68rem;
+  }
+
+  .work-card__service {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .work-card__title {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .work-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: auto;
+  }
+
+  .work-card__block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .work-card__label {
+    font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.08em;
-    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    color: var(--accent-soft);
   }
 
-  .challenge-item p {
+  .work-card__block p {
     margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .work-card__block--outcome p {
     color: var(--text);
-    font-size: 0.95rem;
+  }
+
+  .work-showcase__footer {
+    margin-top: 3rem;
+  }
+
+  /* Practical Outcomes */
+  .outcomes-section {
+    padding-block: clamp(4.5rem, 7vw, 7rem);
+  }
+
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .outcome-card {
+    padding: clamp(1.75rem, 2.5vw, 2.25rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    transition: border-color var(--transition);
+  }
+
+  .outcome-card:hover {
+    border-color: rgba(83, 109, 206, 0.35);
+  }
+
+  .outcome-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 0.75rem;
+  }
+
+  .outcome-card h3 {
+    margin: 0 0 0.65rem;
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+
+  .outcome-card p {
+    margin: 0;
+    font-size: 0.9rem;
     line-height: var(--leading-body);
+    color: var(--text-muted);
   }
 
   .section-link {
-    margin: 2rem 0 0;
+    margin: 2.5rem 0 0;
   }
 
-  .paper-eyebrow {
-    color: var(--accent);
+  @media (max-width: 1024px) {
+    .work-grid,
+    .outcomes-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .work-showcase__header {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
   }
 
-  .principles {
-    display: grid;
-  }
-
-  .principle-item {
-    display: grid;
-    grid-template-columns: 2.5rem 1fr;
-    align-items: baseline;
-    gap: 0.75rem;
-    padding: 1.25rem 0;
-    border-top: 1px solid var(--line-dark);
-  }
-
-  .principle-item:last-child {
-    border-bottom: 1px solid var(--line-dark);
-  }
-
-  .principle-num {
-    color: var(--accent);
-    font-family: var(--font-display);
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-  }
-
-  .principle-item p {
-    margin: 0;
-    color: var(--ink);
-    font-size: 1.2rem;
-    font-weight: 600;
-    line-height: 1.4;
+  @media (max-width: 640px) {
+    .work-grid,
+    .outcomes-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

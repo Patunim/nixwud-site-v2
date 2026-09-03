@@ -6,7 +6,10 @@ import { buildBreadcrumbSchema, buildServiceSchema, getCanonicalUrl } from "../.
 
 export function getStaticPaths() {
   const details = serviceDetails as Record<string, Record<string, any>>;
-  return services.map((service) => ({ params: { slug: service.slug }, props: { service, detail: details[service.slug] } }));
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service, detail: details[service.slug] }
+  }));
 }
 
 const { service, detail } = Astro.props as { service: Record<string, any>; detail: Record<string, any> };
@@ -26,7 +29,7 @@ const serviceSchema = buildServiceSchema({
 ---
 
 <Layout
-  title={`${service.title} Consulting`}
+  title={service.title}
   description={detail.description}
   canonical={serviceUrl}
   structuredData={[breadcrumbSchema, serviceSchema]}
@@ -44,123 +47,130 @@ const serviceSchema = buildServiceSchema({
     <div class="container--wide">
       <div class="system-box">
         <div class="system-box__header">
-          <span class="system-box__tag">Consulting Architecture</span>
+          <span class="system-box__tag">Discipline Architecture</span>
           <h2>How we structure {service.title}</h2>
         </div>
 
-        {service.slug === "strategy-business-analysis" && (
-          <div class="arch-flow arch-flow--strategy">
-            <div class="arch-node">
-              <span class="arch-node__step">01</span>
-              <strong>Problem Definition</strong>
-              <p>Isolate underlying commercial friction from software tool requests.</p>
-            </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node">
-              <span class="arch-node__step">02</span>
-              <strong>Stakeholder Evidence</strong>
-              <p>Gather operational realities, workflow data and real constraints.</p>
-            </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node">
-              <span class="arch-node__step">03</span>
-              <strong>Option Comparison</strong>
-              <p>Evaluate trade-offs between custom build, SaaS and operational redesign.</p>
-            </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node arch-node--accent">
-              <span class="arch-node__step">04</span>
-              <strong>Decision Roadmap</strong>
-              <p>Deliver an executive business case with clear success metrics.</p>
+        {/* 01. Web Design & Development Visual Blueprint */}
+        {service.slug === "web-design-development" && (
+          <div class="web-blueprint">
+            <div class="blueprint-grid">
+              <div class="blueprint-card">
+                <span class="blueprint-num">01</span>
+                <h3>Interface & Typography</h3>
+                <p>Clean semantic HTML, responsive typography tokens and accessible UI components designed for clarity.</p>
+                <div class="blueprint-tag-row">
+                  <span class="b-tag">WCAG AA</span>
+                  <span class="b-tag">Mobile First</span>
+                  <span class="b-tag">Design Tokens</span>
+                </div>
+              </div>
+
+              <div class="blueprint-card">
+                <span class="blueprint-num">02</span>
+                <h3>Content & CMS Schema</h3>
+                <p>Structured content models allowing non-technical editors to update pages, navigation and resources easily.</p>
+                <div class="blueprint-tag-row">
+                  <span class="b-tag">Structured CMS</span>
+                  <span class="b-tag">Modular Blocks</span>
+                  <span class="b-tag">Zero Bloat</span>
+                </div>
+              </div>
+
+              <div class="blueprint-card">
+                <span class="blueprint-num">03</span>
+                <h3>Speed & Engineering</h3>
+                <p>Optimized asset delivery, minimal JavaScript bundles and fast static site generation on modern CDNs.</p>
+                <div class="blueprint-tag-row">
+                  <span class="b-tag">Core Web Vitals</span>
+                  <span class="b-tag">LCP &lt; 1.0s</span>
+                  <span class="b-tag">Edge Delivery</span>
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {service.slug === "digital-platforms" && (
-          <div class="arch-layers">
-            <div class="layer-item">
-              <div class="layer-head">
+        {/* 02. Web & App Development Software Stack */}
+        {service.slug === "web-app-development" && (
+          <div class="app-arch-flow">
+            <div class="arch-layer">
+              <div class="arch-layer__head">
                 <span class="layer-num">01</span>
-                <strong>Experience & Interface Layer</strong>
+                <h3>Workflow Interface Layer</h3>
               </div>
-              <p>Accessible, responsive frontend typography, design tokens and semantic HTML.</p>
+              <p>Custom dashboards, authenticated portals and operational forms tailored to specific team roles.</p>
             </div>
-            <div class="layer-item">
-              <div class="layer-head">
+            <div class="arch-connector" aria-hidden="true">↓</div>
+            <div class="arch-layer">
+              <div class="arch-layer__head">
                 <span class="layer-num">02</span>
-                <strong>Content Architecture Layer</strong>
+                <h3>API & Business Logic Layer</h3>
               </div>
-              <p>Structured CMS schemas, reusable component models and editorial workflows.</p>
+              <p>Secure authentication, role-based permissions, automated validation rules and webhook endpoints.</p>
             </div>
-            <div class="layer-item">
-              <div class="layer-head">
+            <div class="arch-connector" aria-hidden="true">↓</div>
+            <div class="arch-layer arch-layer--accent">
+              <div class="arch-layer__head">
                 <span class="layer-num">03</span>
-                <strong>Platform Engineering Layer</strong>
+                <h3>Database & System Integrations</h3>
               </div>
-              <p>Modern static site generation, API integrations and maintainable codebases.</p>
-            </div>
-            <div class="layer-item layer-item--accent">
-              <div class="layer-head">
-                <span class="layer-num">04</span>
-                <strong>Performance & Governance Layer</strong>
-              </div>
-              <p>Fast global CDN delivery, security hygiene and search discoverability standards.</p>
+              <p>Reliable relational data storage, automated backups and bidirectional synchronization with third-party tools.</p>
             </div>
           </div>
         )}
 
-        {service.slug === "ai-crm-business-automation" && (
-          <div class="arch-flow arch-flow--automation">
-            <div class="arch-node">
-              <span class="arch-node__step">01</span>
-              <strong>Signal Ingestion</strong>
-              <p>Capture customer inquiries, operational events and form submissions.</p>
+        {/* 03. CRM & Automation Pipeline */}
+        {service.slug === "crm-automation" && (
+          <div class="crm-pipeline-flow">
+            <div class="pipeline-step">
+              <div class="pipeline-step__num">01</div>
+              <h3>Data Capture</h3>
+              <p>Inbound website leads, email inquiries, form submissions and appointment bookings.</p>
             </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node">
-              <span class="arch-node__step">02</span>
-              <strong>Data Qualification</strong>
-              <p>Validate data integrity, enrich records and route through CRM pipelines.</p>
+            <span class="pipeline-arrow" aria-hidden="true">→</span>
+            <div class="pipeline-step">
+              <div class="pipeline-step__num">02</div>
+              <h3>Smart Qualification</h3>
+              <p>Automated validation, intent tagging and enrichment without manual human data entry.</p>
             </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node">
-              <span class="arch-node__step">03</span>
-              <strong>Automated Routing</strong>
-              <p>Trigger structured multi-step actions without manual human re-entry.</p>
+            <span class="pipeline-arrow" aria-hidden="true">→</span>
+            <div class="pipeline-step">
+              <div class="pipeline-step__num">03</div>
+              <h3>Instant Routing</h3>
+              <p>Lead assignment to the right team member with full history and context attached.</p>
             </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node arch-node--accent">
-              <span class="arch-node__step">04</span>
-              <strong>Human Action & Value</strong>
-              <p>Equip teams with qualified context so high-value work happens faster.</p>
+            <span class="pipeline-arrow" aria-hidden="true">→</span>
+            <div class="pipeline-step pipeline-step--accent">
+              <div class="pipeline-step__num">04</div>
+              <h3>Sync & Actions</h3>
+              <p>Automated confirmation notifications, task reminders and CRM status synchronization.</p>
             </div>
           </div>
         )}
 
-        {service.slug === "growth-discoverability" && (
-          <div class="arch-flow arch-flow--growth">
-            <div class="arch-node">
-              <span class="arch-node__step">01</span>
-              <strong>Core Authority</strong>
-              <p>Publish original, evidence-backed insights addressing real executive questions.</p>
+        {/* 04. SEO & Discoverability Matrix */}
+        {service.slug === "seo-discoverability" && (
+          <div class="seo-discoverability-grid">
+            <div class="seo-pillar">
+              <span class="pillar-num">01</span>
+              <h3>Technical Foundations</h3>
+              <p>Crawlability, clean canonical URLs, XML sitemaps, robots protocol and Core Web Vitals optimization.</p>
             </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node">
-              <span class="arch-node__step">02</span>
-              <strong>Search Architecture</strong>
-              <p>Structure clean metadata, semantic schemas and discoverability indexing.</p>
+            <div class="seo-pillar">
+              <span class="pillar-num">02</span>
+              <h3>Semantic Structure</h3>
+              <p>Proper heading hierarchy, semantic HTML5 landmarks and structured JSON-LD schemas.</p>
             </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node">
-              <span class="arch-node__step">03</span>
-              <strong>Qualified Engagement</strong>
-              <p>Attract high-intent decision-makers looking for genuine consulting judgment.</p>
+            <div class="seo-pillar">
+              <span class="pillar-num">03</span>
+              <h3>Content Architecture</h3>
+              <p>Topic clustering, internal link graph design and high-intent informational page hierarchy.</p>
             </div>
-            <span class="arch-arrow" aria-hidden="true">→</span>
-            <div class="arch-node arch-node--accent">
-              <span class="arch-node__step">04</span>
-              <strong>Sustained Demand</strong>
-              <p>Turn reputation and technical rigor into durable inbound commercial growth.</p>
+            <div class="seo-pillar seo-pillar--accent">
+              <span class="pillar-num">04</span>
+              <h3>AI & Answer Engines</h3>
+              <p>Entity modeling and structured data designed for direct citations across Google and AI search tools.</p>
             </div>
           </div>
         )}
@@ -168,25 +178,46 @@ const serviceSchema = buildServiceSchema({
     </div>
   </section>
 
+  <!-- Core Capabilities Breakdown -->
+  <section class="section border-bottom">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Scope & Capabilities</p>
+        <h2>What we cover within this practice.</h2>
+      </div>
+      <ul class="list-clean list-lines">
+        {((detail.capabilities as string[]) || []).map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- When This Helps / Common Challenges -->
   <section class="section">
     <div class="container split">
       <div>
         <p class="eyebrow">When this helps</p>
-        <h2>Recognize the decision behind the request.</h2>
+        <h2>Signs your current setup needs improvement.</h2>
       </div>
-      <ul class="list-clean list-lines">{(detail.challenges as string[]).map((item) => <li>{item}</li>)}</ul>
+      <ul class="list-clean list-lines">
+        {((detail.challenges as string[]) || []).map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
     </div>
   </section>
 
+  <!-- Typical Deliverables -->
   <section class="section section--paper">
     <div class="container--wide">
       <header class="deliverables-header">
-        <p class="eyebrow paper-eyebrow">Typical outputs</p>
-        <h2>Practical work your team can use.</h2>
-        <p class="lede">Tangible deliverables designed to support decision-making, team alignment and execution.</p>
+        <p class="eyebrow paper-eyebrow">Concrete Deliverables</p>
+        <h2>Practical deliverables your team can rely on.</h2>
+        <p class="lede">Every engagement produces clean, documented deliverables that your organisation owns completely.</p>
       </header>
       <ul class="deliverables grid grid--2 list-clean">
-        {(detail.deliverables as string[]).map((item, index) => (
+        {((detail.deliverables as string[]) || []).map((item, index) => (
           <li class="deliverable-item">
             <span class="deliverable-num">0{index + 1}</span>
             <p class="deliverable-text">{item}</p>
@@ -196,14 +227,18 @@ const serviceSchema = buildServiceSchema({
     </div>
   </section>
 
+  <!-- Philosophy Callout -->
   <section class="section border-bottom">
     <div class="container--narrow">
-      <p class="eyebrow">Our principle</p>
-      <h2>No predetermined solution.</h2>
-      <p class="lede">The right engagement may be a short diagnostic, a roadmap, a focused implementation or a longer transformation. Scope follows evidence.</p>
+      <p class="eyebrow">Our Philosophy</p>
+      <h2>Built around the problem, not predetermined templates.</h2>
+      <p class="lede">
+        {detail.philosophy || "We don't just build what you are asked for. We first work out what actually needs building to ensure every project creates lasting value."}
+      </p>
     </div>
   </section>
-  <CTA />
+
+  <CTA title={`Ready to build your ${service.shortTitle || service.title}?`} description="Tell us what you are trying to improve. We will review your requirements and outline a concrete path forward." />
 </Layout>
 
 <style>
@@ -239,113 +274,209 @@ const serviceSchema = buildServiceSchema({
     font-size: clamp(1.6rem, 2.5vw, 2.25rem);
   }
 
-  .arch-flow {
+  /* 01. Web Blueprint */
+  .blueprint-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .blueprint-card {
+    padding: 1.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blueprint-num {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+    margin-bottom: 0.75rem;
+  }
+
+  .blueprint-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+
+  .blueprint-card p {
+    margin: 0 0 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .blueprint-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .b-tag {
+    padding: 0.2rem 0.5rem;
+    background: rgba(83, 109, 206, 0.12);
+    border: 1px solid rgba(83, 109, 206, 0.25);
+    border-radius: var(--radius-xs);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--accent-soft);
+  }
+
+  /* 02. App Architecture */
+  .app-arch-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .arch-layer {
+    padding: 1.5rem 1.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .arch-layer--accent {
+    border-color: rgba(83, 109, 206, 0.35);
+    background: rgba(83, 109, 206, 0.06);
+  }
+
+  .arch-layer__head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .layer-num {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .arch-layer h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .arch-layer p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .arch-connector {
+    text-align: center;
+    color: var(--accent-soft);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  /* 03. CRM Pipeline */
+  .crm-pipeline-flow {
     display: grid;
     grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
     align-items: center;
     gap: 0.75rem;
   }
 
-  .arch-node {
+  .pipeline-step {
     padding: 1.5rem 1.25rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    background: rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    min-height: 10rem;
+    background: rgba(0, 0, 0, 0.25);
+    height: 100%;
   }
 
-  .arch-node--accent {
+  .pipeline-step--accent {
     border-color: rgba(83, 109, 206, 0.4);
-    background: rgba(83, 109, 206, 0.06);
+    background: rgba(83, 109, 206, 0.08);
   }
 
-  .arch-node__step {
+  .pipeline-step__num {
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     color: var(--accent-soft);
     margin-bottom: 0.5rem;
   }
 
-  .arch-node strong {
+  .pipeline-step h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
     color: var(--text);
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
   }
 
-  .arch-node p {
+  .pipeline-step p {
     margin: 0;
     color: var(--text-muted);
     font-size: 0.8125rem;
     line-height: 1.45;
   }
 
-  .arch-arrow {
-    color: var(--accent);
-    font-size: 1.1rem;
-    opacity: 0.7;
-    text-align: center;
+  .pipeline-arrow {
+    color: var(--accent-soft);
+    font-size: 1.25rem;
   }
 
-  .arch-layers {
+  /* 04. SEO Grid */
+  .seo-discoverability-grid {
     display: grid;
-    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
   }
 
-  .layer-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
-    gap: 1.5rem;
-    align-items: center;
-    padding: 1.25rem 1.5rem;
+  .seo-pillar {
+    padding: 1.5rem 1.25rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.25);
   }
 
-  .layer-item--accent {
-    border-left: 3px solid var(--accent);
+  .seo-pillar--accent {
+    border-color: rgba(83, 109, 206, 0.4);
+    background: rgba(83, 109, 206, 0.08);
   }
 
-  .layer-head {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-  }
-
-  .layer-num {
+  .pillar-num {
+    display: block;
     font-family: var(--font-display);
     font-size: 0.8125rem;
     font-weight: 700;
     color: var(--accent-soft);
+    margin-bottom: 0.5rem;
   }
 
-  .layer-head strong {
+  .seo-pillar h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
     color: var(--text);
-    font-size: 0.95rem;
   }
 
-  .layer-item p {
+  .seo-pillar p {
     margin: 0;
     color: var(--text-muted);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     line-height: 1.45;
   }
 
-  .list-lines {
-    margin-top: .5rem;
+  /* Deliverables */
+  .deliverables-header {
+    max-width: 48rem;
+    margin-bottom: 3.5rem;
   }
 
   .paper-eyebrow {
     color: var(--accent);
-  }
-
-  .deliverables-header {
-    max-width: 48rem;
-    margin-bottom: 3rem;
   }
 
   .deliverables-header h2 {
@@ -353,56 +484,50 @@ const serviceSchema = buildServiceSchema({
     margin-bottom: 1rem;
   }
 
-  .deliverables-header .lede {
-    margin-bottom: 0;
-  }
-
-  .deliverables {
-    gap: 0 3.5rem;
-  }
-
   .deliverable-item {
     display: grid;
-    grid-template-columns: 2.25rem 1fr;
-    gap: 0.75rem;
-    align-items: baseline;
-    padding-block: 1.25rem;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0;
     border-top: 1px solid var(--line-dark);
   }
 
   .deliverable-num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--accent);
-    font-size: .78rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    line-height: 1;
   }
 
   .deliverable-text {
     margin: 0;
-    color: var(--ink);
-    font-size: 1.0625rem;
+    font-size: 1.05rem;
     font-weight: 500;
-    line-height: 1.5;
+    color: var(--ink);
+    line-height: 1.45;
   }
 
-  @media (max-width: 900px) {
-    .arch-flow {
+  @media (max-width: 960px) {
+    .blueprint-grid,
+    .seo-discoverability-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .crm-pipeline-flow {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+      gap: 1rem;
     }
 
-    .arch-arrow {
-      transform: rotate(90deg);
-      padding: 0.25rem 0;
+    .pipeline-arrow {
+      display: none;
     }
+  }
 
-    .arch-node {
-      min-height: auto;
-    }
-
-    .layer-item {
+  @media (max-width: 600px) {
+    .blueprint-grid,
+    .seo-discoverability-grid {
       grid-template-columns: 1fr;
-      gap: 0.5rem;
     }
 
     .deliverables {

@@ -10,43 +10,45 @@ const breadcrumbs = buildBreadcrumbSchema([
   { name: "Contact", url: "/contact" }
 ]);
 
-const conversationStages = [
-  { step: "01", label: "Business Problem", desc: "Share where your operations, systems or growth need clarity." },
-  { step: "02", label: "Context Review", desc: "We review your note and identify the core diagnostic questions." },
-  { step: "03", label: "Focused Discussion", desc: "A direct, 30-minute introductory conversation with no sales pitch." },
-  { step: "04", label: "Clear Next Step", desc: "A concrete recommendation for a diagnostic, project or alternative route." }
+const projectStages = [
+  { step: "01", label: "Share the Problem", desc: "Tell us about your website, custom tool, CRM workflow or search goals." },
+  { step: "02", label: "Technical Review", desc: "We review your requirements and identify the key architectural questions." },
+  { step: "03", label: "Direct Discussion", desc: "A practical 30-minute introductory conversation directly with a builder." },
+  { step: "04", label: "Project Plan", desc: "A clear proposal with defined scope, milestones, architecture and timeline." }
 ];
 ---
 
 <Layout
-  title="Contact Nixwud Consultancy"
-  description="Start an introductory conversation with Nixwud Consultancy regarding strategy, digital platforms, AI automation or growth."
+  title="Start a Project"
+  description="Contact Nixwud to discuss your website redesign, custom web application, CRM workflow automation or technical SEO project."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
   <header class="page-hero">
     <div class="container--wide">
-      <p class="eyebrow">Start a conversation</p>
-      <h1>Tell us what your organization is trying to improve.</h1>
-      <p class="lede">You do not need a finished technical specification or a formal brief. Begin with the business problem, the pending decision or the operational opportunity.</p>
+      <p class="eyebrow">Start a Project</p>
+      <h1>Have something that needs building?</h1>
+      <p class="lede">
+        Tell us what your organisation is trying to achieve. You do not need a finished technical brief. Start with the problem, your goals or what is currently not working.
+      </p>
       <div class="button-row">
         <Button href={`mailto:${CONTACT_EMAIL}`} variant="primary">Email {CONTACT_EMAIL}</Button>
       </div>
     </div>
   </header>
 
-  <!-- Consulting Conversation Journey -->
+  <!-- Project Progression -->
   <section class="section border-bottom contact-track-section">
     <div class="container--wide">
       <div class="contact-track-box">
-        <span class="track-kicker">Consulting Progression</span>
-        <h2>From initial note to a clear decision.</h2>
+        <span class="track-kicker">Project Progression</span>
+        <h2>From initial note to a working digital system.</h2>
         <div class="contact-track">
-          {conversationStages.map((stage, idx) => (
+          {projectStages.map((stage, idx) => (
             <div class="track-step">
               <div class="track-step__marker">
                 <span class="track-step__num">{stage.step}</span>
-                {idx < conversationStages.length - 1 && <span class="track-step__line" aria-hidden="true"></span>}
+                {idx < projectStages.length - 1 && <span class="track-step__line" aria-hidden="true"></span>}
               </div>
               <h3>{stage.label}</h3>
               <p>{stage.desc}</p>
@@ -61,15 +63,15 @@ const conversationStages = [
   <section class="section section--paper">
     <div class="container split">
       <div>
-        <p class="eyebrow paper-eyebrow">A useful first note</p>
-        <h2>Context helps us respond thoughtfully.</h2>
-        <p class="lede">A brief outline of these questions is often enough to determine if our capabilities match your situation.</p>
+        <p class="eyebrow paper-eyebrow">A Useful First Note</p>
+        <h2>Helpful context for our initial response.</h2>
+        <p class="lede">A few bullet points on these topics help us provide a thoughtful, concrete response.</p>
       </div>
       <ul class="list-clean context-questions">
-        <li><span>01</span> What business process, digital platform or workflow is currently not performing as needed?</li>
-        <li><span>02</span> Which teams, customers or leadership stakeholders are most affected by the issue?</li>
-        <li><span>03</span> What specific outcome or metric would make addressing this challenge valuable?</li>
-        <li><span>04</span> Are there timeline considerations, legacy system constraints or budget parameters we should know?</li>
+        <li><span>01</span> What needs building or improving? (Website, custom web app, CRM automation or search discoverability)</li>
+        <li><span>02</span> What is the main problem or friction your team or users are experiencing?</li>
+        <li><span>03</span> What specific business outcome or metric would make this project a success?</li>
+        <li><span>04</span> Are there target timelines, existing tools or budget parameters we should know about?</li>
       </ul>
     </div>
   </section>

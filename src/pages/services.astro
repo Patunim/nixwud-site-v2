@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CTA from "../components/sections/CTA.astro";
-import { services } from "../lib/siteConfig.js";
+import { services, serviceDetails } from "../lib/siteConfig.js";
 import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
 
 const canonicalUrl = getCanonicalUrl("/services");
@@ -9,212 +9,330 @@ const breadcrumbs = buildBreadcrumbSchema([
   { name: "Home", url: "/" },
   { name: "Services", url: "/services" }
 ]);
+
+const details = serviceDetails as Record<string, any>;
 ---
 
 <Layout
-  title="Business & Technology Consulting Services"
-  description="Explore Nixwud's consulting capabilities across strategy, business analysis, digital platforms, AI automation, CRM workflows and search discoverability."
+  title="Digital Development & Business Systems Services"
+  description="Explore Nixwud's four core capabilities across web design & development, custom web applications, CRM automation and technical SEO discoverability."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
   <header class="page-hero">
     <div class="container--wide">
-      <p class="eyebrow">Consulting services</p>
-      <h1>Capabilities connected by one principle: business value first.</h1>
-      <p class="lede">We combine strategic analysis and modern technology to help organizations clarify the problem, choose an appropriate response and deliver lasting operational value.</p>
+      <p class="eyebrow">Core Capabilities</p>
+      <h1>We design and build websites, web applications and business systems.</h1>
+      <p class="lede">
+        Four focused capabilities engineered to help organisations operate smoothly, engage customers effectively and achieve sustainable growth.
+      </p>
     </div>
   </header>
 
+  <!-- Capability Explorer -->
   <section class="section">
     <div class="container--wide">
-      <div class="service-index">
-        {services.map((service) => (
-          <article class="service-index__item">
-            <div class="service-index__num-col">
-              <span class="service-index__num">{service.number}</span>
-            </div>
-            <div class="service-index__main-col">
-              <div class="service-index__header">
-                <h2><a href={`/services/${service.slug}`}>{service.title}</a></h2>
-                <a class="service-index__arrow" href={`/services/${service.slug}`} aria-label={`Explore ${service.title}`}>↗</a>
+      <div class="capability-explorer">
+        {services.map((service) => {
+          const detail = details[service.slug] || {};
+          return (
+            <article class="explorer-card" id={`capability-${service.slug}`}>
+              <div class="explorer-card__top">
+                <div class="explorer-card__num-col">
+                  <span class="explorer-card__num">{service.number}</span>
+                  <span class="explorer-card__tag">{service.shortTitle || "Capability"}</span>
+                </div>
+                <div class="explorer-card__title-col">
+                  <h2>
+                    <a href={`/services/${service.slug}`}>{service.title}</a>
+                  </h2>
+                  <p class="explorer-card__tagline">{service.tagline || service.summary}</p>
+                </div>
+                <a class="explorer-card__arrow" href={`/services/${service.slug}`} aria-label={`View ${service.title} details`}>
+                  ↗
+                </a>
               </div>
-              <p class="service-index__summary">{service.summary}</p>
-              {service.outcomes && (
-                <ul class="tag-list service-index__tags">
-                  {service.outcomes.map((outcome) => <li class="tag">{outcome}</li>)}
-                </ul>
-              )}
-            </div>
-          </article>
-        ))}
+
+              <div class="explorer-card__grid">
+                <div class="explorer-card__col">
+                  <h3 class="explorer-card__subhead">What We Build</h3>
+                  <ul class="explorer-card__list list-clean">
+                    {(detail.capabilities || service.outcomes || []).map((item: string) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div class="explorer-card__col">
+                  <h3 class="explorer-card__subhead">When This Is Needed</h3>
+                  <ul class="explorer-card__list explorer-card__list--challenges list-clean">
+                    {(detail.challenges || []).slice(0, 3).map((item: string) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div class="explorer-card__col explorer-card__col--deliverables">
+                  <h3 class="explorer-card__subhead">Key Deliverables</h3>
+                  <ul class="explorer-card__list list-clean">
+                    {(detail.deliverables || []).slice(0, 3).map((item: string) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                  <div class="explorer-card__link-wrap">
+                    <a class="card__link" href={`/services/${service.slug}`}>
+                      Explore full capability breakdown <span aria-hidden="true">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
 
+  <!-- Engagement Philosophy & Matrix -->
   <section class="section section--paper">
     <div class="container--wide">
-      <header class="engagement-header">
-        <p class="eyebrow paper-eyebrow">Engagement model</p>
-        <h2>Start with the decision, then shape the work.</h2>
-        <p class="lede">A disciplined three-stage progression designed to reduce operational uncertainty before committing client capital.</p>
+      <header class="matrix-header">
+        <p class="eyebrow paper-eyebrow">Our Approach</p>
+        <h2>We work out what needs building first.</h2>
+        <p class="lede">
+          Whether you need a full website redesign, custom operational software, CRM workflow automation or a technical SEO overhaul, every project follows a disciplined path.
+        </p>
       </header>
 
-      <ol class="engagement grid grid--3 list-clean">
-        <li class="engagement-step">
-          <span class="step-num">01</span>
-          <h3>Focused discovery</h3>
-          <p>Examine business context, underlying constraints, stakeholder priorities and available evidence.</p>
-        </li>
-        <li class="engagement-step">
-          <span class="step-num">02</span>
-          <h3>Decision framing</h3>
-          <p>Clarify realistic options, evaluate trade-offs, define success metrics and establish delivery scope.</p>
-        </li>
-        <li class="engagement-step">
-          <span class="step-num">03</span>
-          <h3>Measured delivery</h3>
-          <p>Implement in structured, verifiable stages, learn from operational outcomes and refine deliberately.</p>
-        </li>
-      </ol>
+      <div class="matrix-grid">
+        <div class="matrix-item">
+          <span class="matrix-num">01</span>
+          <h3>Understand Before Coding</h3>
+          <p>We clarify the real business bottleneck, user needs and existing system constraints before writing a single line of code.</p>
+        </div>
+        <div class="matrix-item">
+          <span class="matrix-num">02</span>
+          <h3>Modern, Maintainable Tech</h3>
+          <p>We build with lightweight, robust frameworks, accessible semantic markup and maintainable architectures that your team can operate.</p>
+        </div>
+        <div class="matrix-item">
+          <span class="matrix-num">03</span>
+          <h3>Measurable Operational Value</h3>
+          <p>We evaluate success by real outcomes: faster load times, reduced manual team hours, automated lead capture and higher search rankings.</p>
+        </div>
+      </div>
     </div>
   </section>
-  <CTA title="Not sure which service fits? Start with the business problem." />
+
+  <CTA title="Have a digital project that needs building?" description="Tell us what you are trying to improve. We will help you identify the right architecture and delivery path." />
 </Layout>
 
 <style>
-  .service-index {
+  .capability-explorer {
     display: flex;
     flex-direction: column;
+    gap: 3rem;
   }
 
-  .service-index__item {
+  .explorer-card {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    transition: border-color var(--transition);
+  }
+
+  .explorer-card:hover {
+    border-color: rgba(83, 109, 206, 0.45);
+  }
+
+  .explorer-card__top {
     display: grid;
-    grid-template-columns: 5rem 1fr;
+    grid-template-columns: 8rem 1fr auto;
+    align-items: start;
     gap: 2rem;
-    padding-block: clamp(2.5rem, 4vw, 3.5rem);
-    border-top: 1px solid var(--line);
-    transition: background var(--transition), border-color var(--transition);
-  }
-
-  .service-index__item:last-child {
+    padding-bottom: 2.5rem;
     border-bottom: 1px solid var(--line);
   }
 
-  .service-index__num {
+  .explorer-card__num-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .explorer-card__num {
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: var(--accent-soft);
     line-height: 1;
-    letter-spacing: -0.02em;
   }
 
-  .service-index__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1.5rem;
+  .explorer-card__tag {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
   }
 
-  .service-index__header h2 {
-    margin: 0;
-    font-size: clamp(1.5rem, 2.2vw, 2rem);
+  .explorer-card__title-col h2 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
     line-height: 1.25;
   }
 
-  .service-index__header h2 a {
+  .explorer-card__title-col h2 a {
     color: var(--text);
     text-decoration: none;
     transition: color var(--transition);
   }
 
-  .service-index__header h2 a:hover {
+  .explorer-card__title-col h2 a:hover {
     color: var(--accent-soft);
   }
 
-  .service-index__arrow {
-    font-size: 1.5rem;
+  .explorer-card__tagline {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: var(--leading-body);
+  }
+
+  .explorer-card__arrow {
+    font-size: 1.75rem;
     color: var(--accent-soft);
     text-decoration: none;
     transition: transform var(--transition), color var(--transition);
   }
 
-  .service-index__item:hover .service-index__arrow {
+  .explorer-card:hover .explorer-card__arrow {
     transform: translate(3px, -3px);
     color: var(--text);
   }
 
-  .service-index__summary {
-    max-width: 44rem;
-    margin: 1rem 0 1.5rem;
+  .explorer-card__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    padding-top: 2.5rem;
+  }
+
+  .explorer-card__subhead {
+    margin: 0 0 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+  }
+
+  .explorer-card__list {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .explorer-card__list li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .explorer-card__list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  .explorer-card__list--challenges li {
     color: var(--text-muted);
-    font-size: 1.0625rem;
-    line-height: var(--leading-body);
   }
 
-  .service-index__tags {
-    margin: 0;
+  .explorer-card__col--deliverables {
+    display: flex;
+    flex-direction: column;
   }
 
+  .explorer-card__link-wrap {
+    margin-top: auto;
+    padding-top: 1.75rem;
+  }
+
+  /* Paper Matrix Section */
   .paper-eyebrow {
     color: var(--accent);
   }
 
-  .engagement-header {
+  .matrix-header {
     max-width: 48rem;
     margin-bottom: 3.5rem;
   }
 
-  .engagement-header h2 {
-    max-width: 22ch;
+  .matrix-header h2 {
+    max-width: 24ch;
     margin-bottom: 1rem;
   }
 
-  .engagement-header .lede {
-    margin-bottom: 0;
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
   }
 
-  .engagement-step {
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line-dark);
+  .matrix-item {
+    padding: 2rem;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-md);
+    background: rgba(243, 241, 235, 0.7);
   }
 
-  .engagement-step .step-num {
+  .matrix-num {
     display: block;
     font-family: var(--font-display);
-    font-size: 2.25rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--accent);
-    line-height: 1;
-    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
   }
 
-  .engagement-step h3 {
-    margin: 1.25rem 0 .65rem;
+  .matrix-item h3 {
+    margin: 0 0 0.65rem;
+    font-size: 1.25rem;
     color: var(--ink);
-    font-size: clamp(1.2rem, 1.4vw, 1.45rem);
   }
 
-  .engagement-step p {
+  .matrix-item p {
     margin: 0;
-    color: var(--text-dark-muted);
     font-size: 0.95rem;
     line-height: var(--leading-body);
+    color: var(--text-dark-muted);
   }
 
-  @media (max-width: 760px) {
-    .service-index__item {
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
+  @media (max-width: 960px) {
+    .explorer-card__top {
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
     }
 
-    .service-index__num {
-      font-size: 1.5rem;
+    .explorer-card__num-col {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
     }
 
-    .engagement {
+    .explorer-card__grid {
       grid-template-columns: 1fr;
-      row-gap: 2.5rem;
+      gap: 2rem;
+    }
+
+    .matrix-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

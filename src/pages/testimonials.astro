@@ -25,33 +25,35 @@ const approvedTestimonials = (testimonials as Array<{
 const valueThemes = [
   {
     number: "01",
-    title: "Clarity",
-    summary: "Structuring ambiguous, multi-stakeholder challenges into understandable choices and clear priorities."
+    title: "Understanding",
+    summary: "Taking the time to understand team workflows, user needs and business constraints before writing code."
   },
   {
     number: "02",
-    title: "Direction",
-    summary: "Providing disciplined roadmap recommendations with concrete milestones before committing capital."
+    title: "Craft & Quality",
+    summary: "Delivering fast, accessible websites and robust web applications engineered for long-term reliability."
   },
   {
     number: "03",
-    title: "Practicality",
-    summary: "Designing systems, architectures and automated workflows that internal teams can operate independently."
+    title: "Practical Impact",
+    summary: "Eliminating manual bottlenecks, improving lead follow-up and delivering clear, measurable business value."
   }
 ];
 ---
 
 <Layout
-  title="Client Feedback & Testimonials"
-  description="Read verified client feedback and perspectives on strategic consulting, digital platforms and automation engagements with Nixwud."
+  title="Client Feedback & Perspectives"
+  description="Read verified client feedback and perspectives on web design & development, custom applications and CRM automation engagements with Nixwud."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
   <header class="page-hero">
     <div class="container--wide">
-      <p class="eyebrow">Client perspective</p>
+      <p class="eyebrow">Client Perspectives</p>
       <h1>What the work feels like from the other side.</h1>
-      <p class="lede">We value direct feedback because it demonstrates whether our consulting process created genuine clarity, stronger decisions and durable operational improvements.</p>
+      <p class="lede">
+        We value direct feedback because it demonstrates whether our digital builds and automated systems created genuine operational improvements for our clients.
+      </p>
     </div>
   </header>
 
@@ -60,10 +62,10 @@ const valueThemes = [
       {approvedTestimonials.length > 0 ? (
         <div class="testimonials-archive">
           {approvedTestimonials.map((t, idx) => (
-            <article class:list={["testimonial-spread", `testimonial-spread--${(idx % 3) + 1}`]}>
+            <article class:list={["testimonial-spread", `testimonial-spread--${(idx % 2) + 1}`]}>
               <div class="testimonial-spread__quote-wrap">
                 <span class="testimonial-num">0{idx + 1}</span>
-                <blockquote class="testimonial-quote">“{t.quote}”</blockquote>
+                <blockquote class="testimonial-quote">"{t.quote}"</blockquote>
               </div>
               <div class="testimonial-spread__meta">
                 <p class="testimonial-author"><strong>{t.name}</strong></p>
@@ -76,9 +78,11 @@ const valueThemes = [
       ) : (
         <div class="testimonial-protocol">
           <div class="protocol-header">
-            <span class="protocol-kicker">Integrity Standard</span>
+            <span class="protocol-kicker">Feedback Standard</span>
             <h2>Client perspectives will appear here as they are approved for publication.</h2>
-            <p class="lede">Nixwud publishes client feedback only with explicit permission and only when the context can be represented accurately. We would rather publish fewer accounts than manufacture social proof.</p>
+            <p class="lede">
+              Nixwud publishes client feedback only with explicit permission and when the context can be represented accurately. We hold our work to high engineering and operational standards.
+            </p>
           </div>
 
           <div class="value-matrix">
@@ -98,19 +102,19 @@ const valueThemes = [
   <section class="section section--paper">
     <div class="container split">
       <div>
-        <p class="eyebrow paper-eyebrow">Feedback principles</p>
-        <h2>What meaningful client feedback measures.</h2>
+        <p class="eyebrow paper-eyebrow">Feedback Principles</p>
+        <h2>What meaningful feedback measures.</h2>
       </div>
       <ul class="list-clean feedback-criteria">
-        <li>Did the engagement isolate the real business problem before prescribing technology?</li>
-        <li>Were recommendations practical enough for the team to execute without dependency?</li>
-        <li>Did leadership gain clarity and alignment on the most important trade-offs?</li>
-        <li>Was the communication direct, evidence-led and respectful of the organization's time?</li>
+        <li>Did we work out what actually needed building before writing code?</li>
+        <li>Is the delivered website or application fast, maintainable and easy to operate?</li>
+        <li>Did the automation remove manual friction and save hours for internal teams?</li>
+        <li>Was communication direct, transparent and respectful of the client team?</li>
       </ul>
     </div>
   </section>
 
-  <CTA title="Have a difficult decision to work through?" description="Share your context and we will help you identify a practical, evidence-based next step." />
+  <CTA title="Have a digital project to discuss?" description="Tell us what you are trying to improve and we will outline a practical, evidence-based next step." />
 </Layout>
 
 <style>

@@ -5,64 +5,66 @@ import Button from "../ui/Button.astro";
 <section class="hero">
   <div class="container--wide hero__inner">
     <div class="hero__copy">
-      <p class="eyebrow">Business & Technology Consultancy</p>
-      <h1 class="hero__headline">Better technology decisions begin with understanding your business.</h1>
+      <p class="eyebrow">Design - Development - Business Systems</p>
+      <h1 class="hero__headline">We design and build websites, web applications and business systems.</h1>
       <p class="lede hero__lede">
-        Nixwud Consultancy helps organizations connect strategy, systems and execution so technology creates measurable business value.
+        We help organisations work better and grow with high-performance websites, custom web applications, automated CRM workflows and evidence-based search discoverability.
       </p>
       <div class="button-row hero__actions">
-        <Button href="/contact" variant="primary">Discuss your priorities</Button>
-        <Button href="/insights" variant="secondary">Explore our thinking</Button>
+        <Button href="/contact" variant="primary">Start a project</Button>
+        <Button href="/case-studies" variant="secondary">See our work</Button>
+      </div>
+      <div class="hero__ethos">
+        <span class="hero__ethos-tag">Our Philosophy</span>
+        <p class="hero__ethos-text">We don't just build what you are asked for. We first work out what actually needs building.</p>
       </div>
     </div>
 
-    <aside class="hero__framework" aria-label="Nixwud decision framework">
-      <div class="hero__framework-header">
-        <span class="hero__framework-tag">Consulting Method</span>
-        <p class="hero__framework-title">A clearer decision path</p>
+    <aside class="hero__capabilities-panel" aria-label="Nixwud core capabilities preview">
+      <div class="hero__panel-header">
+        <span class="hero__panel-badge">Core Capabilities</span>
+        <span class="hero__panel-indicator" aria-hidden="true">
+          <span class="hero__panel-pulse"></span> Active Practice
+        </span>
       </div>
-      <ol class="hero__framework-list">
-        <li class="hero__framework-item">
-          <div class="hero__framework-marker">
-            <span class="hero__framework-num">01</span>
-            <span class="hero__framework-node" aria-hidden="true"></span>
+
+      <div class="hero__capabilities-list">
+        <a href="/services/web-design-development" class="hero__cap-item">
+          <div class="hero__cap-num">01</div>
+          <div class="hero__cap-info">
+            <strong class="hero__cap-title">Web Design & Development</strong>
+            <span class="hero__cap-desc">Fast, accessible, maintainable business websites and CMS platforms.</span>
           </div>
-          <div class="hero__framework-body">
-            <strong class="hero__framework-title-item">Understand</strong>
-            <small class="hero__framework-desc">Context before assumptions</small>
+          <span class="hero__cap-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a href="/services/web-app-development" class="hero__cap-item">
+          <div class="hero__cap-num">02</div>
+          <div class="hero__cap-info">
+            <strong class="hero__cap-title">Web & App Development</strong>
+            <span class="hero__cap-desc">Custom web apps, internal tools, dashboards and client portals.</span>
           </div>
-        </li>
-        <li class="hero__framework-item">
-          <div class="hero__framework-marker">
-            <span class="hero__framework-num">02</span>
-            <span class="hero__framework-node" aria-hidden="true"></span>
+          <span class="hero__cap-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a href="/services/crm-automation" class="hero__cap-item">
+          <div class="hero__cap-num">03</div>
+          <div class="hero__cap-info">
+            <strong class="hero__cap-title">CRM & Automation</strong>
+            <span class="hero__cap-desc">Pipeline automation, lead routing and connected business systems.</span>
           </div>
-          <div class="hero__framework-body">
-            <strong class="hero__framework-title-item">Align</strong>
-            <small class="hero__framework-desc">Priorities before projects</small>
+          <span class="hero__cap-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a href="/services/seo-discoverability" class="hero__cap-item">
+          <div class="hero__cap-num">04</div>
+          <div class="hero__cap-info">
+            <strong class="hero__cap-title">SEO & Discoverability</strong>
+            <span class="hero__cap-desc">Technical SEO, semantic architecture and search visibility.</span>
           </div>
-        </li>
-        <li class="hero__framework-item">
-          <div class="hero__framework-marker">
-            <span class="hero__framework-num">03</span>
-            <span class="hero__framework-node" aria-hidden="true"></span>
-          </div>
-          <div class="hero__framework-body">
-            <strong class="hero__framework-title-item">Decide</strong>
-            <small class="hero__framework-desc">Evidence before investment</small>
-          </div>
-        </li>
-        <li class="hero__framework-item">
-          <div class="hero__framework-marker">
-            <span class="hero__framework-num">04</span>
-            <span class="hero__framework-node" aria-hidden="true"></span>
-          </div>
-          <div class="hero__framework-body">
-            <strong class="hero__framework-title-item">Deliver</strong>
-            <small class="hero__framework-desc">Outcomes before output</small>
-          </div>
-        </li>
-      </ol>
+          <span class="hero__cap-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
     </aside>
   </div>
 </section>
@@ -73,7 +75,7 @@ import Button from "../ui/Button.astro";
     padding-block: clamp(4.5rem, 8vw, 7.5rem);
     border-bottom: 1px solid var(--line);
     background-image:
-      radial-gradient(circle at 85% 20%, rgba(83, 109, 206, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 85% 20%, rgba(83, 109, 206, 0.06) 0%, transparent 60%),
       linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
     background-size: 100% 100%, 4rem 4rem, 4rem 4rem;
@@ -81,8 +83,8 @@ import Button from "../ui/Button.astro";
 
   .hero__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1.45fr) minmax(20rem, 0.85fr);
-    gap: clamp(3rem, 6vw, 6.5rem);
+    grid-template-columns: minmax(0, 1.35fr) minmax(20rem, 1fr);
+    gap: clamp(3rem, 5vw, 6rem);
     align-items: start;
   }
 
@@ -102,9 +104,36 @@ import Button from "../ui/Button.astro";
 
   .hero__actions {
     margin-top: 0;
+    margin-bottom: 2.5rem;
   }
 
-  .hero__framework {
+  .hero__ethos {
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(83, 109, 206, 0.06);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    max-width: 38rem;
+  }
+
+  .hero__ethos-tag {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .hero__ethos-text {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .hero__capabilities-panel {
     position: relative;
     padding: clamp(1.5rem, 2.5vw, 2rem);
     border: 1px solid var(--line);
@@ -113,116 +142,107 @@ import Button from "../ui/Button.astro";
     transition: border-color var(--transition);
   }
 
-  .hero__framework:hover {
+  .hero__capabilities-panel:hover {
     border-color: rgba(83, 109, 206, 0.35);
   }
 
-  .hero__framework-header {
-    padding-bottom: 0.25rem;
+  .hero__panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
   }
 
-  .hero__framework-tag {
-    display: inline-block;
+  .hero__panel-badge {
     color: var(--accent-soft);
     font-family: var(--font-display);
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 0.35rem;
   }
 
-  .hero__framework-title {
-    margin: 0;
-    color: var(--text);
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    line-height: 1.3;
+  .hero__panel-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--text-muted);
   }
 
-  .hero__framework-list {
-    position: relative;
-    list-style: none;
-    padding: 0;
-    margin: 1.25rem 0 0;
+  .hero__panel-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--positive);
+    box-shadow: 0 0 8px rgba(115, 198, 159, 0.6);
   }
 
-  .hero__framework-item {
-    position: relative;
-    display: grid;
-    grid-template-columns: 2.5rem 1fr;
-    column-gap: 0.75rem;
-    align-items: start;
-    padding-block: 0.95rem;
-    border-top: 1px solid var(--line);
-    transition: background var(--transition);
-  }
-
-  .hero__framework-item:last-child {
-    padding-bottom: 0;
-  }
-
-  .hero__framework-marker {
+  .hero__capabilities-list {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
+    margin-top: 0.5rem;
   }
 
-  .hero__framework-num {
-    display: block;
-    color: var(--accent-soft);
-    font-family: var(--font-display);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    line-height: 1.2;
-  }
-
-  .hero__framework-node {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--line);
+  .hero__cap-item {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr auto;
+    column-gap: 1rem;
+    align-items: center;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
     transition: background var(--transition), transform var(--transition);
   }
 
-  .hero__framework-item:hover .hero__framework-node {
-    background: var(--accent);
-    transform: scale(1.4);
+  .hero__cap-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
-  .hero__framework-body {
+  .hero__cap-num {
+    color: var(--accent-soft);
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .hero__cap-info {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    min-width: 0;
+    gap: 0.2rem;
   }
 
-  .hero__framework-title-item {
-    display: block;
+  .hero__cap-title {
     color: var(--text);
     font-family: var(--font-display);
     font-size: 0.95rem;
     font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
+    line-height: 1.3;
     transition: color var(--transition);
   }
 
-  .hero__framework-item:hover .hero__framework-title-item {
+  .hero__cap-desc {
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .hero__cap-arrow {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    transition: transform var(--transition), color var(--transition);
+  }
+
+  .hero__cap-item:hover .hero__cap-title {
     color: var(--accent-soft);
   }
 
-  .hero__framework-desc {
-    display: block;
-    color: var(--text-muted);
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    line-height: 1.45;
-    font-weight: 400;
+  .hero__cap-item:hover .hero__cap-arrow {
+    transform: translate(3px, -3px);
+    color: var(--text);
   }
 
   @media (max-width: 960px) {
@@ -239,8 +259,8 @@ import Button from "../ui/Button.astro";
       max-width: 24ch;
     }
 
-    .hero__framework {
-      max-width: 34rem;
+    .hero__capabilities-panel {
+      max-width: 36rem;
     }
   }
 
@@ -253,11 +273,11 @@ import Button from "../ui/Button.astro";
       max-width: none;
     }
 
-    .hero__framework {
+    .hero__capabilities-panel {
       padding: 1.25rem;
     }
 
-    .hero__framework-item {
+    .hero__cap-item {
       padding-block: 0.85rem;
     }
   }

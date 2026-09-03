@@ -12,16 +12,18 @@ const breadcrumbs = buildBreadcrumbSchema([
 ---
 
 <Layout
-  title="Business & Technology Decision Resources"
-  description="Access practical diagnostic tools, alignment audits and readiness frameworks from Nixwud Consultancy to evaluate business and technology decisions."
+  title="Digital Systems & Website Resources"
+  description="Access practical diagnostic tools, alignment audits and readiness frameworks from Nixwud to evaluate digital projects and business systems."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
   <header class="page-hero">
     <div class="container--wide">
-      <p class="eyebrow">Practical tools</p>
-      <h1>Frameworks for clearer business and technology decisions.</h1>
-      <p class="lede">Use these diagnostic audits, scorecards and decision guides to evaluate underlying issues, structure team conversations and make informed next moves.</p>
+      <p class="eyebrow">Practical Tools & Guides</p>
+      <h1>Tools for clearer digital and technology decisions.</h1>
+      <p class="lede">
+        Use these practical audits, scorecards and decision guides to evaluate your existing setup, structure project requirements and plan your next build.
+      </p>
     </div>
   </header>
 
@@ -31,13 +33,13 @@ const breadcrumbs = buildBreadcrumbSchema([
         <!-- Primary Resource: Editorial Audit Presentation -->
         <article class="toolkit-feature">
           <div class="toolkit-feature__meta">
-            <span class="toolkit-tag">PRIMARY DIAGNOSTIC RESOURCE</span>
+            <span class="toolkit-tag">PRIMARY DIAGNOSTIC GUIDE</span>
             <span class="toolkit-format">PDF GUIDE & AUDIT</span>
           </div>
           <div class="toolkit-feature__grid">
             <div class="toolkit-feature__main">
-              <h2>Business & Technology Alignment Audit</h2>
-              <p class="toolkit-feature__desc">A structured five-part audit designed to identify where strategic priorities, operating systems and day-to-day execution are falling out of alignment.</p>
+              <h2>Digital Systems & Website Readiness Audit</h2>
+              <p class="toolkit-feature__desc">A structured five-part guide designed to evaluate whether your current website, CRM workflows and internal software support your operational goals.</p>
               <div class="toolkit-feature__actions">
                 <Button href="/resources/business-technology-alignment-audit.pdf" variant="primary">Download the audit</Button>
               </div>
@@ -45,11 +47,11 @@ const breadcrumbs = buildBreadcrumbSchema([
             <div class="toolkit-feature__breakdown">
               <span class="breakdown-title">What the audit evaluates</span>
               <ul class="list-clean breakdown-list">
-                <li><span>01</span> Strategic priority and commercial focus</li>
-                <li><span>02</span> Current-state operational workflow friction</li>
-                <li><span>03</span> Technology stack sprawl and technical debt</li>
-                <li><span>04</span> Internal team ownership and operating bandwidth</li>
-                <li><span>05</span> Measurable milestones and governance criteria</li>
+                <li><span>01</span> Website clarity, performance and user conversion</li>
+                <li><span>02</span> Operational bottlenecks and manual handoffs</li>
+                <li><span>03</span> Software tool sprawl and disconnected databases</li>
+                <li><span>04</span> Internal team workflow and content management</li>
+                <li><span>05</span> Technical SEO foundations and search discoverability</li>
               </ul>
             </div>
           </div>
@@ -58,13 +60,13 @@ const breadcrumbs = buildBreadcrumbSchema([
         <!-- Interactive Diagnostic Instrument: Decision Readiness Scorecard -->
         <article class="toolkit-instrument">
           <div class="instrument-meta">
-            <span class="toolkit-tag">INTERACTIVE INSTRUMENT</span>
-            <span class="instrument-live-pill"><span class="pulse-dot"></span> 10 QUESTIONS · 3 MIN</span>
+            <span class="toolkit-tag">INTERACTIVE TOOL</span>
+            <span class="instrument-live-pill"><span class="pulse-dot"></span> 10 QUESTIONS - 3 MIN</span>
           </div>
           <div class="instrument-grid">
             <div class="instrument-main">
               <h2>Technology Decision Readiness Scorecard</h2>
-              <p class="instrument-desc">Rate ten core statements on a 1 to 5 scale to evaluate whether your pending business or technology investment has the clarity and alignment needed before committing capital.</p>
+              <p class="instrument-desc">Rate ten core statements on a 1 to 5 scale to evaluate whether your proposed website, application or automation project is clearly defined before you build.</p>
               <div class="instrument-actions">
                 <Button href="/resources/decision-readiness-scorecard" variant="primary">Launch the scorecard</Button>
               </div>
@@ -76,8 +78,8 @@ const breadcrumbs = buildBreadcrumbSchema([
                   <div class="badge-bar"></div>
                 </div>
                 <div class="badge-labels">
-                  <span>Pause & Clarify</span>
-                  <span>Execution Ready</span>
+                  <span>Clarify First</span>
+                  <span>Build Ready</span>
                 </div>
               </div>
             </div>
@@ -90,32 +92,31 @@ const breadcrumbs = buildBreadcrumbSchema([
   <section class="section section--paper">
     <div class="container split">
       <div>
-        <p class="eyebrow paper-eyebrow">Built for application</p>
-        <h2>Structured for clarity, not marketing volume.</h2>
+        <p class="eyebrow paper-eyebrow">Practical Application</p>
+        <h2>Structured for clarity, not marketing fluff.</h2>
       </div>
       <div>
-        <p class="lede">Every diagnostic resource is designed to help leadership teams evaluate operational reality, ask better questions and avoid premature commitments.</p>
+        <p class="lede">Every resource is designed to help teams evaluate their operational reality, ask the right technical questions and avoid expensive development rework.</p>
         <ul class="list-clean principles">
           <li>Practical enough for immediate internal evaluation</li>
-          <li>Clear enough to facilitate cross-functional alignment</li>
-          <li>Structured around objective decision criteria and evidence</li>
-          <li>Refined continually as consulting methodology advances</li>
+          <li>Clear enough to facilitate team and stakeholder alignment</li>
+          <li>Independent of specific vendor tools or proprietary lock-in</li>
         </ul>
       </div>
     </div>
   </section>
-  <CTA title="Did the diagnostic surface a deeper operational question?" description="Share your context and we will help you identify a practical, evidence-based next step." />
+
+  <CTA title="Ready to plan your next digital project?" description="Tell us what you are trying to build or improve. We will help you evaluate requirements and next steps." />
 </Layout>
 
 <style>
   .toolkit-stack {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 3.5rem;
   }
 
-  .toolkit-feature,
-  .toolkit-instrument {
+  .toolkit-feature {
     padding: clamp(2rem, 4vw, 3.5rem);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
@@ -123,21 +124,22 @@ const breadcrumbs = buildBreadcrumbSchema([
     transition: border-color var(--transition);
   }
 
-  .toolkit-feature:hover,
-  .toolkit-instrument:hover {
-    border-color: rgba(83, 109, 206, 0.4);
+  .toolkit-feature:hover {
+    border-color: rgba(83, 109, 206, 0.45);
   }
 
-  .toolkit-feature__meta,
-  .instrument-meta {
+  .toolkit-feature__meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
   }
 
   .toolkit-tag {
     color: var(--accent-soft);
+    font-family: var(--font-display);
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -148,76 +150,53 @@ const breadcrumbs = buildBreadcrumbSchema([
     color: var(--text-muted);
     font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
-  .instrument-live-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0.65rem;
-    border-radius: 9999px;
-    background: rgba(83, 109, 206, 0.15);
-    color: var(--accent-soft);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  }
-
-  .pulse-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-
-  .toolkit-feature__grid,
-  .instrument-grid {
+  .toolkit-feature__grid {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 1fr);
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
   }
 
-  .toolkit-feature__main h2,
-  .instrument-main h2 {
-    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
-    line-height: 1.25;
-    margin: 0 0 1rem;
+  .toolkit-feature__main h2 {
+    font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+    line-height: var(--leading-h2);
+    letter-spacing: var(--tracking-h2);
+    margin: 0 0 1.25rem;
   }
 
-  .toolkit-feature__desc,
-  .instrument-desc {
+  .toolkit-feature__desc {
     color: var(--text-muted);
-    font-size: 1.0625rem;
+    font-size: 1.05rem;
     line-height: var(--leading-body);
     margin: 0 0 2rem;
-    max-width: 36rem;
   }
 
   .breakdown-title {
     display: block;
-    color: var(--text);
-    font-size: 0.75rem;
+    color: var(--accent-soft);
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.08em;
+    text-transform: uppercase;
     margin-bottom: 1rem;
+  }
+
+  .breakdown-list {
+    display: grid;
+    gap: 0.75rem;
   }
 
   .breakdown-list li {
     display: grid;
     grid-template-columns: 2rem 1fr;
     gap: 0.5rem;
-    padding: 0.75rem 0;
-    border-top: 1px solid var(--line);
     color: var(--text);
     font-size: 0.9375rem;
-  }
-
-  .breakdown-list li:last-child {
-    border-bottom: 1px solid var(--line);
+    line-height: 1.45;
   }
 
   .breakdown-list span {
@@ -227,15 +206,73 @@ const breadcrumbs = buildBreadcrumbSchema([
     font-weight: 700;
   }
 
-  .instrument-preview {
-    display: flex;
-    justify-content: center;
+  /* Interactive Instrument Card */
+  .toolkit-instrument {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    transition: border-color var(--transition);
   }
 
-  .instrument-badge {
-    width: 100%;
-    max-width: 20rem;
-    padding: 1.75rem;
+  .toolkit-instrument:hover {
+    border-color: rgba(83, 109, 206, 0.45);
+  }
+
+  .instrument-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .instrument-live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: rgba(83, 109, 206, 0.12);
+    border: 1px solid rgba(83, 109, 206, 0.25);
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--positive);
+    box-shadow: 0 0 6px rgba(115, 198, 159, 0.6);
+  }
+
+  .instrument-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.85fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .instrument-main h2 {
+    font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+    line-height: var(--leading-h2);
+    letter-spacing: var(--tracking-h2);
+    margin: 0 0 1.25rem;
+  }
+
+  .instrument-desc {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: var(--leading-body);
+    margin: 0 0 2rem;
+  }
+
+  .instrument-preview {
+    padding: 2rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
     background: rgba(0, 0, 0, 0.25);
@@ -245,46 +282,56 @@ const breadcrumbs = buildBreadcrumbSchema([
     display: block;
     color: var(--accent-soft);
     font-size: 0.625rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.08em;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  .badge-meter {
-    height: 8px;
-    background: var(--line);
-    border-radius: 4px;
-    overflow: hidden;
     margin-bottom: 0.75rem;
   }
 
+  .badge-meter {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--line);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+  }
+
   .badge-bar {
+    width: 75%;
     height: 100%;
-    width: 72%;
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--accent), var(--positive));
   }
 
   .badge-labels {
     display: flex;
     justify-content: space-between;
-    color: var(--text-muted);
     font-size: 0.6875rem;
+    color: var(--text-muted);
   }
 
-  .paper-eyebrow { color: var(--accent); }
-  .principles li { padding: .8rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 500; }
-  .principles li:last-child { border-bottom: 1px solid var(--line-dark); }
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .principles {
+    margin-top: 1.5rem;
+  }
+
+  .principles li {
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--line-dark);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .principles li:last-child {
+    border-bottom: 1px solid var(--line-dark);
+  }
 
   @media (max-width: 900px) {
     .toolkit-feature__grid,
     .instrument-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
-    }
-
-    .instrument-preview {
-      display: none;
     }
   }
 </style>

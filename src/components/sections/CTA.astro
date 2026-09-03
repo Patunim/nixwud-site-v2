@@ -1,20 +1,27 @@
 ---
 import Button from "../ui/Button.astro";
-interface Props { title?: string; description?: string; }
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  buttonText?: string;
+}
 const {
-  title = "A better decision can change more than a technology project.",
-  description = "Tell us what your organization is trying to improve. We will help you clarify the next useful step."
+  eyebrow = "Start with the problem",
+  title = "Have something that needs building?",
+  description = "Tell us what your organisation is trying to achieve. We first work out what actually needs building, then design and engineer the solution.",
+  buttonText = "Talk to Nixwud"
 } = Astro.props;
 ---
 
 <section class="cta-section section border-top">
   <div class="container cta-section__inner">
     <div>
-      <p class="eyebrow">Start with the problem</p>
+      <p class="eyebrow">{eyebrow}</p>
       <h2>{title}</h2>
       <p class="lede">{description}</p>
     </div>
-    <Button href="/contact" variant="primary">Start a conversation</Button>
+    <Button href="/contact" variant="primary">{buttonText}</Button>
   </div>
 </section>
 

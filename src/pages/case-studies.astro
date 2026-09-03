@@ -7,190 +7,264 @@ import { buildBreadcrumbSchema, getCanonicalUrl } from "../lib/seo.js";
 const canonicalUrl = getCanonicalUrl("/case-studies");
 const breadcrumbs = buildBreadcrumbSchema([
   { name: "Home", url: "/" },
-  { name: "Case Studies", url: "/case-studies" }
+  { name: "Work", url: "/case-studies" }
 ]);
 
-const verificationStages = [
-  { step: "01", tag: "ENGAGEMENT", label: "Business Challenge", desc: "Document baseline metrics and operating constraints before starting work." },
-  { step: "02", tag: "DELIVERY", label: "Staged Execution", desc: "Track implementation decisions against agreed commercial criteria." },
-  { step: "03", tag: "VALIDATION", label: "Outcome Verification", desc: "Measure actual performance and operational value post-deployment." },
-  { step: "04", tag: "PUBLICATION", label: "Evidence Released", desc: "Publish findings only with client consent and verifiable data." }
+const deliveryStandards = [
+  { step: "01", tag: "SPECIFICATION", label: "Clear Requirements", desc: "Define user workflows, data models and success criteria before building." },
+  { step: "02", tag: "ENGINEERING", label: "Clean Codebase", desc: "Build lightweight, accessible, maintainable codebases with zero bloat." },
+  { step: "03", tag: "INTEGRATION", label: "Reliable Systems", desc: "Connect forms, APIs and CRM pipelines with robust error handling." },
+  { step: "04", tag: "DOCUMENTATION", label: "Complete Ownership", desc: "Provide full source code, CMS schemas and team operational guides." }
 ];
 ---
 
 <Layout
-  title="Case Studies & Client Evidence"
-  description="Read verified client outcomes and case studies demonstrating Nixwud's evidence-based approach to business and technology consulting."
+  title="Selected Work & Systems Archive"
+  description="Explore Nixwud's selected work across web design & development, custom web applications, CRM automation and technical search architecture."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
   <header class="page-hero">
     <div class="container--wide">
-      <p class="eyebrow">Case studies</p>
-      <h1>Evidence deserves more care than marketing claims.</h1>
-      <p class="lede">We publish case studies only when the work is real, the outcomes are fully verified and the client organization has granted explicit permission.</p>
+      <p class="eyebrow">Work & Project Archive</p>
+      <h1>Real systems engineered for operational results.</h1>
+      <p class="lede">
+        We design and build websites, web applications, CRM workflows and discoverability systems that solve concrete operational challenges.
+      </p>
     </div>
   </header>
 
   <section class="section">
     <div class="container--wide">
-      {caseStudies.length ? (
-        <div class="grid grid--2">
-          {caseStudies.map((study, index) => (
-            <article class="card study">
-              <span class="card__number">0{index + 1}</span>
-              <p class="kicker">{study.client || "Client engagement"}</p>
-              <h3>{study.title}</h3>
-              <p>{study.challenge}</p>
-              {study.outcome && <p class="outcome"><strong>Outcome:</strong> {study.outcome}</p>}
-            </article>
-          ))}
-        </div>
-      ) : (
-        <div class="evidence-protocol">
-          <div class="protocol-header">
-            <span class="protocol-kicker">Integrity Protocol</span>
-            <h2>Our standard for public evidence.</h2>
-            <p class="lede">Many consulting websites publish unverified claims or invented client logos. We hold published case material to a four-stage verification protocol.</p>
-          </div>
-
-          <div class="protocol-pipeline">
-            {verificationStages.map((stage, idx) => (
-              <div class="protocol-stage">
-                <div class="protocol-stage__head">
-                  <span class="protocol-stage__num">{stage.step}</span>
-                  <span class="protocol-stage__tag">{stage.tag}</span>
+      <div class="work-archive">
+        {caseStudies.map((study, index) => (
+          <article class="archive-item">
+            <div class="archive-item__top">
+              <span class="archive-item__num">0{index + 1}</span>
+              <span class="archive-item__service">{study.service}</span>
+            </div>
+            <div class="archive-item__content">
+              <p class="archive-item__client">{study.client || "Commercial Engagement"}</p>
+              <h2>{study.title}</h2>
+              <div class="archive-item__details">
+                <div class="archive-block">
+                  <span class="archive-block__label">The Operational Challenge</span>
+                  <p>{study.challenge}</p>
                 </div>
-                <h3>{stage.label}</h3>
-                <p>{stage.desc}</p>
-                {idx < verificationStages.length - 1 && <span class="protocol-stage__connector" aria-hidden="true">→</span>}
+                <div class="archive-block archive-block--outcome">
+                  <span class="archive-block__label">Delivered Solution & Outcome</span>
+                  <p>{study.outcome}</p>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  </section>
-
-  <section class="section section--paper">
-    <div class="container split">
-      <div>
-        <p class="eyebrow paper-eyebrow">Evidence standard</p>
-        <h2>What a Nixwud case study must demonstrate.</h2>
+            </div>
+          </article>
+        ))}
       </div>
-      <ul class="list-clean standard">
-        <li>The specific business problem and operating constraints at the start of the work.</li>
-        <li>The strategic decisions, trade-offs and options evaluated before implementation.</li>
-        <li>The concrete structural, digital or operational changes introduced.</li>
-        <li>The verified business outcomes and measurable evidence produced.</li>
-      </ul>
     </div>
   </section>
 
-  <CTA />
+  <!-- Delivery Standards Section -->
+  <section class="section section--paper">
+    <div class="container--wide">
+      <header class="standards-header">
+        <p class="eyebrow paper-eyebrow">Build Standards</p>
+        <h2>What every Nixwud project delivers.</h2>
+        <p class="lede">
+          We hold every digital build, custom application and automation pipeline to strict technical and operational standards.
+        </p>
+      </header>
+
+      <div class="standards-grid">
+        {deliveryStandards.map((std) => (
+          <div class="standard-card">
+            <div class="standard-card__head">
+              <span class="standard-num">{std.step}</span>
+              <span class="standard-tag">{std.tag}</span>
+            </div>
+            <h3>{std.label}</h3>
+            <p>{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA title="Have a project that needs building?" description="Share your requirements and we will help you map out a practical, high-performance solution." />
 </Layout>
 
 <style>
-  .study .kicker { margin: 2rem 0 .7rem; color: var(--accent-soft); }
-  .study .outcome { margin-top: 1.5rem; color: var(--text); }
-  .paper-eyebrow { color: var(--accent); }
-  .standard li { padding: 1rem 0; border-top: 1px solid var(--line-dark); color: var(--ink); font-weight: 500; }
-  .standard li:last-child { border-bottom: 1px solid var(--line-dark); }
+  .work-archive {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
 
-  .evidence-protocol {
+  .archive-item {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 2.5rem;
     padding: clamp(2rem, 4vw, 3.5rem);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     background: var(--ink-soft);
+    transition: border-color var(--transition);
   }
 
-  .protocol-header {
-    max-width: 44rem;
-    margin-bottom: 3rem;
+  .archive-item:hover {
+    border-color: rgba(83, 109, 206, 0.4);
   }
 
-  .protocol-kicker {
-    display: block;
+  .archive-item__top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .archive-item__num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
     color: var(--accent-soft);
+    line-height: 1;
+  }
+
+  .archive-item__service {
     font-size: 0.6875rem;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.08em;
-    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
   }
 
-  .protocol-header h2 {
-    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
-    margin-bottom: 0.75rem;
+  .archive-item__client {
+    margin: 0 0 0.5rem;
+    color: var(--accent-soft);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
-  .protocol-pipeline {
+  .archive-item__content h2 {
+    margin: 0 0 2rem;
+    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+    line-height: 1.25;
+  }
+
+  .archive-item__details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .archive-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .archive-block__label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+  }
+
+  .archive-block p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+    color: var(--text-muted);
+  }
+
+  .archive-block--outcome p {
+    color: var(--text);
+  }
+
+  /* Standards */
+  .standards-header {
+    max-width: 48rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .standards-header h2 {
+    max-width: 22ch;
+    margin-bottom: 1rem;
+  }
+
+  .standards-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
-    position: relative;
   }
 
-  .protocol-stage {
-    position: relative;
-    padding: 1.5rem;
-    border: 1px solid var(--line);
+  .standard-card {
+    padding: 1.75rem;
+    border: 1px solid var(--line-dark);
     border-radius: var(--radius-sm);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(243, 241, 235, 0.7);
   }
 
-  .protocol-stage__head {
+  .standard-card__head {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 1rem;
   }
 
-  .protocol-stage__num {
+  .standard-num {
     font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--accent-soft);
+    color: var(--accent);
   }
 
-  .protocol-stage__tag {
+  .standard-tag {
     font-size: 0.625rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.08em;
-    color: var(--text-muted);
+    color: var(--text-dark-muted);
   }
 
-  .protocol-stage h3 {
+  .standard-card h3 {
     margin: 0 0 0.5rem;
-    font-size: 1.1rem;
-    color: var(--text);
+    font-size: 1.15rem;
+    color: var(--ink);
   }
 
-  .protocol-stage p {
+  .standard-card p {
     margin: 0;
-    color: var(--text-muted);
+    color: var(--text-dark-muted);
     font-size: 0.875rem;
     line-height: 1.5;
   }
 
-  .protocol-stage__connector {
-    position: absolute;
-    right: -1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--accent);
-    font-size: 1.25rem;
-    z-index: 2;
-  }
-
-  @media (max-width: 900px) {
-    .protocol-pipeline {
+  @media (max-width: 960px) {
+    .archive-item {
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 1.5rem;
     }
 
-    .protocol-stage__connector {
-      display: none;
+    .archive-item__details {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .standards-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .standards-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

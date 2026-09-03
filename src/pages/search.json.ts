@@ -3,11 +3,11 @@ import { safeFetch } from "../lib/sanity.js";
 import { resources, services } from "../lib/siteConfig.js";
 
 const staticPages = [
-  { title: "About Nixwud Consultancy", description: "Our philosophy, mission and operating principles.", type: "Page", url: "/about" },
-  { title: "Consulting Services", description: "Business and technology consulting capabilities.", type: "Page", url: "/services" },
-  { title: "Industries", description: "Industry-aware consulting and decision support.", type: "Page", url: "/industries" },
-  { title: "Case Studies", description: "Evidence-led client outcomes.", type: "Page", url: "/case-studies" },
-  { title: "Free Resources", description: "Audits, scorecards and practical tools.", type: "Page", url: "/resources" },
+  { title: "About Nixwud", description: "Our philosophy, engineering standards and operating principles.", type: "Page", url: "/about" },
+  { title: "Services & Capabilities", description: "Web design & development, custom applications, CRM automation and SEO.", type: "Page", url: "/services" },
+  { title: "Selected Work", description: "Real systems engineered for operational results.", type: "Page", url: "/case-studies" },
+  { title: "Resources & Guides", description: "Audits, scorecards and practical tools.", type: "Page", url: "/resources" },
+  { title: "Contact Nixwud", description: "Start a project or discuss your digital requirements.", type: "Page", url: "/contact" },
   ...services.map((service) => ({ title: service.title, description: service.summary, type: "Service", url: `/services/${service.slug}` })),
   ...resources.map((resource) => ({ title: resource.title, description: resource.description, type: resource.type, url: resource.href }))
 ];

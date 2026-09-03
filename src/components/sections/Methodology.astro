@@ -5,30 +5,30 @@ const steps = [
   {
     number: "01",
     title: "Understand",
-    kicker: "Diagnostic Stage",
-    text: "Clarify the business context, constraints, stakeholders and underlying evidence.",
+    kicker: "Problem Discovery",
+    text: "Work out what actually needs building. Isolate the operational bottlenecks, user needs and business priorities before writing code.",
     role: "start"
   },
   {
     number: "02",
-    title: "Frame",
-    kicker: "Alignment Stage",
-    text: "Define the actual problem and the criteria a useful solution must satisfy.",
+    title: "Plan",
+    kicker: "Architecture & Design",
+    text: "Structure user journeys, data schemas, component systems and integration boundaries with clean technical specifications.",
     role: "align"
   },
   {
     number: "03",
-    title: "Decide",
-    kicker: "Decision Gate",
-    text: "Compare options, trade-offs and expected value before committing resources.",
+    title: "Build",
+    kicker: "Disciplined Engineering",
+    text: "Engineer lightweight, high-performance code, accessible UI components and secure API connections in structured milestones.",
     role: "gate",
     isGate: true
   },
   {
     number: "04",
-    title: "Deliver",
-    kicker: "Execution Stage",
-    text: "Implement in measurable stages, learn from evidence and improve deliberately.",
+    title: "Improve",
+    kicker: "Outcomes & Evolution",
+    text: "Deploy with complete documentation, monitor operational performance and iterate based on real business evidence.",
     role: "destination",
     isDestination: true
   }
@@ -38,15 +38,14 @@ const steps = [
 <section class="section section--paper methodology-section" id="methodology">
   <div class="container--wide">
     <SectionHeading
-      eyebrow="How we work"
-      title="Think before building."
-      description="Our method is designed to reduce uncertainty before it becomes expensive complexity."
+      eyebrow="How We Work"
+      title="Understand. Plan. Build. Improve."
+      description="We don't just build what you are asked for. We first work out what actually needs building to ensure every project creates lasting value."
     />
 
-    <!-- Signature Visual Decision Path -->
-    <div class="decision-path" aria-label="Consulting Decision Path">
+    <div class="build-path" aria-label="Development and systems methodology">
       <!-- Desktop Continuous Architectural Path -->
-      <svg class="decision-path__svg" viewBox="0 0 1200 240" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <svg class="build-path__svg" viewBox="0 0 1200 240" fill="none" preserveAspectRatio="none" aria-hidden="true">
         <path
           d="M 60,170 C 220,170 240,110 400,110 C 560,110 600,60 760,60 C 920,60 960,130 1140,130"
           stroke="currentColor"
@@ -62,10 +61,9 @@ const steps = [
         />
       </svg>
 
-      <ol class="decision-stages list-clean">
+      <ol class="build-stages list-clean">
         {steps.map((step) => (
-          <li class:list={["decision-stage", `decision-stage--${step.role}`, { "decision-stage--gate": step.isGate, "decision-stage--dest": step.isDestination }]}>
-            <!-- Background Editorial Display Numeral -->
+          <li class:list={["build-stage", `build-stage--${step.role}`, { "build-stage--gate": step.isGate, "build-stage--dest": step.isDestination }]}>
             <span class="stage-watermark" aria-hidden="true">{step.number}</span>
 
             <div class="stage-node-wrap">
@@ -73,7 +71,7 @@ const steps = [
                 <span class="stage-node__dot"></span>
                 <span class="stage-node__num">{step.number}</span>
               </div>
-              {step.isGate && <span class="stage-gate-badge" aria-hidden="true">KEY GATE</span>}
+              {step.isGate && <span class="stage-gate-badge" aria-hidden="true">CRAFT</span>}
               {step.isDestination && <span class="stage-dest-badge" aria-hidden="true">OUTCOME</span>}
             </div>
 
@@ -96,13 +94,13 @@ const steps = [
     padding-block: clamp(5rem, 8vw, 8rem);
   }
 
-  .decision-path {
+  .build-path {
     position: relative;
     margin-top: clamp(3rem, 6vw, 5rem);
     min-height: 28rem;
   }
 
-  .decision-path__svg {
+  .build-path__svg {
     position: absolute;
     top: 0;
     left: 0;
@@ -118,7 +116,7 @@ const steps = [
     transition: stroke-dashoffset var(--transition-editorial);
   }
 
-  .decision-stages {
+  .build-stages {
     position: relative;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -126,7 +124,7 @@ const steps = [
     z-index: 2;
   }
 
-  .decision-stage {
+  .build-stage {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -138,40 +136,38 @@ const steps = [
     transition: transform var(--transition-standard), border-color var(--transition-standard), box-shadow var(--transition-standard);
   }
 
-  .decision-stage:hover {
+  .build-stage:hover {
     transform: translateY(-4px);
     border-color: var(--accent);
     background: var(--paper);
     box-shadow: var(--shadow-sm);
   }
 
-  /* Asymmetric Vertical Stagger along the Decision Path */
-  .decision-stage--start {
+  .build-stage--start {
     margin-top: 6.5rem;
   }
 
-  .decision-stage--align {
+  .build-stage--align {
     margin-top: 3rem;
   }
 
-  .decision-stage--gate {
+  .build-stage--gate {
     margin-top: 0;
     border-color: rgba(83, 109, 206, 0.4);
     background: rgba(255, 255, 255, 0.6);
     box-shadow: 0 4px 20px rgba(83, 109, 206, 0.08);
   }
 
-  .decision-stage--gate .stage-node {
+  .build-stage--gate .stage-node {
     border-color: var(--accent);
     box-shadow: 0 0 0 4px rgba(83, 109, 206, 0.15);
   }
 
-  .decision-stage--dest {
+  .build-stage--dest {
     margin-top: 4.5rem;
     border-left: 3px solid var(--accent);
   }
 
-  /* Oversized Background Editorial Numerals */
   .stage-watermark {
     position: absolute;
     top: -0.5rem;
@@ -266,36 +262,36 @@ const steps = [
   }
 
   @media (max-width: 1024px) {
-    .decision-path__svg {
+    .build-path__svg {
       display: none;
     }
 
-    .decision-stages {
+    .build-stages {
       grid-template-columns: repeat(2, 1fr);
       gap: 1.5rem;
     }
 
-    .decision-stage--start,
-    .decision-stage--align,
-    .decision-stage--gate,
-    .decision-stage--dest {
+    .build-stage--start,
+    .build-stage--align,
+    .build-stage--gate,
+    .build-stage--dest {
       margin-top: 0;
     }
   }
 
   @media (max-width: 640px) {
-    .decision-stages {
+    .build-stages {
       grid-template-columns: 1fr;
       position: relative;
       padding-left: 1.5rem;
       border-left: 2px dashed rgba(83, 109, 206, 0.3);
     }
 
-    .decision-stage {
+    .build-stage {
       padding: 1.5rem 1.25rem;
     }
 
-    .decision-stage::before {
+    .build-stage::before {
       content: "";
       position: absolute;
       left: -1.85rem;
@@ -309,7 +305,7 @@ const steps = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .decision-stage {
+    .build-stage {
       transform: none !important;
       transition: none !important;
     }
