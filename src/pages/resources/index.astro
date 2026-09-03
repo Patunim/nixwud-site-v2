@@ -9,329 +9,543 @@ const breadcrumbs = buildBreadcrumbSchema([
   { name: "Home", url: "/" },
   { name: "Resources", url: "/resources" }
 ]);
+
+const launchChecklist = [
+  { num: "01", title: "Performance & Core Web Vitals", desc: "Sub-second LCP, zero layout shifts and optimized asset bundles across all viewports." },
+  { num: "02", title: "Accessibility (WCAG AA)", desc: "Keyboard navigability, semantic ARIA landmarks, proper color contrast and screen reader support." },
+  { num: "03", title: "Technical SEO & Structured Data", desc: "JSON-LD schema validation, canonical URL tags, dynamic XML sitemaps and clean robots protocol." },
+  { num: "04", title: "Redirect & Link Architecture", desc: "Complete 301 redirect map for legacy paths to preserve search authority and prevent 404s." }
+];
 ---
 
 <Layout
-  title="Digital Systems & Website Resources"
-  description="Access practical diagnostic tools, alignment audits and readiness frameworks from Nixwud to evaluate digital projects and business systems."
+  title="Digital Tools, Scorecards & Resources"
+  description="Access practical diagnostic tools, scorecards and downloadable guides from Nixwud to evaluate your website, digital systems and operational readiness."
   canonical={canonicalUrl}
   structuredData={breadcrumbs}
 >
   <header class="page-hero">
     <div class="container--wide">
-      <p class="eyebrow">Practical Tools & Guides</p>
-      <h1>Tools for clearer digital and technology decisions.</h1>
+      <p class="eyebrow">Practical Tools & Materials</p>
+      <h1>Tools, scorecards and guides you can use right now.</h1>
       <p class="lede">
-        Use these practical audits, scorecards and decision guides to evaluate your existing setup, structure project requirements and plan your next build.
+        Actionable diagnostic scorecards, downloadable audits and technical frameworks designed to help you evaluate requirements and make sound digital decisions.
       </p>
+
+      <div class="distinction-notice">
+        <span class="distinction-tag">LOOKING FOR ARTICLES?</span>
+        <p>For in-depth analysis, architectural perspectives and essays, visit our <a href="/insights">Insights publication <span aria-hidden="true">→</span></a></p>
+      </div>
     </div>
   </header>
 
-  <section class="section">
+  <!-- 01. Featured Interactive Tool -->
+  <section class="section border-bottom featured-tool-section">
     <div class="container--wide">
-      <div class="toolkit-stack">
-        <!-- Primary Resource: Editorial Audit Presentation -->
-        <article class="toolkit-feature">
-          <div class="toolkit-feature__meta">
-            <span class="toolkit-tag">PRIMARY DIAGNOSTIC GUIDE</span>
-            <span class="toolkit-format">PDF GUIDE & AUDIT</span>
-          </div>
-          <div class="toolkit-feature__grid">
-            <div class="toolkit-feature__main">
-              <h2>Digital Systems & Website Readiness Audit</h2>
-              <p class="toolkit-feature__desc">A structured five-part guide designed to evaluate whether your current website, CRM workflows and internal software support your operational goals.</p>
-              <div class="toolkit-feature__actions">
-                <Button href="/resources/business-technology-alignment-audit.pdf" variant="primary">Download the audit</Button>
-              </div>
-            </div>
-            <div class="toolkit-feature__breakdown">
-              <span class="breakdown-title">What the audit evaluates</span>
-              <ul class="list-clean breakdown-list">
-                <li><span>01</span> Website clarity, performance and user conversion</li>
-                <li><span>02</span> Operational bottlenecks and manual handoffs</li>
-                <li><span>03</span> Software tool sprawl and disconnected databases</li>
-                <li><span>04</span> Internal team workflow and content management</li>
-                <li><span>05</span> Technical SEO foundations and search discoverability</li>
-              </ul>
-            </div>
-          </div>
-        </article>
+      <div class="featured-tool-card">
+        <div class="featured-tool__meta">
+          <span class="tool-badge">FEATURED INTERACTIVE TOOL</span>
+          <span class="tool-spec"><span class="spec-dot"></span> 10 QUESTIONS - 3 MIN</span>
+        </div>
 
-        <!-- Interactive Diagnostic Instrument: Decision Readiness Scorecard -->
-        <article class="toolkit-instrument">
-          <div class="instrument-meta">
-            <span class="toolkit-tag">INTERACTIVE TOOL</span>
-            <span class="instrument-live-pill"><span class="pulse-dot"></span> 10 QUESTIONS - 3 MIN</span>
+        <div class="featured-tool__grid">
+          <div class="featured-tool__copy">
+            <span class="tool-subtag">DIAGNOSTIC INSTRUMENT</span>
+            <h2>Technology Decision Readiness Scorecard</h2>
+            <p class="tool-desc">
+              Rate ten focused operational statements on a 1 to 5 scale to evaluate whether your pending website, application or automation project is clearly defined before you commit capital.
+            </p>
+
+            <div class="tool-benefits">
+              <div class="benefit-item">
+                <strong>Instant Scoring</strong>
+                <p>Calculates your readiness band across uncertainty, alignment and execution readiness.</p>
+              </div>
+              <div class="benefit-item">
+                <strong>Actionable Steps</strong>
+                <p>Delivers immediate recommended actions based on your lowest-scoring areas.</p>
+              </div>
+            </div>
+
+            <div class="tool-action">
+              <Button href="/resources/decision-readiness-scorecard" variant="primary">
+                Launch the scorecard ↗
+              </Button>
+            </div>
           </div>
-          <div class="instrument-grid">
-            <div class="instrument-main">
-              <h2>Technology Decision Readiness Scorecard</h2>
-              <p class="instrument-desc">Rate ten core statements on a 1 to 5 scale to evaluate whether your proposed website, application or automation project is clearly defined before you build.</p>
-              <div class="instrument-actions">
-                <Button href="/resources/decision-readiness-scorecard" variant="primary">Launch the scorecard</Button>
+
+          <div class="featured-tool__visual" aria-hidden="true">
+            <div class="scorecard-preview-box">
+              <span class="preview-kicker">READINESS SPECTRUM</span>
+              <div class="preview-score-row">
+                <span class="preview-big-num">42</span>
+                <span class="preview-max">/ 50</span>
               </div>
-            </div>
-            <div class="instrument-preview" aria-hidden="true">
-              <div class="instrument-badge">
-                <span class="badge-kicker">READINESS SPECTRUM</span>
-                <div class="badge-meter">
-                  <div class="badge-bar"></div>
-                </div>
-                <div class="badge-labels">
-                  <span>Clarify First</span>
-                  <span>Build Ready</span>
-                </div>
+              <div class="preview-meter">
+                <div class="preview-meter-fill"></div>
               </div>
+              <div class="preview-status-pill">
+                <span class="pill-dot"></span> EXECUTION READY
+              </div>
+              <p class="preview-note">Your project has strong technical foundations for staged delivery.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02. Downloadable Guides & Audits -->
+  <section class="section border-bottom guides-section">
+    <div class="container--wide">
+      <div class="section-intro">
+        <p class="eyebrow">Downloadable Guides</p>
+        <h2>Structured frameworks for internal team evaluation.</h2>
+      </div>
+
+      <div class="guides-grid">
+        <article class="guide-card">
+          <div class="guide-card__head">
+            <span class="guide-format">PDF GUIDE & AUDIT</span>
+            <span class="guide-pages">5-PART FRAMEWORK</span>
+          </div>
+          <h3>Digital Systems & Website Readiness Audit</h3>
+          <p class="guide-card__desc">
+            A comprehensive diagnostic audit designed to help leadership teams identify where websites, CRM workflows, software tools and execution are falling out of alignment.
+          </p>
+          <div class="guide-card__topics">
+            <span class="topic-label">Evaluates:</span>
+            <ul class="list-clean topic-list">
+              <li>01. Website clarity and visitor conversion</li>
+              <li>02. Operational handoffs and manual friction</li>
+              <li>03. Tool sprawl and disconnected databases</li>
+              <li>04. Team workflow and publishing independence</li>
+              <li>05. Technical SEO and search discoverability</li>
+            </ul>
+          </div>
+          <div class="guide-card__footer">
+            <a class="button button--secondary" href="/resources/business-technology-alignment-audit.pdf" download>
+              Download PDF Audit ↗
+            </a>
           </div>
         </article>
       </div>
     </div>
   </section>
 
+  <!-- 03. Launch & Engineering Checklist -->
   <section class="section section--paper">
-    <div class="container split">
-      <div>
-        <p class="eyebrow paper-eyebrow">Practical Application</p>
-        <h2>Structured for clarity, not marketing fluff.</h2>
-      </div>
-      <div>
-        <p class="lede">Every resource is designed to help teams evaluate their operational reality, ask the right technical questions and avoid expensive development rework.</p>
-        <ul class="list-clean principles">
-          <li>Practical enough for immediate internal evaluation</li>
-          <li>Clear enough to facilitate team and stakeholder alignment</li>
-          <li>Independent of specific vendor tools or proprietary lock-in</li>
-        </ul>
+    <div class="container--wide">
+      <header class="checklist-header">
+        <p class="eyebrow paper-eyebrow">Technical Reference</p>
+        <h2>Website & application launch checklist.</h2>
+        <p class="lede">
+          Four foundational technical standards we verify on every digital build before launch.
+        </p>
+      </header>
+
+      <div class="checklist-grid">
+        {launchChecklist.map((item) => (
+          <div class="checklist-item">
+            <span class="checklist-num">{item.num}</span>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <CTA title="Ready to plan your next digital project?" description="Tell us what you are trying to build or improve. We will help you evaluate requirements and next steps." />
+  <CTA title="Need help implementing your findings?" description="Tell us what your audit or scorecard revealed. We will help you work out what needs building and structure a clear plan." />
 </Layout>
 
 <style>
-  .toolkit-stack {
+  .distinction-notice {
     display: flex;
-    flex-direction: column;
-    gap: 3.5rem;
-  }
-
-  .toolkit-feature {
-    padding: clamp(2rem, 4vw, 3.5rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    background: var(--ink-soft);
-    transition: border-color var(--transition);
-  }
-
-  .toolkit-feature:hover {
-    border-color: rgba(83, 109, 206, 0.45);
-  }
-
-  .toolkit-feature__meta {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--line);
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--ink-soft);
+    margin-top: 2rem;
+    max-width: 44rem;
   }
 
-  .toolkit-tag {
-    color: var(--accent-soft);
-    font-family: var(--font-display);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .toolkit-format {
-    color: var(--text-muted);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-  }
-
-  .toolkit-feature__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 1fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: start;
-  }
-
-  .toolkit-feature__main h2 {
-    font-size: clamp(1.8rem, 2.8vw, 2.5rem);
-    line-height: var(--leading-h2);
-    letter-spacing: var(--tracking-h2);
-    margin: 0 0 1.25rem;
-  }
-
-  .toolkit-feature__desc {
-    color: var(--text-muted);
-    font-size: 1.05rem;
-    line-height: var(--leading-body);
-    margin: 0 0 2rem;
-  }
-
-  .breakdown-title {
-    display: block;
-    color: var(--accent-soft);
-    font-family: var(--font-display);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .breakdown-list {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .breakdown-list li {
-    display: grid;
-    grid-template-columns: 2rem 1fr;
-    gap: 0.5rem;
-    color: var(--text);
-    font-size: 0.9375rem;
-    line-height: 1.45;
-  }
-
-  .breakdown-list span {
-    color: var(--accent-soft);
-    font-family: var(--font-display);
-    font-size: 0.75rem;
+  .distinction-tag {
+    font-size: 0.625rem;
     font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    white-space: nowrap;
   }
 
-  /* Interactive Instrument Card */
-  .toolkit-instrument {
+  .distinction-notice p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .distinction-notice a {
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .distinction-notice a:hover {
+    color: var(--accent-soft);
+  }
+
+  /* Featured Tool */
+  .featured-tool-section {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .featured-tool-card {
     padding: clamp(2rem, 4vw, 3.5rem);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     background: var(--ink-soft);
-    transition: border-color var(--transition);
   }
 
-  .toolkit-instrument:hover {
-    border-color: rgba(83, 109, 206, 0.45);
-  }
-
-  .instrument-meta {
+  .featured-tool__meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 1.5rem;
     margin-bottom: 2rem;
-    padding-bottom: 1rem;
     border-bottom: 1px solid var(--line);
   }
 
-  .instrument-live-pill {
+  .tool-badge {
+    color: var(--accent-soft);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tool-spec {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.2rem 0.6rem;
-    border-radius: var(--radius-pill);
-    background: rgba(83, 109, 206, 0.12);
-    border: 1px solid rgba(83, 109, 206, 0.25);
-    color: var(--accent-soft);
+    color: var(--text-muted);
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.06em;
   }
 
-  .pulse-dot {
+  .spec-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: var(--positive);
-    box-shadow: 0 0 6px rgba(115, 198, 159, 0.6);
+    box-shadow: 0 0 6px rgba(115, 198, 159, 0.7);
   }
 
-  .instrument-grid {
+  .featured-tool__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.85fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.95fr);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
     align-items: center;
   }
 
-  .instrument-main h2 {
-    font-size: clamp(1.8rem, 2.8vw, 2.5rem);
-    line-height: var(--leading-h2);
-    letter-spacing: var(--tracking-h2);
-    margin: 0 0 1.25rem;
+  .tool-subtag {
+    display: block;
+    color: var(--accent-soft);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
   }
 
-  .instrument-desc {
+  .featured-tool__copy h2 {
+    font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+    line-height: var(--leading-h2);
+    margin: 0 0 1rem;
+  }
+
+  .tool-desc {
     color: var(--text-muted);
     font-size: 1.05rem;
     line-height: var(--leading-body);
-    margin: 0 0 2rem;
+    margin-bottom: 2rem;
   }
 
-  .instrument-preview {
-    padding: 2rem;
+  .tool-benefits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .benefit-item strong {
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .benefit-item p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  .scorecard-preview-box {
+    padding: clamp(1.75rem, 3vw, 2.5rem);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
   }
 
-  .badge-kicker {
-    display: block;
-    color: var(--accent-soft);
+  .preview-kicker {
     font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    margin-bottom: 0.75rem;
+    color: var(--accent-soft);
+    margin-bottom: 1rem;
   }
 
-  .badge-meter {
+  .preview-score-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .preview-big-num {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .preview-max {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+  }
+
+  .preview-meter {
     height: 6px;
     border-radius: 3px;
     background: var(--line);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
     overflow: hidden;
   }
 
-  .badge-bar {
-    width: 75%;
+  .preview-meter-fill {
+    width: 84%;
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--positive));
   }
 
-  .badge-labels {
+  .preview-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-xs);
+    background: rgba(115, 198, 159, 0.12);
+    border: 1px solid rgba(115, 198, 159, 0.25);
+    color: var(--positive);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+  }
+
+  .pill-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--positive);
+  }
+
+  .preview-note {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  /* Guides */
+  .guides-section {
+    padding-block: clamp(4.5rem, 7vw, 7rem);
+  }
+
+  .section-intro {
+    max-width: 44rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 52rem;
+  }
+
+  .guide-card {
+    padding: clamp(2rem, 3.5vw, 3rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .guide-card__head {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .guide-format {
     font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+  }
+
+  .guide-pages {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
     color: var(--text-muted);
+  }
+
+  .guide-card h3 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.4rem, 2vw, 1.75rem);
+    line-height: 1.3;
+  }
+
+  .guide-card__desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+    margin-bottom: 1.75rem;
+  }
+
+  .guide-card__topics {
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
+  }
+
+  .topic-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 0.75rem;
+  }
+
+  .topic-list {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .topic-list li {
+    font-size: 0.875rem;
+    color: var(--text);
+  }
+
+  .guide-card__footer {
+    margin-top: auto;
+  }
+
+  /* Checklist */
+  .checklist-header {
+    max-width: 48rem;
+    margin-bottom: 3.5rem;
   }
 
   .paper-eyebrow {
     color: var(--accent);
   }
 
-  .principles {
-    margin-top: 1.5rem;
+  .checklist-header h2 {
+    max-width: 24ch;
+    margin-bottom: 1rem;
   }
 
-  .principles li {
-    padding: 0.85rem 0;
-    border-top: 1px solid var(--line-dark);
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .checklist-item {
+    padding: 1.75rem;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-sm);
+    background: rgba(243, 241, 235, 0.7);
+  }
+
+  .checklist-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .checklist-item h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
     color: var(--ink);
-    font-weight: 500;
   }
 
-  .principles li:last-child {
-    border-bottom: 1px solid var(--line-dark);
+  .checklist-item p {
+    margin: 0;
+    color: var(--text-dark-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
 
-  @media (max-width: 900px) {
-    .toolkit-feature__grid,
-    .instrument-grid {
+  @media (max-width: 960px) {
+    .featured-tool__grid {
       grid-template-columns: 1fr;
-      gap: 2rem;
+    }
+
+    .tool-benefits {
+      grid-template-columns: 1fr;
+    }
+
+    .checklist-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .distinction-notice {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .checklist-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

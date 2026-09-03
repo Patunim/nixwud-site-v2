@@ -1,0 +1,488 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CTA from "../../components/sections/CTA.astro";
+import { caseStudies } from "../../lib/siteConfig.js";
+import { buildBreadcrumbSchema, getCanonicalUrl } from "../../lib/seo.js";
+
+export function getStaticPaths() {
+  return caseStudies.map((study) => ({
+    params: { slug: study.slug },
+    props: { study }
+  }));
+}
+
+const { study } = Astro.props as { study: Record<string, any> };
+const canonicalUrl = getCanonicalUrl(`/case-studies/${study.slug}`);
+
+const breadcrumbs = buildBreadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Work", url: "/case-studies" },
+  { name: study.title, url: `/case-studies/${study.slug}` }
+]);
+
+const projectSchema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: study.title,
+  description: study.summary || study.challenge,
+  url: canonicalUrl,
+  creator: {
+    "@type": "ProfessionalService",
+    name: "Nixwud",
+    url: "https://nixwud.com"
+  }
+};
+---
+
+<Layout
+  title={study.title}
+  description={study.summary || study.challenge}
+  canonical={canonicalUrl}
+  structuredData={[breadcrumbs, projectSchema]}
+>
+  <header class="page-hero">
+    <div class="container--wide">
+      <div class="hero-back">
+        <a href="/case-studies" class="back-link">← Back to all work</a>
+      </div>
+      <p class="eyebrow">Case Study - {study.service}</p>
+      <h1>{study.title}</h1>
+      <p class="lede">{study.summary}</p>
+
+      <div class="project-meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Client Type</span>
+          <strong class="meta-val">{study.client}</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Capability</span>
+          <strong class="meta-val">{study.service}</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Delivery Scope</span>
+          <strong class="meta-val">Full Design & Engineering</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Status</span>
+          <strong class="meta-val meta-val--live"><span class="live-dot"></span> Production Live</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 01. The Challenge -->
+  <section class="section border-bottom">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">01. The Challenge</p>
+        <h2>What needed to be solved.</h2>
+      </div>
+      <div class="challenge-narrative">
+        <p class="lede">{study.challenge}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02. Approach -->
+  <section class="section border-bottom">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">02. Our Approach</p>
+        <h2>How we planned and structured the solution.</h2>
+      </div>
+      <ol class="approach-list list-clean">
+        {(study.approach || []).map((step: string, index: number) => (
+          <li class="approach-item">
+            <span class="approach-num">0{index + 1}</span>
+            <p>{step}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 03. The Work / Architecture Showcase -->
+  <section class="section border-bottom the-work-section">
+    <div class="container--wide">
+      <div class="work-header">
+        <p class="eyebrow">03. The Work</p>
+        <h2>Key technical and design components delivered.</h2>
+      </div>
+
+      <div class="the-work-grid">
+        {(study.theWork || []).map((item: any, idx: number) => (
+          <article class="the-work-card">
+            <div class="the-work-card__head">
+              <span class="the-work-tag">{item.tag}</span>
+              <span class="the-work-num">0{idx + 1}</span>
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 04. Outcome & Key Deliverables -->
+  <section class="section section--paper">
+    <div class="container--wide">
+      <header class="outcome-header">
+        <p class="eyebrow paper-eyebrow">04. The Outcome</p>
+        <h2>Measurable operational impact and delivered assets.</h2>
+        <p class="lede">{study.outcome}</p>
+      </header>
+
+      <div class="deliverables-box">
+        <span class="deliverables-kicker">Client Handoff Package</span>
+        <ul class="deliverables-list grid grid--2 list-clean">
+          {(study.keyDeliverables || []).map((deliv: string, i: number) => (
+            <li class="deliv-item">
+              <span class="deliv-num">0{i + 1}</span>
+              <p>{deliv}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Capability & Resource -->
+  <section class="section border-bottom related-section">
+    <div class="container--wide">
+      <p class="eyebrow">Related Connections</p>
+      <h2>Explore related capabilities and tools.</h2>
+
+      <div class="related-grid">
+        {study.relatedCapability && (
+          <div class="related-card">
+            <span class="related-tag">RELATED CAPABILITY</span>
+            <h3>{study.relatedCapability.title}</h3>
+            <p>Learn how we design and build systems within this discipline.</p>
+            <a class="card__link" href={study.relatedCapability.href}>
+              Explore {study.relatedCapability.title} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        )}
+
+        {study.relatedResource && (
+          <div class="related-card related-card--accent">
+            <span class="related-tag">{study.relatedResource.type || "RELATED RESOURCE"}</span>
+            <h3>{study.relatedResource.title}</h3>
+            <p>Access our practical diagnostic tool to evaluate your readiness before building.</p>
+            <a class="card__link" href={study.relatedResource.href}>
+              Access this resource <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <CTA title="Have a similar project that needs building?" description="Share your goals and requirements. We will help you work out what actually needs building and outline a clear delivery plan." />
+</Layout>
+
+<style>
+  .hero-back {
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-soft);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition), transform var(--transition);
+  }
+
+  .back-link:hover {
+    color: var(--text);
+    transform: translateX(-3px);
+  }
+
+  .project-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding-top: 2.5rem;
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .meta-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .meta-val {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .meta-val--live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--positive);
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--positive);
+    box-shadow: 0 0 6px rgba(115, 198, 159, 0.7);
+  }
+
+  .challenge-narrative p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: var(--leading-body);
+  }
+
+  .challenge-narrative .lede {
+    color: var(--text);
+    margin-bottom: 0;
+  }
+
+  .approach-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .approach-item {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .approach-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .approach-num {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent-soft);
+  }
+
+  .approach-item p {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: var(--leading-body);
+  }
+
+  /* The Work Showcase */
+  .the-work-section {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+    background-image: radial-gradient(circle at 85% 50%, rgba(83, 109, 206, 0.04) 0%, transparent 60%);
+  }
+
+  .work-header {
+    max-width: 44rem;
+    margin-bottom: 3rem;
+  }
+
+  .the-work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .the-work-card {
+    padding: clamp(1.75rem, 3vw, 2.25rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--transition);
+  }
+
+  .the-work-card:hover {
+    border-color: rgba(83, 109, 206, 0.45);
+  }
+
+  .the-work-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .the-work-tag {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    text-transform: uppercase;
+  }
+
+  .the-work-num {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .the-work-card h3 {
+    margin: 0 0 0.65rem;
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+
+  .the-work-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Outcome & Deliverables */
+  .outcome-header {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .paper-eyebrow {
+    color: var(--accent);
+  }
+
+  .deliverables-box {
+    padding: clamp(2rem, 3.5vw, 3rem);
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-md);
+    background: rgba(243, 241, 235, 0.8);
+  }
+
+  .deliverables-kicker {
+    display: block;
+    color: var(--accent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .deliverables-list {
+    gap: 1.5rem;
+  }
+
+  .deliv-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .deliv-num {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .deliv-item p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  /* Related */
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+
+  .related-card {
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .related-card--accent {
+    border-color: rgba(83, 109, 206, 0.35);
+  }
+
+  .related-tag {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    text-transform: uppercase;
+  }
+
+  .related-card h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--text);
+  }
+
+  .related-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .related-card .card__link {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+
+  @media (max-width: 960px) {
+    .project-meta-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .the-work-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .project-meta-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .deliverables-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

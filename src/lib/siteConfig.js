@@ -88,24 +88,147 @@ export const caseStudies = [
     title: "Modern Web Platform & Content Architecture",
     client: "Growing Professional Firm",
     service: "Web Design & Development",
-    challenge: "A fragmented website with slow page performance and disconnected content prevented qualified visitors from finding relevant service details.",
-    outcome: "Designed and built a high-performance, accessible website with structured content management and measurable improvements in organic engagement."
+    serviceSlug: "web-design-development",
+    featured: true,
+    summary: "A complete redesign and rebuild of a professional firm's public web presence, transitioning from an unmaintainable legacy setup to a high-performance Astro-driven architecture with structured content workflows.",
+    challenge: "A fragmented website with slow page performance and disconnected content prevented qualified visitors from finding relevant service details. The backend required technical intervention for simple copy changes.",
+    approach: [
+      "Audited user journeys and simplified the information hierarchy from 20+ scattered pages into four clear capability hubs.",
+      "Designed a bespoke design system with accessible typography, responsive layout tokens, and restrained brand styling.",
+      "Engineered a lightweight static site delivering sub-second load times and 100% Core Web Vitals scores.",
+      "Implemented an intuitive structured CMS allowing the internal team to update pages and publish articles independently."
+    ],
+    theWork: [
+      {
+        tag: "INTERFACE DESIGN",
+        title: "Responsive Component System",
+        description: "Bespoke design system with accessible typography tokens, high-contrast layouts, and mobile-first navigation."
+      },
+      {
+        tag: "ENGINEERING",
+        title: "High-Performance Static Build",
+        description: "Lightweight HTML markup, optimized asset bundling, and zero client-side bloat delivering instant page transitions."
+      },
+      {
+        tag: "CMS WORKFLOW",
+        title: "Structured Content Management",
+        description: "Custom headless CMS schema enabling non-technical staff to publish new case studies and articles in minutes."
+      }
+    ],
+    outcome: "Delivered a fast, accessible digital platform with measurable improvements in organic user engagement and complete publishing independence for the client's internal team.",
+    keyDeliverables: [
+      "Custom responsive design system and token specification",
+      "Lightweight, accessible frontend codebase adhering to WCAG AA standards",
+      "Configured headless CMS schemas and editorial publishing workflow",
+      "Technical launch checklist including DNS, SSL, analytics, and redirect mapping"
+    ],
+    relatedCapability: {
+      title: "Web Design & Development",
+      href: "/services/web-design-development"
+    },
+    relatedResource: {
+      title: "Digital Systems & Website Readiness Audit",
+      href: "/resources/business-technology-alignment-audit.pdf",
+      type: "PDF Guide"
+    }
   },
   {
     slug: "operations-portal-automation",
     title: "Client Portal & Workflow Automation Engine",
     client: "Specialist Advisory Service",
     service: "Web & App Development / CRM & Automation",
+    serviceSlug: "web-app-development",
+    featured: false,
+    summary: "Development of a custom client onboarding portal integrated directly with automated CRM routing and webhook triggers to eliminate manual email handoffs.",
     challenge: "Client intake and case updates relied on manual email handoffs and spreadsheet tracking, creating operational delays during high-volume periods.",
-    outcome: "Delivered a custom client portal integrated directly with automated CRM routing and status notifications, eliminating manual status chasing."
+    approach: [
+      "Mapped the full candidate intake lifecycle to identify points of data loss and manual administrative drag.",
+      "Built a secure, authenticated web application where clients submit intake forms, upload verification documents, and track status.",
+      "Configured automated CRM pipelines, webhook connections, and instant team notifications to route new submissions immediately.",
+      "Integrated bidirectional data synchronization so team members never have to re-enter customer data across tools."
+    ],
+    theWork: [
+      {
+        tag: "WEB APPLICATION",
+        title: "Authenticated Client Portal",
+        description: "Secure, role-based workspace where clients complete intake checklists, upload documents, and receive real-time updates."
+      },
+      {
+        tag: "PIPELINE AUTOMATION",
+        title: "Automated Lead & Case Routing",
+        description: "Multi-stage automated qualification workflows connecting form submissions directly to assigned advisor inboxes."
+      },
+      {
+        tag: "INTEGRATION",
+        title: "Connected CRM & Data Sync",
+        description: "Reliable webhook endpoints synchronizing client records between the custom portal, CRM pipelines, and notification channels."
+      }
+    ],
+    outcome: "Eliminated manual copy-pasting between spreadsheets, cut onboarding processing time significantly, and ensured zero client submissions were dropped or delayed.",
+    keyDeliverables: [
+      "Custom web application with secure authentication and document upload",
+      "Automated CRM pipeline architecture and webhook integration scripts",
+      "Real-time team notification alerts and task assignment rules",
+      "Comprehensive team operational documentation and system handoff"
+    ],
+    relatedCapability: {
+      title: "CRM & Automation",
+      href: "/services/crm-automation"
+    },
+    relatedResource: {
+      title: "Technology Decision Readiness Scorecard",
+      href: "/resources/decision-readiness-scorecard",
+      type: "Interactive Tool"
+    }
   },
   {
     slug: "search-discoverability-structure",
     title: "Technical SEO & Semantic Knowledge Architecture",
     client: "Education & Career Provider",
     service: "SEO & Discoverability",
-    challenge: "Rich educational course material remained undiscoverable by search engines due to legacy URL structures and missing semantic data.",
-    outcome: "Restructured the information architecture, implemented JSON-LD structured data and improved search visibility across core program categories."
+    serviceSlug: "seo-discoverability",
+    featured: false,
+    summary: "A comprehensive technical SEO and information architecture overhaul to unlock search visibility for extensive educational programs and career resources.",
+    challenge: "Rich educational course material remained undiscoverable by search engines due to legacy URL structures, missing semantic data, and disconnected internal navigation.",
+    approach: [
+      "Audited the existing site structure and designed a clean, hierarchical URL taxonomy matching user search intent.",
+      "Engineered comprehensive JSON-LD structured data schemas across all course categories, modules, and organization pages.",
+      "Constructed an automated internal linking graph connecting related training tracks, career outcomes, and advisory resources.",
+      "Resolved code-level technical crawl errors, broken redirects, and mobile Core Web Vitals bottlenecks."
+    ],
+    theWork: [
+      {
+        tag: "TAXONOMY DESIGN",
+        title: "Semantic Information Architecture",
+        description: "Restructured category hierarchies and URL paths allowing search engine crawlers to discover and index all core pages."
+      },
+      {
+        tag: "STRUCTURED DATA",
+        title: "JSON-LD Entity Graph",
+        description: "Complete schema implementation enabling rich snippet eligibility across Google and modern AI answer engines."
+      },
+      {
+        tag: "TECHNICAL AUDIT",
+        title: "Crawl & Speed Remediation",
+        description: "Full resolution of legacy redirect loops, orphan pages, and mobile performance bottlenecks."
+      }
+    ],
+    outcome: "Search engines indexed the complete course catalog within weeks, resulting in substantial organic visibility growth and higher qualified candidate enquiries.",
+    keyDeliverables: [
+      "Comprehensive technical SEO audit and code-level remediation report",
+      "Semantic HTML5 structure and JSON-LD schema implementation",
+      "Complete redirect map preserving historical search authority",
+      "Ongoing organic performance tracking framework"
+    ],
+    relatedCapability: {
+      title: "SEO & Discoverability",
+      href: "/services/seo-discoverability"
+    },
+    relatedResource: {
+      title: "Digital Systems & Website Readiness Audit",
+      href: "/resources/business-technology-alignment-audit.pdf",
+      type: "PDF Guide"
+    }
   }
 ];
 
@@ -138,6 +261,7 @@ export const navigation = [
       ...services.map((s) => ({ label: s.title, href: `/services/${s.slug}` }))
     ]
   },
+  { label: "Resources", href: "/resources" },
   { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" }
@@ -145,19 +269,19 @@ export const navigation = [
 
 export const resources = [
   {
-    type: "PDF guide",
-    title: "Digital Systems & Website Readiness Audit",
-    description: "A structured practical guide to evaluating whether your website, tools and workflows support your current business goals.",
-    href: "/resources/business-technology-alignment-audit.pdf",
-    action: "Download the guide",
+    type: "Interactive tool",
+    title: "Technology Decision Readiness Scorecard",
+    description: "Answer ten focused questions to evaluate whether a proposed website, application or automation project is clearly defined before you build.",
+    href: "/resources/decision-readiness-scorecard",
+    action: "Launch the scorecard",
     featured: true
   },
   {
-    type: "Interactive tool",
-    title: "Technology Decision Readiness Scorecard",
-    description: "Answer ten focused questions to evaluate whether a proposed digital project is clearly defined and ready to build.",
-    href: "/resources/decision-readiness-scorecard",
-    action: "Use the scorecard",
+    type: "PDF guide",
+    title: "Digital Systems & Website Readiness Audit",
+    description: "A structured five-part practical guide to evaluating whether your website, tools and workflows support your current business goals.",
+    href: "/resources/business-technology-alignment-audit.pdf",
+    action: "Download the guide",
     featured: true
   }
 ];
